@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Notify Me NYC</string>
+    <string name="add_button">"ADD NOTIFICATION"</string>
+    <string name="edit_title1">ADD/EDIT NOTIFICATION</string>
+    <string name="choose_line">CHOOSE YOUR LINE</string>
+    <string name="choose_line2">Choose your line(s):</string>
+    <string name="choose_days">CHOOSE THE DAYS YOU RIDE</string>
+    <string name="choose_days2">Choose the day(s) you ride</string>
+    <string name="edit_title2">CHOOSE THE TIME YOU RIDE</string>
+    <string name="save_button">SAVE</string>
+    <string name="cancel_button">CANCEL</string>
+    <string name="delete_button">DELETE</string>
+    <string name="edit_button">EDIT</string>
+    <string name="ok_button">OK</string>
+    <string name="train_prompt">Choose a train line</string>
+    <string name="notification_saved_message">Your Notification has been saved.</string>
+    <string name="notification_cancel_message">No Notifications were saved.</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
+    <string-array name="trains_array">
+        <item>1,2,3</item>
+        <item>4,5,6</item>
+        <item>7</item>
+        <item>A,C,E</item>
+        <item>B,D,F,M</item>
+        <item>G</item>
+        <item>J,Z</item>
+        <item>L</item>
+        <item>N,Q,R</item>
+        <item>S</item>
+    </string-array>  
+    <string-array name="days_array">
+    	<item>Sunday</item>
+    	<item>Monday</item>
+    	<item>Tuesday</item>
+    	<item>Wednesday</item>
+    	<item>Thursday</item>
+    	<item>Friday</item>
+    	<item>Saturday</item>
+    </string-array>
+</resources>
