@@ -17,13 +17,16 @@ public final class R {
     public static final class drawable {
         public static final int add=0x7f020000;
         public static final int backrepeat=0x7f020001;
-        public static final int check=0x7f020002;
-        public static final int clock=0x7f020003;
-        public static final int daybg=0x7f020004;
-        public static final int greenchecker=0x7f020005;
-        public static final int icon=0x7f020006;
-        public static final int infotab=0x7f020007;
-        public static final int waves=0x7f020008;
+        public static final int cbchecked=0x7f020002;
+        public static final int cbunchecked=0x7f020003;
+        public static final int check=0x7f020004;
+        public static final int check_box=0x7f020005;
+        public static final int clock=0x7f020006;
+        public static final int daybg=0x7f020007;
+        public static final int greenchecker=0x7f020008;
+        public static final int icon=0x7f020009;
+        public static final int infotab=0x7f02000a;
+        public static final int waves=0x7f02000b;
     }
     public static final class id {
         public static final int add=0x7f060015;
@@ -40,26 +43,27 @@ public final class R {
         public static final int edit_button=0x7f060000;
         public static final int edit_title1=0x7f06000a;
         public static final int edit_title2=0x7f060011;
-        public static final int fridayCheckBox=0x7f06001d;
+        public static final int fridayCheckBox=0x7f06001e;
         public static final int how_many=0x7f060008;
-        public static final int mondayCheckBox=0x7f060019;
+        public static final int mondayCheckBox=0x7f06001a;
         public static final int notification_display=0x7f060007;
         public static final int notification_list=0x7f060002;
-        public static final int ok_button=0x7f060020;
-        public static final int other_days_text=0x7f060018;
-        public static final int saturdayCheckBox=0x7f06001e;
+        public static final int ok_button=0x7f060022;
+        public static final int other_days_text=0x7f060019;
+        public static final int saturdayCheckBox=0x7f06001f;
         public static final int save_button=0x7f060013;
         public static final int scrollcontents=0x7f060021;
-        public static final int sundayCheckBox=0x7f06001f;
+        public static final int sundayCheckBox=0x7f060020;
         public static final int thin_line=0x7f060006;
-        public static final int thursdayCheckBox=0x7f06001c;
+        public static final int thursdayCheckBox=0x7f06001d;
         public static final int time_picker=0x7f060012;
         public static final int title=0x7f060014;
+        public static final int topbit=0x7f060018;
         public static final int trains=0x7f06000b;
         public static final int trains_check=0x7f06000c;
         public static final int trains_text=0x7f06000d;
-        public static final int tuesdayCheckBox=0x7f06001a;
-        public static final int wednesdayCheckBox=0x7f06001b;
+        public static final int tuesdayCheckBox=0x7f06001b;
+        public static final int wednesdayCheckBox=0x7f06001c;
     }
     public static final class layout {
         public static final int chooser=0x7f030000;

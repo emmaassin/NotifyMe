@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -16,8 +17,7 @@ import android.widget.TextView;
 public class OtherDaysDialog extends Dialog {
 	
 	private TextView dialogText;
-    public Button okButton;
-    public Button cancelButton;
+    public Button okButton, cancelButton;
     private CheckBox sundayBox, mondayBox, tuesdayBox, wednesdayBox, thursdayBox, fridayBox, saturdayBox;
     private List<CheckBox> checkBoxArray = new ArrayList<CheckBox>();
     private List<String> checkedDaysArray = new ArrayList<String>();
@@ -28,9 +28,15 @@ public class OtherDaysDialog extends Dialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.other_days_popup);
         
-        okButton = (Button) findViewById(R.id.ok_button);
+        Typeface font = Typeface.createFromAsset(context.getAssets(), "fonts/VarelaRound-Regular.ttf");
+        Typeface font2 = Typeface.createFromAsset(context.getAssets(), "fonts/DINEngschrift-Regular.ttf");
+        
+        okButton = (Button) findViewById(R.id.save_button);
+        okButton.setTypeface(font2);
         cancelButton = (Button) findViewById(R.id.cancel_button);
+        cancelButton.setTypeface(font2);
         dialogText = (TextView) findViewById(R.id.other_days_text);
+        dialogText.setTypeface(font);
         sundayBox = (CheckBox) findViewById(R.id.sundayCheckBox);
         checkBoxArray.add(sundayBox);
         mondayBox = (CheckBox) findViewById(R.id.mondayCheckBox);
@@ -48,6 +54,8 @@ public class OtherDaysDialog extends Dialog {
         
         for(int i = 0; i < checkBoxArray.size(); i++)
         {
+        	checkBoxArray.get(i).setTypeface(font);
+        	
         	checkBoxArray.get(i).setOnCheckedChangeListener(new OnCheckedChangeListener() {
 				
 				@Override

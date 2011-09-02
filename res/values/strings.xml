@@ -6,7 +6,7 @@
     <string name="choose_line">CHOOSE YOUR LINE</string>
     <string name="choose_line2">Choose your line(s):</string>
     <string name="choose_days">CHOOSE THE DAYS YOU RIDE</string>
-    <string name="choose_days2">Choose the day(s) you ride</string>
+    <string name="choose_days2">CHOOSE YOUR DAYS</string>
     <string name="edit_title2">CHOOSE THE TIME YOU RIDE</string>
     <string name="save_button">SAVE</string>
     <string name="cancel_button">CANCEL</string>
@@ -16,13 +16,13 @@
     <string name="train_prompt">Choose a train line</string>
     <string name="notification_saved_message">Your Notification has been saved.</string>
     <string name="notification_cancel_message">No Notifications were saved.</string>
-    <string name="monday">Monday</string>
-    <string name="tuesday">Tuesday</string>
-    <string name="wednesday">Wednesday</string>
-    <string name="thursday">Thursday</string>
-    <string name="friday">Friday</string>
-    <string name="saturday">Saturday</string>
-    <string name="sunday">Sunday</string>
+    <string name="monday">MONDAY</string>
+    <string name="tuesday">TUESDAY</string>
+    <string name="wednesday">WEDNESDAY</string>
+    <string name="thursday">THURSDAY</string>
+    <string name="friday">FRIDAY</string>
+    <string name="saturday">SATURDAY</string>
+    <string name="sunday">SUNDAY</string>
     <string-array name="trains_array">
         <item>1,2,3</item>
         <item>4,5,6</item>
