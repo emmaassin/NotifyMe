@@ -6,6 +6,7 @@ import java.util.List;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -53,6 +54,14 @@ public class SelectDayDialog extends Dialog
 		saturdayBox = (CheckBox) findViewById(R.id.saturdayCheckBox);
 		checkBoxArray.add(saturdayBox);
 
+		cancelButton.setOnClickListener(new View.OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				cancel();
+			}
+		});
+		
 		for (int i = 0; i < checkBoxArray.size(); i++)
 		{
 			checkBoxArray.get(i).setTypeface(font);

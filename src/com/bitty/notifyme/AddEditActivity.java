@@ -124,14 +124,6 @@ public class AddEditActivity extends Activity
 				}
 			}
 		});
-
-		linesDialog.cancelButton.setOnClickListener(new View.OnClickListener()
-		{
-			public void onClick(View v)
-			{
-				linesDialog.dismiss();
-			}
-		});
 	}
 
 	private void makeDaysPopup()
@@ -160,15 +152,6 @@ public class AddEditActivity extends Activity
 				{
 					daysCheck.setImageResource(R.drawable.add);
 				}
-			}
-		});
-
-		daysDialog.cancelButton.setOnClickListener(new View.OnClickListener()
-		{
-
-			public void onClick(View v)
-			{
-				daysDialog.dismiss();
 			}
 		});
 	}

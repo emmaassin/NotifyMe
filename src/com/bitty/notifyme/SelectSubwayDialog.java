@@ -6,6 +6,7 @@ import java.util.List;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Resources;
+import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -36,6 +37,14 @@ public class SelectSubwayDialog extends Dialog
 		dialogText = (TextView) findViewById(R.id.other_days_text);
 		scrollContents = (LinearLayout) findViewById(R.id.scrollcontents);
 
+		cancelButton.setOnClickListener(new View.OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				cancel();
+			}
+		});
+		
 		Resources res = context.getResources();
 		String[] trainLines = res.getStringArray(R.array.trains_array);
 
