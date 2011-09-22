@@ -1,36 +1,301 @@
 package com.bitty.notifyme;
 
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.DefaultHandler;
+
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.IBinder;
+import android.util.Log;
 
-public class ReminderService extends WakeReminderIntentService {
+public class ReminderService extends Service
+{
+	private static final String TAG = "ReminderIntentService";
+	private int notificationID;
+	private String subwayLine;
+	private CurrentStatusLookupTask lastLookup = null;
 
-	public ReminderService() {
-		super("ReminderService");
-			}
+	private ArrayList<String> notificatonList = new ArrayList<String>();
+	private ArrayList<String> subwayLines = new ArrayList<String>();
+
+	private String notificationTitle = "MTA DELAY ON THE";
+	
+	/*
+	 * public ReminderService() { super("ReminderIntentService"); }
+	 */
 
 	@Override
-	void doReminderWork(Intent intent) {
-		
-		// so here is where the app reaches out to the MTA service to find out if there's currently a delay on the line we care about
-		// we can store a reference to the line in the extras
-		// once we've grabbed that data, if there's something to report, do the notify code below
-		
-		int noteId = intent.getExtras().getInt("alarm_id");
-		 
-		NotificationManager mgr = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-						
-		Intent notificationIntent = new Intent(this, DelayInfoActivity.class); 
-		
-		PendingIntent pi = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
-		
-		Notification note = new Notification(android.R.drawable.stat_notify_error, "MTA DELAY!", System.currentTimeMillis());
-		note.setLatestEventInfo(this, "MTA DELAY!", "PRESS FOR MORE INFO", pi);
-		note.flags |= Notification.FLAG_AUTO_CANCEL; 
-		
-		mgr.notify(noteId, note);
-		
+	public void onStart(Intent intent, int startId)
+	{
+		Log.w(TAG, "onStart");
+		super.onStart(intent, startId);
+
+		subwayLines.add("123");
+		subwayLines.add("456");
+		subwayLines.add("7");
+		subwayLines.add("ACE");
+		subwayLines.add("BDFM");
+		subwayLines.add("G");
+		subwayLines.add("JZ");
+		subwayLines.add("L");
+		subwayLines.add("NQR");
+		subwayLines.add("S");
+		subwayLines.add("SIR");
+
+		notificationID = intent.getExtras().getInt("alarm_id");
+		subwayLine = intent.getExtras().getString("subway_line");
+		loadMTAFeed();
 	}
+
+	// so here is where the app reaches out to the MTA service to find out
+	// if there's currently a delay on the line we care about
+	// we can store a reference to the line in the extras
+	// once we've grabbed that data, if there's something to report, do the
+	// notify code below
+
+	private void loadMTAFeed()
+	{
+		if (lastLookup == null || lastLookup.getStatus().equals(AsyncTask.Status.FINISHED))
+		{
+			lastLookup = new CurrentStatusLookupTask();
+			lastLookup.execute((Void[]) null);
+		}
+	}
+
+	/*
+	 * @Override void doReminderWork(Intent intent) { Log.w(TAG,
+	 * "doReminderWork"); }
+	 */
+
+	/*
+	 * Only called if notification is required
+	 */
+	private void sendNotification()
+	{
+		NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+		Intent notificationIntent = new Intent(this, DelayInfoActivity.class);
+		PendingIntent pi = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
+		Notification notification = new Notification(android.R.drawable.stat_notify_error, "MTA DELAY!", System
+				.currentTimeMillis());
+		notification.setLatestEventInfo(this, notificationTitle, "PRESS FOR MORE INFO", pi);
+		notification.flags |= Notification.FLAG_AUTO_CANCEL;
+		notificationManager.notify(notificationID, notification);
+	}
+
+	/*
+	 * This function should check if a notification should occur by comparing
+	 * the users notifications with the data
+	 */
+	private void announceNewStatusItem(ArrayList<String> arr)
+	{
+		for (int i = 0; i < subwayLines.size(); i++)
+		{
+			if (subwayLines.get(i).equals(arr.get(0)))
+			{
+				if (!arr.get(1).equals("GOOD SERVICE"))
+				{
+					notificationTitle += " " +  arr.get(0) + " ";
+					notificatonList.add(arr.get(0));
+					Log.w(TAG, "line" + arr.get(0));
+					Log.w(TAG, "status" + arr.get(1));
+					Log.w(TAG, "status text" + arr.get(2));
+					Log.w(TAG, "date" + arr.get(3));
+					Log.w(TAG, "time" + arr.get(4));
+				}
+			}
+		}
+
+
+		/*
+		 * intent.putExtra("line", arr.get(0)); intent.putExtra("status",
+		 * arr.get(1)); intent.putExtra("statusTxt", arr.get(2));
+		 * intent.putExtra("date", arr.get(3)); intent.putExtra("time",
+		 * arr.get(4)); intent.putExtra("category", arr.get(5));
+		 */
+	}
+
+	@Override
+	public IBinder onBind(Intent intent)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private void announceUpdateEnd()
+	{
+		Log.w(TAG, "announceUpdateEnd");
+		if(notificatonList.size() > 0)
+			sendNotification();
+	}
+
+	/*
+	 * Create separate thread for MTA feed parsing
+	 */
+	private class CurrentStatusLookupTask extends AsyncTask<Void, Void, Void>
+	{
+
+		@Override
+		protected Void doInBackground(Void... params)
+		{
+
+			try
+			{
+				/** Handling XML */
+				SAXParserFactory spf = SAXParserFactory.newInstance();
+				SAXParser sp = spf.newSAXParser();
+				XMLReader xr = sp.getXMLReader();
+
+				/** Send URL to parse XML Tags */
+				URL sourceUrl = new URL(getString(R.string.mta_feed));
+
+				/** Create handler to handle XML Tags ( extends DefaultHandler ) */
+				MyXMLHandler myXMLHandler = new MyXMLHandler();
+				xr.setContentHandler(myXMLHandler);
+				xr.parse(new InputSource(sourceUrl.openStream()));
+
+			} catch (Exception e)
+			{
+				// Log.w(TAG, "XML Pasing Excpetion = " + e.getMessage());
+			}
+
+			return null;
+		}
+
+		@Override
+		protected void onProgressUpdate(Void... values)
+		{
+			super.onProgressUpdate(values);
+		}
+
+		@Override
+		protected void onPreExecute()
+		{
+			super.onPreExecute();
+		}
+
+		@Override
+		protected void onPostExecute(Void result)
+		{
+			super.onPostExecute(result);
+			// Log.w(TAG, "onPostExecute");
+			stopSelf();
+			announceUpdateEnd();
+		}
+	}
+
+	public class EndOfProcessingException extends SAXException
+	{
+		private static final long serialVersionUID = 1L;
+		private static final String TAG = "EndOfProcessingException";
+
+		public EndOfProcessingException(String msg)
+		{
+			super(msg);
+			Log.w(TAG, "STOP PARSING XML");
+		}
+	}
+
+	/*
+	 * 
+	 */
+	public class MyXMLHandler extends DefaultHandler
+	{
+		private static final String TAG = "MyXMLHandler";
+		String currentValue = null;
+		String currentCategory = null;
+		String buffer = "";
+		String currentQName = null;
+		ArrayList<String> mtaItemArr = new ArrayList<String>();
+		Pattern pattern;
+
+		@Override
+		public void startDocument() throws SAXException
+		{
+			Log.w(TAG, "startDocument");
+			pattern = Pattern.compile("000000");
+		}
+
+		@Override
+		public void endDocument() throws SAXException
+		{
+		}
+
+		@Override
+		public void startElement(String namespaceURI, String localName, String qName, Attributes atts)
+				throws SAXException
+		{
+
+			if (localName.equals("subway"))
+				currentCategory = localName;
+
+			if (localName.equals("text"))
+				buffer = "";
+		}
+
+		@Override
+		public void characters(char ch[], int start, int length)
+		{
+			currentValue = new String(ch, start, length);
+			buffer += currentValue;
+		}
+
+		@Override
+		public void endElement(String namespaceURI, String localName, String qName) throws SAXException
+		{
+
+			if (localName.equals("name") || localName.equals("status") || localName.equals("Date")
+					|| localName.equals("Time"))
+			{
+				mtaItemArr.add(currentValue);
+			}
+
+			if (localName.equals("text"))
+			{
+				Matcher matcher = pattern.matcher(buffer);
+				if (matcher.find())
+				{
+					String output = matcher.replaceAll("ffffff");
+					mtaItemArr.add(output);
+				} else
+				{
+					mtaItemArr.add(buffer);
+				}
+			}
+
+			if (localName.equals("line"))
+			{
+				mtaItemArr.add(currentCategory);
+				announceNewStatusItem(mtaItemArr);
+				mtaItemArr.clear();
+			}
+
+			if (localName.equals("subway"))
+			{
+				// Some sort of finishing up work
+				currentValue = null;
+				currentCategory = null;
+				buffer = "";
+				currentQName = null;
+				mtaItemArr = null;
+				throw new EndOfProcessingException("Done.");
+			}
+
+		}
+	}
+
 }

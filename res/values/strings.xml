@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Notify Me NYC</string>
+    <string name="mta_feed">http://www.mta.info/status/serviceStatus.txt</string>
     <string name="add_button">"ADD NOTIFICATION"</string>
     <string name="edit_title1">ADD/EDIT NOTIFICATION</string>
     <string name="choose_line">CHOOSE YOUR LINE</string>

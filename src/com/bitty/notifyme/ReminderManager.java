@@ -6,76 +6,82 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 public class ReminderManager {
 
-	private Context mContext;
-	private AlarmManager mAlarmManager;
+	private static final String TAG = "ReminderManager";
+	private Context context;
+	private AlarmManager alarmManager;
 	
 	public ReminderManager(Context context)
 	{
-		mContext = context;
-		mAlarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+		this.context = context;
+		alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 	}
 	
-	public void setReminder(int hr, int min, int day)
+	public void setReminder(int hour, int minute, int day)
 	{
-		 Intent intent = new Intent(mContext, AlarmReceiver.class);
-		 
+		Log.w(TAG, "setReminder");
+		
 		 int alarmId = 0;
+		 Intent intent = new Intent(context, AlarmReceiver.class);
 		 // alarm Id needs to be a reference to the database line for this notification
-		 intent.putExtra("alarm_id", alarmId);
+		 intent.putExtra("alarm_id", alarmId);	
 		 
-		 PendingIntent sender = PendingIntent.getBroadcast(mContext, alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+		 PendingIntent sender = PendingIntent.getBroadcast(context, alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 		 
 		 Calendar calendar = Calendar.getInstance();
-		 calendar.set(Calendar.HOUR_OF_DAY, hr);
-		 calendar.set(Calendar.MINUTE, min);
+		 calendar.set(Calendar.HOUR_OF_DAY, hour);
+		 calendar.set(Calendar.MINUTE, minute);
 		 calendar.set(Calendar.SECOND, 0);
 		 calendar.setFirstDayOfWeek(Calendar.SUNDAY);
 		 
 		 if(calendar.get(Calendar.DAY_OF_WEEK) != day)
 		 {
+			 Log.w(TAG, "if 1");
 			 if(day > calendar.get(Calendar.DAY_OF_WEEK))
 			 {
+				 Log.w(TAG, "if 2");
 				 calendar.add(Calendar.DAY_OF_MONTH, day - calendar.get(Calendar.DAY_OF_WEEK));
 			 }
 			 
 			 if(day < calendar.get(Calendar.DAY_OF_WEEK))
 			 {
-				 calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+				 Log.w(TAG, "if 3");
+				 calendar.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
 				 if(day > 1)
 				 {
+					 Log.w(TAG, "if 4");
 					 calendar.add(Calendar.DAY_OF_MONTH, 7 - (calendar.get(Calendar.DAY_OF_WEEK) - day));
 				 }
 			 }
 		 }
 		 
-		 //Toast.makeText(mContext, ""+calendar.get(Calendar.DAY_OF_WEEK), Toast.LENGTH_LONG).show();
+		 //Log.w(TAG, "show Toast");
+		 //Toast.makeText(context, "" + calendar.get(Calendar.DAY_OF_WEEK), Toast.LENGTH_LONG).show();
 		 
 		 long start = calendar.getTimeInMillis();
 		 if (calendar.before(Calendar.getInstance())) {
 		      start += AlarmManager.INTERVAL_DAY * 7;
 		 }
 		 Log.i("LOGGING",calendar.toString());
+		 
 		 // set the alarm to repeat every week at the same time
-		 mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, start, AlarmManager.INTERVAL_DAY * 7, sender);
+		 alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, start, AlarmManager.INTERVAL_DAY * 7, sender);
 	}
 	
 	public void clearReminder(int theId)
 	{
-		 Intent intent = new Intent(mContext, AlarmReceiver.class);
+		 Intent intent = new Intent(context, AlarmReceiver.class);
 		 int alarmId = 0;
 		 intent.putExtra("alarm_id", alarmId);
 		 
-		 PendingIntent sender = PendingIntent.getBroadcast(mContext, theId, intent, 0);
+		 PendingIntent sender = PendingIntent.getBroadcast(context, theId, intent, 0);
 
 		 if(sender != null)
-		 {
-			 mAlarmManager.cancel(sender);
-		 }
+			 alarmManager.cancel(sender);
 		 
 		 sender.cancel();
 	}
-	
 }

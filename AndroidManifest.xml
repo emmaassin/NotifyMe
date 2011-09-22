@@ -12,22 +12,24 @@
 	</uses-permission>
 
     <application android:icon="@drawable/icon" android:label="@string/app_name" android:theme="@android:style/Theme.NoTitleBar">
-        <activity android:name=".DaysView"
+        <activity android:name="MainActivity"
                   android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="NotifyEditActivity"></activity>
+        <activity android:name="AddEditActivity"></activity>
         <activity android:name="DelayInfoActivity"></activity>
         
         <receiver android:name=".OnBootReceiver">
 		<intent-filter>
+			<action android:name="com.bitty.notifyme.MTAService" />
 			<action android:name="android.intent.action.BOOT_COMPLETED" />
 		</intent-filter>
 		</receiver>
 		<receiver  android:process=":remote" android:name="AlarmReceiver"></receiver>
-		<service android:name=".ReminderService" />
+		<service android:enabled="true" android:name=".ReminderService" />
     </application>
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
 </manifest>
