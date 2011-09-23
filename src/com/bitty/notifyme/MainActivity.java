@@ -9,6 +9,7 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
@@ -16,9 +17,10 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity
 {
+	private static final String TAG = "MainActivity";
+	
 	private static final int ACTIVITY_CREATE = 0;
 	private static final int ACTIVITY_EDIT = 1;
-	private static final String TAG = "MainActivity";
 	
 	private MainDayItem mondayBox, tuesdayBox, wednesdayBox, thursdayBox, fridayBox, saturdayBox, sundayBox;
 	private MainDayItem[] dayBoxArray = { mondayBox, tuesdayBox, wednesdayBox, thursdayBox, fridayBox, saturdayBox,
@@ -48,6 +50,40 @@ public class MainActivity extends Activity
 		notifyDBAdapter.open();
 		populateNotifyList();
 		
+	}
+	
+	@Override
+	protected void onStart() {
+		Log.w(TAG, "onStart");
+		super.onStart();
+	}
+
+	@Override
+	protected void onResume() {
+		Log.w(TAG, "onResume");
+		super.onResume();
+	}
+
+	@Override
+	protected void onPause() {
+		Log.w(TAG, "onPause");
+		super.onPause();
+	}
+
+	@Override
+	protected void onStop() {
+		Log.w(TAG, "onStop");
+		super.onStop();
+	}
+	
+	
+	@Override
+	protected void onDestroy()
+	{
+		super.onDestroy();
+		
+		//close DB
+		notifyDBAdapter.close();
 	}
 	
 	private void createAddNotifyBtn()
