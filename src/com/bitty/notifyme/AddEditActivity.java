@@ -23,7 +23,7 @@ public class AddEditActivity extends Activity
 	
 	private TextView title, trainsText, daysText, title2;
 	private LinearLayout linesButton, daysButton;
-	private TimePicker timePicker;
+	private TimeChooser timePicker;
 	private Button saveButton, cancelButton;
 	private SelectDayDialog daysDialog;
 	private SelectSubwayDialog linesDialog;
@@ -54,7 +54,7 @@ public class AddEditActivity extends Activity
 		trainsCheck = (ImageView) findViewById(R.id.trains_check);
 		daysCheck = (ImageView) findViewById(R.id.days_check);
 
-		timePicker = (TimePicker) findViewById(R.id.time_picker);
+		timePicker = (TimeChooser) findViewById(R.id.time_picker);
 		saveButton = (Button) findViewById(R.id.save_button);
 		saveButton.setTypeface(font2);
 		cancelButton = (Button) findViewById(R.id.cancel_button);
@@ -183,10 +183,11 @@ public class AddEditActivity extends Activity
 		ReminderManager reminderMgr = new ReminderManager(getApplicationContext());
 
 		// set alerts for each day in the day array
-
+		
 		for (int i = 0; i < daysArray.size(); i++)
 		{
 			reminderMgr.setReminder(hour, minute, daysPositionArray.indexOf(daysArray.get(i)) + 1);
+			Log.w(TAG, "day = "+daysArray.get(i) + " day int = "+daysPositionArray.indexOf(daysArray.get(i)) + 1);
 		}
 	}
 }

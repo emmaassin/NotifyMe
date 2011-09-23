@@ -41,23 +41,21 @@ public class ReminderManager {
 		 
 		 if(calendar.get(Calendar.DAY_OF_WEEK) != day)
 		 {
-			 Log.w(TAG, "if 1");
 			 if(day > calendar.get(Calendar.DAY_OF_WEEK))
 			 {
-				 Log.w(TAG, "if 2");
 				 calendar.add(Calendar.DAY_OF_MONTH, day - calendar.get(Calendar.DAY_OF_WEEK));
 			 }
-			 
+
 			 if(day < calendar.get(Calendar.DAY_OF_WEEK))
 			 {
-				 Log.w(TAG, "if 3");
-				 calendar.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
+				 calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
 				 if(day > 1)
 				 {
-					 Log.w(TAG, "if 4");
 					 calendar.add(Calendar.DAY_OF_MONTH, 7 - (calendar.get(Calendar.DAY_OF_WEEK) - day));
 				 }
 			 }
+		 } else {
+			 calendar.set(Calendar.DAY_OF_WEEK, day);
 		 }
 		 
 		 //Log.w(TAG, "show Toast");
