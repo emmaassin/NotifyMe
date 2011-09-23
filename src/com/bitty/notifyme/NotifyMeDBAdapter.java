@@ -18,12 +18,13 @@ public class NotifyMeDBAdapter
 	
 	private static final String DATABASE_NAME = "notifyMe.db";
 	private static final String DATABASE_TABLE = "notifyItems";
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 
 	public static final String KEY_ID = "_id";
 	public static final String KEY_NOTIFY_DAY= "day";
-	public static final String KEY_NOTIFY_TIME = "time";
 	public static final String KEY_NOTIFY_LINES = "lines";
+	public static final String KEY_NOTIFY_HOUR = "hour";
+	public static final String KEY_NOTIFY_MINUTES = "minutes";
 
 	private SQLiteDatabase db;
 	private final Context context;
@@ -52,9 +53,10 @@ public class NotifyMeDBAdapter
 		// Create a new row of values to insert
 		ContentValues newTaskValues = new ContentValues();
 		// Assign values for each row
-		newTaskValues.put(KEY_NOTIFY_DAY, _notify.getTask());
-		newTaskValues.put(KEY_NOTIFY_TIME, _notify.getCreated().getTime());
-		newTaskValues.put(KEY_NOTIFY_LINES, _notify.getCreated().getTime());
+		newTaskValues.put(KEY_NOTIFY_LINES, _notify.getLines());
+		newTaskValues.put(KEY_NOTIFY_DAY, _notify.getDay());
+		newTaskValues.put(KEY_NOTIFY_HOUR, _notify.getHour());
+		newTaskValues.put(KEY_NOTIFY_MINUTES, _notify.getMinutes());
 		// Insert the row
 		return db.insert(DATABASE_TABLE, null, newTaskValues);
 
@@ -74,12 +76,12 @@ public class NotifyMeDBAdapter
 
 	public Cursor getAllNotifyItemsCursor() {
 		return db.query(DATABASE_TABLE,
-				new String[] { KEY_ID, KEY_NOTIFY_DAY, KEY_NOTIFY_TIME, KEY_NOTIFY_LINES }, null, null, null, null,
+				new String[] { KEY_ID, KEY_NOTIFY_DAY, KEY_NOTIFY_HOUR, KEY_NOTIFY_LINES }, null, null, null, null,
 				null);
 	}
 
 	public Cursor setCursorNotifyItem(long _rowIndex) throws SQLException {
-		Cursor result = db.query(true, DATABASE_TABLE, new String[] { KEY_ID, KEY_NOTIFY_DAY},
+		Cursor result = db.query(true, DATABASE_TABLE, new String[] { KEY_ID, KEY_NOTIFY_HOUR, KEY_NOTIFY_DAY, KEY_NOTIFY_LINES},
 				KEY_ID + "=" + _rowIndex, null, null, null, null, null);
 
 		// Checks if row exits
@@ -90,17 +92,19 @@ public class NotifyMeDBAdapter
 	}
 
 	public NotifyMeItem getNotifyItem(long _rowIndex) throws SQLException {
-		Cursor cursor = db.query(true, DATABASE_TABLE, new String[] { KEY_ID, KEY_NOTIFY_DAY},
+		Cursor cursor = db.query(true, DATABASE_TABLE, new String[] { KEY_ID, KEY_NOTIFY_LINES, KEY_NOTIFY_DAY, KEY_NOTIFY_HOUR, KEY_NOTIFY_MINUTES},
 				KEY_ID + "=" + _rowIndex, null, null, null, null, null);
 
 		if ((cursor.getCount() == 0) || !cursor.moveToFirst()) {
 			throw new SQLException("No to do item found for row: " + _rowIndex);
 		}
 
-		String task = cursor.getString(cursor.getColumnIndex(KEY_NOTIFY_DAY));
-		long created = cursor.getLong(cursor.getColumnIndex(KEY_NOTIFY_TIME));
+		String lines = cursor.getString(cursor.getColumnIndex(KEY_NOTIFY_LINES));
+		int day = cursor.getInt(cursor.getColumnIndex(KEY_NOTIFY_DAY));
+		int hour = cursor.getInt(cursor.getColumnIndex(KEY_NOTIFY_HOUR));
+		int minutes = cursor.getInt(cursor.getColumnIndex(KEY_NOTIFY_MINUTES));
 
-		NotifyMeItem result = new NotifyMeItem(task, new Date(created));
+		NotifyMeItem result = new NotifyMeItem(lines, day, hour, minutes);
 		return result;
 	}
 
@@ -121,8 +125,8 @@ public class NotifyMeDBAdapter
 		// SQL Statement to create a new database
 		private static final String DATABASE_CREATE = "create table " + DATABASE_TABLE
 				+ " (" + KEY_ID + " integer primary key autoincrement, " + KEY_NOTIFY_DAY
-				+ " text not null, " + KEY_NOTIFY_TIME + " text not null, " 
-				+ KEY_NOTIFY_LINES + " text not null);";
+				+ " int, " + KEY_NOTIFY_LINES + " text not null, " 
+				+ KEY_NOTIFY_HOUR + " int, " + KEY_NOTIFY_MINUTES + " int);";
 
 		@Override
 		public void onCreate(SQLiteDatabase _db) {

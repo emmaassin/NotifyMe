@@ -22,7 +22,7 @@ public class ReminderManager {
 	
 	public void setReminder(int hour, int minute, int day)
 	{
-		Log.w(TAG, "setReminder");
+		Log.w(TAG, "setReminder DAY = " + day);
 		
 		 int alarmId = 0;
 		 Intent intent = new Intent(context, AlarmReceiver.class);
@@ -36,6 +36,8 @@ public class ReminderManager {
 		 calendar.set(Calendar.MINUTE, minute);
 		 calendar.set(Calendar.SECOND, 0);
 		 calendar.setFirstDayOfWeek(Calendar.SUNDAY);
+		 
+		 Log.w(TAG, "DAY OF WEEK FROM CALENDAR = " + calendar.get(Calendar.DAY_OF_WEEK));
 		 
 		 if(calendar.get(Calendar.DAY_OF_WEEK) != day)
 		 {

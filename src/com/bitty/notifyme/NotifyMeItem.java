@@ -4,24 +4,32 @@ import java.util.Date;
 
 public class NotifyMeItem
 {
-	String task;
-	Date created;
+	String lines;
+	int day;
+	int hour;
+	int minutes;
 	
-	public String getTask() {
-		return task;
-	}
-	
-	public Date getCreated() {
-		return created;
-	}
-	
-	public NotifyMeItem(String _task) {
-		this(_task, new Date(java.lang.System.currentTimeMillis()));
+	public String getLines() {
+		return lines;
 	}
 
-	public NotifyMeItem(String _task, Date _created) {
-		task = _task;
-		created = _created;
+	public int getDay() {
+		return day;
+	}
+	
+	public int getHour() {
+		return hour;
+	}
+
+	public int getMinutes() {
+		return minutes;
+	}
+
+	public NotifyMeItem(String _lines, int _day, int _hour, int _minutes) {
+		lines = _lines;
+		day = _day;
+		hour = _hour;
+		minutes = _minutes;
 	}
 	
 }

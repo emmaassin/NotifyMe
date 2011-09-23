@@ -106,16 +106,14 @@ public class AddEditActivity extends Activity
 	{
 		linesDialog = new SelectSubwayDialog(this);
 		if (trainLinesArray.size() > 0)
-		{
 			linesDialog.setAlreadyChecked(trainLinesArray);
-		}
+
 		linesDialog.show();
 		linesDialog.okButton.setOnClickListener(new View.OnClickListener()
 		{
 			public void onClick(View v)
 			{
 				trainLinesArray = linesDialog.getCheckedLinessArray();
-				linesDialog.dismiss();
 				if (trainLinesArray.size() > 0)
 				{
 					trainsCheck.setImageResource(R.drawable.check);
@@ -124,6 +122,7 @@ public class AddEditActivity extends Activity
 					trainsCheck.setImageResource(R.drawable.add);
 					saveButton.setEnabled(false);
 				}
+				linesDialog.cancel();
 			}
 		});
 	}
@@ -132,9 +131,8 @@ public class AddEditActivity extends Activity
 	{
 		daysDialog = new SelectDayDialog(this);
 		if (daysArray.size() > 0)
-		{
 			daysDialog.setAlreadyChecked(daysArray);
-		}
+
 		daysDialog.show();
 		daysDialog.okButton.setOnClickListener(new View.OnClickListener()
 		{
@@ -142,7 +140,6 @@ public class AddEditActivity extends Activity
 			public void onClick(View v)
 			{
 				daysArray = daysDialog.getCheckedDaysArray();
-				daysDialog.dismiss();
 				if (daysArray.size() > 0)
 				{
 					daysCheck.setImageResource(R.drawable.check);
@@ -154,6 +151,7 @@ public class AddEditActivity extends Activity
 				{
 					daysCheck.setImageResource(R.drawable.add);
 				}
+				daysDialog.cancel();
 			}
 		});
 	}
@@ -162,11 +160,12 @@ public class AddEditActivity extends Activity
 	{
 		Log.w(TAG, "saveState");
 		
-		String type = "subway";
+		/*
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.HOUR_OF_DAY, timePicker.getCurrentHour());
 		calendar.set(Calendar.MINUTE, timePicker.getCurrentMinute());
-		int time = (int) calendar.getTimeInMillis();
+		 */
+		
 		int hour = timePicker.getCurrentHour();
 		int minute = timePicker.getCurrentMinute();
 
