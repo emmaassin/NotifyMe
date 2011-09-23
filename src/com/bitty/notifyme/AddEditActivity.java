@@ -31,13 +31,15 @@ public class AddEditActivity extends Activity
 
 	public List<String> trainLinesArray = new ArrayList<String>();
 	public List<String> daysArray = new ArrayList<String>();
-
+	
+	String[] test = {"3", "4"};
+		
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.editscreen);
-
+		
 		title = (TextView) findViewById(R.id.edit_title1);
 		Typeface font = Typeface.createFromAsset(this.getAssets(), "fonts/VarelaRound-Regular.ttf");
 		title.setTypeface(font);
