@@ -23,14 +23,26 @@ public final class R {
         public static final int check_box=0x7f020005;
         public static final int clock=0x7f020006;
         public static final int daybg=0x7f020007;
-        public static final int greenchecker=0x7f020008;
-        public static final int icon=0x7f020009;
-        public static final int infotab=0x7f02000a;
-        public static final int waves=0x7f02000b;
+        public static final int dots=0x7f020008;
+        public static final int down_press=0x7f020009;
+        public static final int down_regular=0x7f02000a;
+        public static final int greenchecker=0x7f02000b;
+        public static final int icon=0x7f02000c;
+        public static final int infotab=0x7f02000d;
+        public static final int notify_icon=0x7f02000e;
+        public static final int timepicker_down_btn=0x7f02000f;
+        public static final int timepicker_up_btn=0x7f020010;
+        public static final int up_press=0x7f020011;
+        public static final int up_regular=0x7f020012;
+        public static final int waves=0x7f020013;
     }
     public static final class id {
         public static final int add=0x7f060016;
         public static final int add_text=0x7f060017;
+        public static final int ampm=0x7f06002a;
+        public static final int ampm_minus=0x7f06002d;
+        public static final int ampm_plus=0x7f06002b;
+        public static final int ampm_txt=0x7f06002c;
         public static final int box=0x7f060019;
         public static final int boxtext=0x7f06001a;
         public static final int cancel_button=0x7f060009;
@@ -39,20 +51,29 @@ public final class R {
         public static final int days_holder=0x7f060018;
         public static final int days_text=0x7f060012;
         public static final int delete_button=0x7f06001f;
+        public static final int dots=0x7f060025;
         public static final int editScreenMain=0x7f06000b;
         public static final int edit_button=0x7f06001e;
         public static final int edit_title1=0x7f06000c;
         public static final int edit_title2=0x7f060013;
         public static final int fridayCheckBox=0x7f060006;
+        public static final int hours=0x7f060021;
         public static final int how_many=0x7f06001d;
+        public static final int hr_minus=0x7f060024;
+        public static final int hr_plus=0x7f060022;
+        public static final int hr_txt=0x7f060023;
+        public static final int min_minus=0x7f060029;
+        public static final int min_plus=0x7f060027;
+        public static final int min_txt=0x7f060028;
+        public static final int mins=0x7f060026;
         public static final int mondayCheckBox=0x7f060002;
         public static final int notification_display=0x7f06001c;
         public static final int notification_list=0x7f060020;
-        public static final int ok_button=0x7f060022;
+        public static final int ok_button=0x7f06002f;
         public static final int other_days_text=0x7f060001;
         public static final int saturdayCheckBox=0x7f060007;
         public static final int save_button=0x7f06000a;
-        public static final int scrollcontents=0x7f060021;
+        public static final int scrollcontents=0x7f06002e;
         public static final int sundayCheckBox=0x7f060008;
         public static final int thin_line=0x7f06001b;
         public static final int thursdayCheckBox=0x7f060005;
@@ -72,7 +93,8 @@ public final class R {
         public static final int main=0x7f030003;
         public static final int main_day_item=0x7f030004;
         public static final int notify_info_dialog=0x7f030005;
-        public static final int train_select_dialog=0x7f030006;
+        public static final int timechooser=0x7f030006;
+        public static final int train_select_dialog=0x7f030007;
     }
     public static final class string {
         public static final int add_button=0x7f040002;

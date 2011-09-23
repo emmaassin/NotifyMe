@@ -55,6 +55,8 @@ public class AddEditActivity extends Activity
 		daysCheck = (ImageView) findViewById(R.id.days_check);
 
 		timePicker = (TimeChooser) findViewById(R.id.time_picker);
+		timePicker.initComponent(getApplicationContext());
+		
 		saveButton = (Button) findViewById(R.id.save_button);
 		saveButton.setTypeface(font2);
 		cancelButton = (Button) findViewById(R.id.cancel_button);

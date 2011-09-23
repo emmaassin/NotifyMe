@@ -90,7 +90,7 @@ public class ReminderService extends Service
 		NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 		Intent notificationIntent = new Intent(this, DelayInfoActivity.class);
 		PendingIntent pi = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
-		Notification notification = new Notification(android.R.drawable.stat_notify_error, "MTA DELAY!", System
+		Notification notification = new Notification(R.drawable.notify_icon, "MTA DELAY!", System
 				.currentTimeMillis());
 		notification.setLatestEventInfo(this, notificationTitle, "PRESS FOR MORE INFO", pi);
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;
