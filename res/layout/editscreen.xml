@@ -91,11 +91,12 @@
   	android:paddingLeft="14dip"
   	android:paddingTop="22dip"
   	/>
-  	<TimePicker
+  	<com.bitty.notifyme.TimeChooser
   	android:id="@+id/time_picker"
   	android:layout_width="wrap_content"
   	android:layout_height="wrap_content"
   	android:layout_gravity="center_horizontal"
+  	android:paddingTop="20dip"
   	/>
 </LinearLayout>
 <LinearLayout
@@ -103,15 +104,10 @@
   	android:layout_height="wrap_content"
   	android:layout_alignParentBottom="true"
   	android:orientation="vertical">
-  	<ImageView
-  		android:layout_width="fill_parent"
-  		android:layout_height="wrap_content"
-  		android:src="@drawable/waves"
-  	/>
 	<LinearLayout
 	  	android:orientation="horizontal"
 		android:layout_width="fill_parent"
-	  	android:layout_height="58dip"
+	  	android:layout_height="71dip"
 	  	android:background="#2d2d2d">
 	  	<Button
 	  	android:id="@+id/cancel_button"
@@ -123,7 +119,6 @@
 	  	android:textColor="#ececec"
 	  	android:background="@android:color/transparent"
 	  	android:layout_gravity="center_vertical"
-	  	android:layout_marginBottom="8dip"
 	  	/>
 	  	<Button
 	  	android:id="@+id/save_button"
@@ -135,7 +130,6 @@
 	  	android:textColor="#6ec610"
 	  	android:background="@android:color/transparent"
 	  	android:layout_gravity="center_vertical"
-	  	android:layout_marginBottom="8dip"
 	  	/>
 	</LinearLayout>
 </LinearLayout>
