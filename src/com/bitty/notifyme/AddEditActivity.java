@@ -111,7 +111,7 @@ public class AddEditActivity extends Activity
 			linesDialog.setAlreadyChecked(trainLinesArray);
 
 		linesDialog.show();
-		linesDialog.okButton.setOnClickListener(new View.OnClickListener()
+		linesDialog.saveButton.setOnClickListener(new View.OnClickListener()
 		{
 			public void onClick(View v)
 			{
@@ -136,7 +136,7 @@ public class AddEditActivity extends Activity
 			daysDialog.setAlreadyChecked(daysArray);
 
 		daysDialog.show();
-		daysDialog.okButton.setOnClickListener(new View.OnClickListener()
+		daysDialog.saveButton.setOnClickListener(new View.OnClickListener()
 		{
 
 			public void onClick(View v)

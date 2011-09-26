@@ -6,6 +6,8 @@ import java.util.List;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Typeface;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -20,10 +22,13 @@ public class SelectSubwayDialog extends Dialog
 {
 
 	private TextView dialogText;
-	private LinearLayout scrollContents;
-	public Button okButton;
+	private LinearLayout subwayLinesHolder;
+	public Button saveButton;
 	public Button cancelButton;
-	private List<CheckBox> checkBoxArray = new ArrayList<CheckBox>();
+	private static int[] lineImageArray = {R.drawable.line_123, R.drawable.line_456, R.drawable.line_7, R.drawable.line_ace, R.drawable.line_bdfm, R.drawable.line_g, R.drawable.line_jz, R.drawable.line_l, R.drawable.line_nqr, R.drawable.line_s, R.drawable.line_sir};
+	private static int[] lineImageSelectedArray = {R.drawable.line_123_s, R.drawable.line_456_s, R.drawable.line_7_s, R.drawable.line_ace_s, R.drawable.line_bdfm_s, R.drawable.line_g_s, R.drawable.line_jz_s, R.drawable.line_l_s, R.drawable.line_nqr_s, R.drawable.line_s_s, R.drawable.line_sir_s};
+	private static int[] lineIdArray = {R.id.l123, R.id.l456, R.id.l7, R.id.lace, R.id.lbdfm, R.id.lg, R.id.ljz, R.id.ll, R.id.lnqr, R.id.ls, R.id.lsir};
+	private List<TrainLineButton> lineButtonArray = new ArrayList<TrainLineButton>();
 	private List<String> checkedLinesArray = new ArrayList<String>();
 
 	public SelectSubwayDialog(Context context)
@@ -31,11 +36,17 @@ public class SelectSubwayDialog extends Dialog
 		super(context);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.train_select_dialog);
+		
+		Typeface font = Typeface.createFromAsset(context.getAssets(), "fonts/VarelaRound-Regular.ttf");
+		Typeface font2 = Typeface.createFromAsset(context.getAssets(), "fonts/DINEngschrift-Regular.ttf");
 
-		okButton = (Button) findViewById(R.id.ok_button);
+		saveButton = (Button) findViewById(R.id.save_button);
+		saveButton.setTypeface(font2);
 		cancelButton = (Button) findViewById(R.id.cancel_button);
-		dialogText = (TextView) findViewById(R.id.other_days_text);
-		scrollContents = (LinearLayout) findViewById(R.id.scrollcontents);
+		cancelButton.setTypeface(font2);
+		dialogText = (TextView) findViewById(R.id.other_lines_text);
+		dialogText.setTypeface(font);
+		subwayLinesHolder = (LinearLayout) findViewById(R.id.subway_lines_holder);
 
 		cancelButton.setOnClickListener(new View.OnClickListener()
 		{
@@ -50,20 +61,22 @@ public class SelectSubwayDialog extends Dialog
 
 		for (int i = 0; i < trainLines.length; i++)
 		{
-			CheckBox cb = new CheckBox(context);
-			cb.setText(trainLines[i]);
-			scrollContents.addView(cb);
-			checkBoxArray.add(cb);
-			cb.setOnCheckedChangeListener(new OnCheckedChangeListener()
-			{
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-				{
-					if (isChecked)
+			final TrainLineButton tlb = (TrainLineButton) findViewById(lineIdArray[i]);
+			lineButtonArray.add(tlb);
+			tlb.setImages(lineImageArray[i], lineImageSelectedArray[i], trainLines[i]);
+			tlb.setOnClickListener(new View.OnClickListener() {
+				
+				public void onClick(View v) {
+					
+					TrainLineButton tb = (TrainLineButton) v;
+					
+					if(tb.selected)
 					{
-						checkedLinesArray.add((String) buttonView.getText());
-					} else
-					{
-						checkedLinesArray.remove((String) buttonView.getText());
+						tb.setDeSelected();
+						checkedLinesArray.remove(tb.id);
+					} else {
+						tb.setSelected();
+						checkedLinesArray.add(tb.id);
 					}
 				}
 			});
@@ -77,11 +90,11 @@ public class SelectSubwayDialog extends Dialog
 
 	public void setAlreadyChecked(List<String> trainLinesArray)
 	{
-		for (int i = 0; i < checkBoxArray.size(); i++)
+		for (int i = 0; i < lineButtonArray.size(); i++)
 		{
-			if (trainLinesArray.contains(checkBoxArray.get(i).getText()))
+			if (trainLinesArray.contains(lineButtonArray.get(i).id))
 			{
-				checkBoxArray.get(i).setChecked(true);
+				lineButtonArray.get(i).setSelected();
 			}
 		}
 

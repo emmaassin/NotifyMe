@@ -19,7 +19,7 @@ public class SelectDayDialog extends Dialog
 {
 
 	private TextView dialogText;
-	public Button okButton, cancelButton;
+	public Button saveButton, cancelButton;
 	private CheckBox sundayBox, mondayBox, tuesdayBox, wednesdayBox, thursdayBox, fridayBox, saturdayBox;
 	private List<CheckBox> checkBoxArray = new ArrayList<CheckBox>();
 	private List<String> checkedDaysArray = new ArrayList<String>();
@@ -33,8 +33,8 @@ public class SelectDayDialog extends Dialog
 		Typeface font = Typeface.createFromAsset(context.getAssets(), "fonts/VarelaRound-Regular.ttf");
 		Typeface font2 = Typeface.createFromAsset(context.getAssets(), "fonts/DINEngschrift-Regular.ttf");
 
-		okButton = (Button) findViewById(R.id.save_button);
-		okButton.setTypeface(font2);
+		saveButton = (Button) findViewById(R.id.save_button);
+		saveButton.setTypeface(font2);
 		cancelButton = (Button) findViewById(R.id.cancel_button);
 		cancelButton.setTypeface(font2);
 		dialogText = (TextView) findViewById(R.id.other_days_text);
