@@ -41,7 +41,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 			android:textColor="#3e3e3e"
 			android:button="@drawable/check_box"
 			android:layout_marginLeft="14dip"
-			/>
+			android:tag="2"/>
 			<View
 			  android:layout_width="fill_parent"
 			  android:layout_height="1dip"
@@ -54,7 +54,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 			android:textColor="#3e3e3e"
 			android:button="@drawable/check_box"
 			android:layout_marginLeft="14dip"
-			/>
+			android:tag="3"/>
 			<View
 			  android:layout_width="fill_parent"
 			  android:layout_height="1dip"
@@ -67,7 +67,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 			android:textColor="#3e3e3e"
 			android:button="@drawable/check_box"
 			android:layout_marginLeft="14dip"
-			/>
+			android:tag="4"/>
 			<View
 			  android:layout_width="fill_parent"
 			  android:layout_height="1dip"
@@ -80,7 +80,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 			android:textColor="#3e3e3e"
 			android:button="@drawable/check_box"
 			android:layout_marginLeft="14dip"
-			/>
+			android:tag="5"/>
 			<View
 			  android:layout_width="fill_parent"
 			  android:layout_height="1dip"
@@ -93,7 +93,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 			android:textColor="#3e3e3e"
 			android:button="@drawable/check_box"
 			android:layout_marginLeft="14dip"
-			/>
+			android:tag="6"/>
 			<View
 			  android:layout_width="fill_parent"
 			  android:layout_height="1dip"
@@ -106,7 +106,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 			android:textColor="#3e3e3e"
 			android:button="@drawable/check_box"
 			android:layout_marginLeft="14dip"
-			/>
+			android:tag="7"/>
 			<View
 			  android:layout_width="fill_parent"
 			  android:layout_height="1dip"
@@ -119,6 +119,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 			android:textColor="#3e3e3e"
 			android:button="@drawable/check_box"
 			android:layout_marginLeft="14dip"
+			android:tag="1"
 			/>
 			</LinearLayout>
 			</ScrollView>
