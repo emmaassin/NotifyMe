@@ -20,24 +20,22 @@ public class ReminderManager {
 		alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 	}
 	
-	public void setReminder(int hour, int minute, int day)
+	public void setReminder(int hour, int minute, int day, int alarmID)
 	{
-		Log.w(TAG, "setReminder DAY = " + day);
+		Log.w(TAG, "setReminder DAY =" + day);
 		
-		 int alarmId = 0;
 		 Intent intent = new Intent(context, AlarmReceiver.class);
 		 // alarm Id needs to be a reference to the database line for this notification
-		 intent.putExtra("alarm_id", alarmId);	
+		 intent.putExtra("alarm_id", alarmID);	
 		 
-		 PendingIntent sender = PendingIntent.getBroadcast(context, alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-		 
+		 PendingIntent sender = PendingIntent.getBroadcast(context, alarmID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 		 Calendar calendar = Calendar.getInstance();
 		 calendar.set(Calendar.HOUR_OF_DAY, hour);
 		 calendar.set(Calendar.MINUTE, minute);
 		 calendar.set(Calendar.SECOND, 0);
 		 calendar.setFirstDayOfWeek(Calendar.SUNDAY);
 		 
-		 Log.w(TAG, "DAY OF WEEK FROM CALENDAR = " + calendar.get(Calendar.DAY_OF_WEEK));
+		 //Log.w(TAG, "GET FIRST DAY OF WEEK FROM CALENDAR = " + calendar.getFirstDayOfWeek());
 		 
 		 if(calendar.get(Calendar.DAY_OF_WEEK) != day)
 		 {
@@ -58,13 +56,12 @@ public class ReminderManager {
 			 calendar.set(Calendar.DAY_OF_WEEK, day);
 		 }
 		 
-		 //Log.w(TAG, "show Toast");
-		 //Toast.makeText(context, "" + calendar.get(Calendar.DAY_OF_WEEK), Toast.LENGTH_LONG).show();
 		 
 		 long start = calendar.getTimeInMillis();
 		 if (calendar.before(Calendar.getInstance())) {
 		      start += AlarmManager.INTERVAL_DAY * 7;
 		 }
+
 		 Log.i("LOGGING",calendar.toString());
 		 
 		 // set the alarm to repeat every week at the same time
