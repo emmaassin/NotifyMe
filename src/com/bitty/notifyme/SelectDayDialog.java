@@ -6,6 +6,7 @@ import java.util.List;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -17,12 +18,15 @@ import android.widget.TextView;
 
 public class SelectDayDialog extends Dialog
 {
-
+	
+	private static final String TAG = "SelectDayDialog";
+	
 	private TextView dialogText;
 	public Button saveButton, cancelButton;
 	private CheckBox sundayBox, mondayBox, tuesdayBox, wednesdayBox, thursdayBox, fridayBox, saturdayBox;
 	private List<CheckBox> checkBoxArray = new ArrayList<CheckBox>();
-	private List<String> checkedDaysArray = new ArrayList<String>();
+	//private List<String> checkedDaysArray = new ArrayList<String>();
+	private List<Integer> checkedDaysArray = new ArrayList<Integer>();
 
 	public SelectDayDialog(Context context)
 	{
@@ -65,17 +69,19 @@ public class SelectDayDialog extends Dialog
 		for (int i = 0; i < checkBoxArray.size(); i++)
 		{
 			checkBoxArray.get(i).setTypeface(font);
-
 			checkBoxArray.get(i).setOnCheckedChangeListener(new OnCheckedChangeListener()
 			{
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
 				{
 					if (isChecked)
 					{
-						checkedDaysArray.add((String) buttonView.getText());
+						//checkedDaysArray.add((String) buttonView.getText());
+						checkedDaysArray.add(Integer.parseInt((String) buttonView.getTag()));
 					} else
 					{
-						checkedDaysArray.remove((String) buttonView.getText());
+						//checkedDaysArray.remove((String) buttonView.getText());
+						int tag = Integer.parseInt((String) buttonView.getTag());
+						checkedDaysArray.remove(new Integer(tag));
 					}
 				}
 			});
@@ -86,12 +92,25 @@ public class SelectDayDialog extends Dialog
 	{
 		return (ArrayList) checkedDaysArray;
 	}
-
+	
+	/*
 	public void setAlreadyChecked(List<String> daysArray)
 	{
 		for (int i = 0; i < checkBoxArray.size(); i++)
 		{
 			if (daysArray.contains(checkBoxArray.get(i).getText()))
+			{
+				checkBoxArray.get(i).setChecked(true);
+			}
+		}
+		Toast.makeText(getContext(), checkedDaysArray.toString(), Toast.LENGTH_SHORT).show();
+	}
+	*/
+	public void setAlreadyChecked(List<Integer> daysArray)
+	{
+		for (int i = 0; i < checkBoxArray.size(); i++)
+		{
+			if (daysArray.contains(Integer.parseInt((String)checkBoxArray.get(i).getTag())))
 			{
 				checkBoxArray.get(i).setChecked(true);
 			}
