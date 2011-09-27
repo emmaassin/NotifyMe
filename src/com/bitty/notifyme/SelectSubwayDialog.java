@@ -28,7 +28,7 @@ public class SelectSubwayDialog extends Dialog
 	private static int[] lineImageArray = {R.drawable.line_123, R.drawable.line_456, R.drawable.line_7, R.drawable.line_ace, R.drawable.line_bdfm, R.drawable.line_g, R.drawable.line_jz, R.drawable.line_l, R.drawable.line_nqr, R.drawable.line_s, R.drawable.line_sir};
 	private static int[] lineImageSelectedArray = {R.drawable.line_123_s, R.drawable.line_456_s, R.drawable.line_7_s, R.drawable.line_ace_s, R.drawable.line_bdfm_s, R.drawable.line_g_s, R.drawable.line_jz_s, R.drawable.line_l_s, R.drawable.line_nqr_s, R.drawable.line_s_s, R.drawable.line_sir_s};
 	private static int[] lineIdArray = {R.id.l123, R.id.l456, R.id.l7, R.id.lace, R.id.lbdfm, R.id.lg, R.id.ljz, R.id.ll, R.id.lnqr, R.id.ls, R.id.lsir};
-	private List<TrainLineButton> lineButtonArray = new ArrayList<TrainLineButton>();
+	private List<SelectSubwayButton> lineButtonArray = new ArrayList<SelectSubwayButton>();
 	private List<String> checkedLinesArray = new ArrayList<String>();
 
 	public SelectSubwayDialog(Context context)
@@ -61,14 +61,14 @@ public class SelectSubwayDialog extends Dialog
 
 		for (int i = 0; i < trainLines.length; i++)
 		{
-			final TrainLineButton tlb = (TrainLineButton) findViewById(lineIdArray[i]);
+			final SelectSubwayButton tlb = (SelectSubwayButton) findViewById(lineIdArray[i]);
 			lineButtonArray.add(tlb);
 			tlb.setImages(lineImageArray[i], lineImageSelectedArray[i], trainLines[i]);
 			tlb.setOnClickListener(new View.OnClickListener() {
 				
 				public void onClick(View v) {
 					
-					TrainLineButton tb = (TrainLineButton) v;
+					SelectSubwayButton tb = (SelectSubwayButton) v;
 					
 					if(tb.selected)
 					{
