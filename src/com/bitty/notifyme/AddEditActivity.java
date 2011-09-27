@@ -1,7 +1,6 @@
 package com.bitty.notifyme;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import android.app.Activity;
@@ -14,7 +13,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 public class AddEditActivity extends Activity
@@ -30,9 +28,8 @@ public class AddEditActivity extends Activity
 	private ImageView trainsCheck, daysCheck;
 
 	public List<String> trainLinesArray = new ArrayList<String>();
-	public List<String> daysArray = new ArrayList<String>();
-	
-	String[] test = {"3", "4"};
+	//public List<String> daysArray = new ArrayList<String>();
+	public List<Integer> daysSelectedArr = new ArrayList<Integer>();
 		
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -132,8 +129,8 @@ public class AddEditActivity extends Activity
 	private void makeDaysPopup()
 	{
 		daysDialog = new SelectDayDialog(this);
-		if (daysArray.size() > 0)
-			daysDialog.setAlreadyChecked(daysArray);
+		if (daysSelectedArr.size() > 0)
+			daysDialog.setAlreadyChecked(daysSelectedArr);
 
 		daysDialog.show();
 		daysDialog.saveButton.setOnClickListener(new View.OnClickListener()
@@ -141,8 +138,8 @@ public class AddEditActivity extends Activity
 
 			public void onClick(View v)
 			{
-				daysArray = daysDialog.getCheckedDaysArray();
-				if (daysArray.size() > 0)
+				daysSelectedArr = daysDialog.getCheckedDaysArray();
+				if (daysSelectedArr.size() > 0)
 				{
 					daysCheck.setImageResource(R.drawable.check);
 					if (trainLinesArray.size() > 0)
@@ -161,16 +158,12 @@ public class AddEditActivity extends Activity
 	private void saveState()
 	{
 		Log.w(TAG, "saveState");
-		
-		/*
-		Calendar calendar = Calendar.getInstance();
-		calendar.set(Calendar.HOUR_OF_DAY, timePicker.getCurrentHour());
-		calendar.set(Calendar.MINUTE, timePicker.getCurrentMinute());
-		 */
-		
+
+		ReminderManager reminderMgr = new ReminderManager(getApplicationContext());
 		int hour = timePicker.getCurrentHour();
 		int minute = timePicker.getCurrentMinute();
 
+		/*
 		Resources res = this.getResources();
 		String[] days = res.getStringArray(R.array.days_array);
 		List<String> daysPositionArray = new ArrayList<String>();
@@ -179,17 +172,16 @@ public class AddEditActivity extends Activity
 		{
 			daysPositionArray.add(days[h]);
 		}
-
-		// send off to database!
-
-		ReminderManager reminderMgr = new ReminderManager(getApplicationContext());
+		*/
 
 		// set alerts for each day in the day array
-		
-		for (int i = 0; i < daysArray.size(); i++)
+		for (int i = 0; i < daysSelectedArr.size(); i++)
 		{
-			reminderMgr.setReminder(hour, minute, daysPositionArray.indexOf(daysArray.get(i)) + 1);
-			Log.w(TAG, "day = "+daysArray.get(i) + " day int = "+daysPositionArray.indexOf(daysArray.get(i)) + 1);
+			//reminderMgr.setReminder(hour, minute, daysPositionArray.indexOf(daysArray.get(i)) + 1);
+			//insert to database!
+			int alarmID = 0;
+			reminderMgr.setReminder(hour, minute, daysSelectedArr.get(i), alarmID);
+			//Log.w(TAG, "day = "+ daysSelectedArr.get(i));
 		}
 	}
 }
