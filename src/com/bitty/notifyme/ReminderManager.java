@@ -41,7 +41,7 @@ public class ReminderManager {
 		 {
 			 if(day > calendar.get(Calendar.DAY_OF_WEEK))
 			 {
-				 calendar.add(Calendar.DAY_OF_MONTH, day - calendar.get(Calendar.DAY_OF_WEEK));
+				 calendar.add(Calendar.DAY_OF_YEAR, day - calendar.get(Calendar.DAY_OF_WEEK));
 			 }
 
 			 if(day < calendar.get(Calendar.DAY_OF_WEEK))
@@ -49,7 +49,7 @@ public class ReminderManager {
 				 calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
 				 if(day > 1)
 				 {
-					 calendar.add(Calendar.DAY_OF_MONTH, 7 - (calendar.get(Calendar.DAY_OF_WEEK) - day));
+					 calendar.add(Calendar.DAY_OF_YEAR, 7 - (calendar.get(Calendar.DAY_OF_WEEK) - day));
 				 }
 			 }
 		 } else {

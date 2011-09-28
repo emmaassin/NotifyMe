@@ -15,6 +15,7 @@
     <string name="edit_button">EDIT</string>
     <string name="ok_button">OK</string>
     <string name="home_button">HOME</string>
+    <string name="return_home_button">RETURN HOME</string>
     <string name="train_prompt">Choose a train line</string>
     <string name="notification_saved_message">Your Notification has been saved.</string>
     <string name="notification_cancel_message">No Notifications were saved.</string>

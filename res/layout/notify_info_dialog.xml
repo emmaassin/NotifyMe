@@ -1,42 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="fill_parent"
   android:layout_height="fill_parent"
-  android:orientation="vertical"
-  android:gravity="center"
-  android:layout_margin="10dip"
-  android:background="#969796">
+  android:background="#ececec">
   <LinearLayout
-  	android:orientation="horizontal"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:orientation="vertical">
+    <LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="48dip"
+    android:orientation="horizontal"
+    android:background="@drawable/backrepeat">
+    <TextView
+    android:id="@+id/day_text"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textColor="#ffffff"
+    android:textSize="21dip"
+    android:paddingTop="13dip"
+    android:paddingLeft="14dip"
+    />
+    </LinearLayout>
+	<ScrollView
 	android:layout_width="fill_parent"
-  	android:layout_height="wrap_content"
-  	android:layout_margin="5dip"
-  	android:layout_gravity="center_horizontal">
-	  	<Button
-	  	android:id="@+id/edit_button"
-	  	android:layout_width="fill_parent"
-	  	android:layout_height="wrap_content"
-	  	android:layout_weight="1"
-	  	android:text="@string/edit_button"
-	  	/>
-	  	<Button
-	  	android:id="@+id/delete_button"
-	  	android:layout_width="fill_parent"
-	  	android:layout_height="wrap_content"
-	  	android:layout_weight="1"
-	  	android:text="@string/delete_button"
-	  	/>
-	</LinearLayout>
-	<ListView
+	android:layout_height="fill_parent">
+	<LinearLayout
 	android:id="@+id/notification_list"
 	android:layout_width="fill_parent"
-	android:layout_height="250dip">
-	</ListView>
-	<Button
-	android:id="@+id/cancel_button"
-	android:layout_width="fill_parent"
 	android:layout_height="wrap_content"
-	android:text="@string/cancel_button"
-	/>
-</LinearLayout>
+	android:orientation="vertical">
+	</LinearLayout>
+	</ScrollView>
+	</LinearLayout>
+	<Button
+	android:id="@+id/return_home_btn"
+    android:layout_width="fill_parent"
+    android:layout_height="75dip"
+    android:background="#3e3e3e"
+    android:layout_gravity="bottom"
+    android:text="@string/return_home_button"
+    android:textColor="#ececec"
+    android:textSize="23dip"
+    />
+</FrameLayout>
