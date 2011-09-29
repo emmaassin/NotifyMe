@@ -144,6 +144,8 @@ public class MainActivity extends Activity
 		if (daybox.notifications > 0)
 		{
 			notificationChooser = new NotifyInfoDialog(this);
+			notificationChooser.passInData(daybox.dayOfWeek);
+			// need to pass in all the data for that day of the week - TO DO!
 			notificationChooser.show();
 		}
 	}

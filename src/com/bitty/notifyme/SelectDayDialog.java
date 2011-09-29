@@ -30,7 +30,7 @@ public class SelectDayDialog extends Dialog
 
 	public SelectDayDialog(Context context)
 	{
-		super(context);
+		super(context, R.style.FullscreenDialogTheme);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.day_select_dialog);
 

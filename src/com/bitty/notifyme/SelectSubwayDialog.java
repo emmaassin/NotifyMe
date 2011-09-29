@@ -30,7 +30,7 @@ public class SelectSubwayDialog extends Dialog
 
 	public SelectSubwayDialog(Context context)
 	{
-		super(context);
+		super(context, R.style.FullscreenDialogTheme);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.train_select_dialog);
 		
