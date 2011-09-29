@@ -1,5 +1,8 @@
 package com.bitty.notifyme;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,25 +21,29 @@ import android.widget.Toast;
 public class AddEditActivity extends Activity
 {
 	private static final String TAG = "AddEditActivity";
-	
+
 	private TextView title, trainsText, daysText, title2;
-	private LinearLayout linesButton, daysButton;
+	private LinearLayout subwayButton, daysButton;
 	private TimeChooser timePicker;
 	private Button saveButton, cancelButton;
 	private SelectDayDialog daysDialog;
-	private SelectSubwayDialog linesDialog;
+	private SelectSubwayDialog subwayDialog;
 	private ImageView trainsCheck, daysCheck;
 
-	public List<String> subwayLinesSelected = new ArrayList<String>();
-	//public List<String> daysArray = new ArrayList<String>();
+	public List<String> subwaySelected = new ArrayList<String>();
 	public List<Integer> daysSelectedArr = new ArrayList<Integer>();
-		
+	
+	private NotifyMeDBAdapter notifyDBAdapter;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.editscreen);
 		
+		notifyDBAdapter = new NotifyMeDBAdapter(this);
+		notifyDBAdapter.open();
+
 		title = (TextView) findViewById(R.id.edit_title1);
 		Typeface font = Typeface.createFromAsset(this.getAssets(), "fonts/VarelaRound-Regular.ttf");
 		title.setTypeface(font);
@@ -53,12 +60,12 @@ public class AddEditActivity extends Activity
 
 		timePicker = (TimeChooser) findViewById(R.id.time_picker);
 		timePicker.initComponent(getApplicationContext());
-		
+
 		saveButton = (Button) findViewById(R.id.save_button);
 		saveButton.setTypeface(font2);
 		cancelButton = (Button) findViewById(R.id.cancel_button);
 		cancelButton.setTypeface(font2);
-		linesButton = (LinearLayout) findViewById(R.id.trains);
+		subwayButton = (LinearLayout) findViewById(R.id.trains);
 		daysButton = (LinearLayout) findViewById(R.id.days);
 
 		saveButton.setEnabled(true);
@@ -68,8 +75,9 @@ public class AddEditActivity extends Activity
 			{
 				saveState();
 				setResult(RESULT_OK);
-				Toast.makeText(AddEditActivity.this, getString(R.string.notification_saved_message),
-						Toast.LENGTH_SHORT).show();
+				Toast
+						.makeText(AddEditActivity.this, getString(R.string.notification_saved_message),
+								Toast.LENGTH_SHORT).show();
 				finish();
 			}
 		});
@@ -88,32 +96,65 @@ public class AddEditActivity extends Activity
 		{
 			public void onClick(View v)
 			{
-				makeDaysPopup();
+				createDaysPopup();
 			}
 		});
 
-		linesButton.setOnClickListener(new View.OnClickListener()
+		subwayButton.setOnClickListener(new View.OnClickListener()
 		{
 			public void onClick(View v)
 			{
-				makeLinesPopup();
+				createSubwayPopUp();
 			}
 		});
 	}
 
-	private void makeLinesPopup()
-	{
-		linesDialog = new SelectSubwayDialog(this);
-		if (subwayLinesSelected.size() > 0)
-			linesDialog.setAlreadyChecked(subwayLinesSelected);
+	@Override
+	protected void onStart() {
+		//Log.w(TAG, "onStart");
+		super.onStart();
+	}
 
-		linesDialog.show();
-		linesDialog.saveButton.setOnClickListener(new View.OnClickListener()
+	@Override
+	protected void onResume() {
+		//Log.w(TAG, "onResume");
+		super.onResume();
+	}
+
+	@Override
+	protected void onPause() {
+		//Log.w(TAG, "onPause");
+		super.onPause();
+	}
+
+	@Override
+	protected void onStop() {
+		//Log.w(TAG, "onStop");
+		super.onStop();
+	}
+	
+	
+	@Override
+	protected void onDestroy()
+	{
+		super.onDestroy();
+		//close DB
+		notifyDBAdapter.close();
+	}
+	
+	private void createSubwayPopUp()
+	{
+		subwayDialog = new SelectSubwayDialog(this);
+		if (subwaySelected.size() > 0)
+			subwayDialog.setAlreadyChecked(subwaySelected);
+
+		subwayDialog.show();
+		subwayDialog.saveButton.setOnClickListener(new View.OnClickListener()
 		{
 			public void onClick(View v)
 			{
-				subwayLinesSelected = linesDialog.getCheckedLinessArray();
-				if (subwayLinesSelected.size() > 0)
+				subwaySelected = subwayDialog.getCheckedLinessArray();
+				if (subwaySelected.size() > 0)
 				{
 					trainsCheck.setImageResource(R.drawable.check);
 				} else
@@ -121,12 +162,12 @@ public class AddEditActivity extends Activity
 					trainsCheck.setImageResource(R.drawable.add);
 					saveButton.setEnabled(false);
 				}
-				linesDialog.cancel();
+				subwayDialog.cancel();
 			}
 		});
 	}
 
-	private void makeDaysPopup()
+	private void createDaysPopup()
 	{
 		daysDialog = new SelectDayDialog(this);
 		if (daysSelectedArr.size() > 0)
@@ -142,7 +183,7 @@ public class AddEditActivity extends Activity
 				if (daysSelectedArr.size() > 0)
 				{
 					daysCheck.setImageResource(R.drawable.check);
-					if (subwayLinesSelected.size() > 0)
+					if (subwaySelected.size() > 0)
 					{
 						saveButton.setEnabled(true);
 					}
@@ -163,26 +204,18 @@ public class AddEditActivity extends Activity
 		int hour = timePicker.getCurrentHour();
 		int minute = timePicker.getCurrentMinute();
 
-		/*
-		Resources res = this.getResources();
-		String[] days = res.getStringArray(R.array.days_array);
-		List<String> daysPositionArray = new ArrayList<String>();
-
-		for (int h = 0; h < days.length; h++)
-		{
-			daysPositionArray.add(days[h]);
-		}
-		*/
-
+		
 		// set alerts for each day in the day array
 		for (int i = 0; i < daysSelectedArr.size(); i++)
 		{
-			//reminderMgr.setReminder(hour, minute, daysPositionArray.indexOf(daysArray.get(i)) + 1);
-			//insert to database and serialize subway lines array
-			
+			// reminderMgr.setReminder(hour, minute,
+			// daysPositionArray.indexOf(daysArray.get(i)) + 1);
+			// insert to database and serialize subway lines array
+
+
 			int alarmID = 0;
 			reminderMgr.setReminder(hour, minute, daysSelectedArr.get(i), alarmID);
-			//Log.w(TAG, "day = "+ daysSelectedArr.get(i));
+			// Log.w(TAG, "day = "+ daysSelectedArr.get(i));
 		}
 	}
 }

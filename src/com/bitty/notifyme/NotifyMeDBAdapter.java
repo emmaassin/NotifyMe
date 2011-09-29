@@ -1,6 +1,11 @@
 package com.bitty.notifyme;
 
-import java.util.Date;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -22,7 +27,7 @@ public class NotifyMeDBAdapter
 
 	public static final String KEY_ID = "_id";
 	public static final String KEY_NOTIFY_DAY= "day";
-	public static final String KEY_NOTIFY_LINES = "lines";
+	public static final String KEY_NOTIFY_SUBWAYS = "subways";
 	public static final String KEY_NOTIFY_HOUR = "hour";
 	public static final String KEY_NOTIFY_MINUTES = "minutes";
 
@@ -53,7 +58,23 @@ public class NotifyMeDBAdapter
 		// Create a new row of values to insert
 		ContentValues newTaskValues = new ContentValues();
 		// Assign values for each row
-		newTaskValues.put(KEY_NOTIFY_LINES, _notify.getLines());
+		
+		// serialize subwaySelected
+		String subwaySerialized = "subway.ser";
+		FileOutputStream fos = null;
+		ObjectOutputStream out = null;
+		try
+		{
+			fos = new FileOutputStream(subwaySerialized);
+			out = new ObjectOutputStream(fos);
+			out.writeObject(_notify.getSubways());
+			out.close();
+		} catch (IOException ex)
+		{
+			ex.printStackTrace();
+		}
+
+		newTaskValues.put(KEY_NOTIFY_SUBWAYS, subwaySerialized);
 		newTaskValues.put(KEY_NOTIFY_DAY, _notify.getDay());
 		newTaskValues.put(KEY_NOTIFY_HOUR, _notify.getHour());
 		newTaskValues.put(KEY_NOTIFY_MINUTES, _notify.getMinutes());
@@ -67,7 +88,7 @@ public class NotifyMeDBAdapter
 		return db.delete(DATABASE_TABLE, KEY_ID + "=" + _rowIndex, null) > 0;
 	}
 
-	// Update a task
+	// Update a task TODO:USE OBJECT NOT JUST STRING
 	public boolean updateTask(long _rowIndex, String _notify) {
 		ContentValues newValue = new ContentValues();
 		newValue.put(KEY_NOTIFY_DAY, _notify);
@@ -76,12 +97,12 @@ public class NotifyMeDBAdapter
 
 	public Cursor getAllNotifyItemsCursor() {
 		return db.query(DATABASE_TABLE,
-				new String[] { KEY_ID, KEY_NOTIFY_DAY, KEY_NOTIFY_HOUR, KEY_NOTIFY_LINES }, null, null, null, null,
+				new String[] { KEY_ID, KEY_NOTIFY_DAY, KEY_NOTIFY_HOUR, KEY_NOTIFY_SUBWAYS }, null, null, null, null,
 				null);
 	}
 
 	public Cursor setCursorNotifyItem(long _rowIndex) throws SQLException {
-		Cursor result = db.query(true, DATABASE_TABLE, new String[] { KEY_ID, KEY_NOTIFY_HOUR, KEY_NOTIFY_DAY, KEY_NOTIFY_LINES},
+		Cursor result = db.query(true, DATABASE_TABLE, new String[] { KEY_ID, KEY_NOTIFY_HOUR, KEY_NOTIFY_DAY, KEY_NOTIFY_SUBWAYS},
 				KEY_ID + "=" + _rowIndex, null, null, null, null, null);
 
 		// Checks if row exits
@@ -92,19 +113,38 @@ public class NotifyMeDBAdapter
 	}
 
 	public NotifyMeItem getNotifyItem(long _rowIndex) throws SQLException {
-		Cursor cursor = db.query(true, DATABASE_TABLE, new String[] { KEY_ID, KEY_NOTIFY_LINES, KEY_NOTIFY_DAY, KEY_NOTIFY_HOUR, KEY_NOTIFY_MINUTES},
+		Cursor cursor = db.query(true, DATABASE_TABLE, new String[] { KEY_ID, KEY_NOTIFY_SUBWAYS, KEY_NOTIFY_DAY, KEY_NOTIFY_HOUR, KEY_NOTIFY_MINUTES},
 				KEY_ID + "=" + _rowIndex, null, null, null, null, null);
 
 		if ((cursor.getCount() == 0) || !cursor.moveToFirst()) {
 			throw new SQLException("No to do item found for row: " + _rowIndex);
 		}
 
-		String lines = cursor.getString(cursor.getColumnIndex(KEY_NOTIFY_LINES));
+		String subwaySerialized = cursor.getString(cursor.getColumnIndex(KEY_NOTIFY_SUBWAYS));
 		int day = cursor.getInt(cursor.getColumnIndex(KEY_NOTIFY_DAY));
 		int hour = cursor.getInt(cursor.getColumnIndex(KEY_NOTIFY_HOUR));
 		int minutes = cursor.getInt(cursor.getColumnIndex(KEY_NOTIFY_MINUTES));
 
-		NotifyMeItem result = new NotifyMeItem(lines, day, hour, minutes);
+		ArrayList<String> subways = null;
+		FileInputStream fis = null;
+		ObjectInputStream in = null;
+		try
+		{
+		fis = new FileInputStream(subwaySerialized);
+		in = new ObjectInputStream(fis);
+		subways = (ArrayList<String>)in.readObject();
+		in.close();
+		}
+		catch(IOException ex)
+		{
+		ex.printStackTrace();
+		}
+		catch(ClassNotFoundException ex)
+		{
+		ex.printStackTrace();
+		}
+		
+		NotifyMeItem result = new NotifyMeItem(subways, day, hour, minutes);
 		return result;
 	}
 
@@ -119,13 +159,13 @@ public class NotifyMeDBAdapter
 		public notifyDBOpenHelper(Context context, String name, CursorFactory factory,
 				int version) {
 			super(context, name, factory, version);
-			Log.w(TAG, "Create DB");
+			Log.w(TAG, "DB Contructor");
 		}
 
 		// SQL Statement to create a new database
 		private static final String DATABASE_CREATE = "create table " + DATABASE_TABLE
 				+ " (" + KEY_ID + " integer primary key autoincrement, " + KEY_NOTIFY_DAY
-				+ " int, " + KEY_NOTIFY_LINES + " text not null, " 
+				+ " int, " + KEY_NOTIFY_SUBWAYS + " text not null, " 
 				+ KEY_NOTIFY_HOUR + " int, " + KEY_NOTIFY_MINUTES + " int);";
 
 		@Override

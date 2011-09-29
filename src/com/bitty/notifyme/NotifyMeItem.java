@@ -1,16 +1,18 @@
 package com.bitty.notifyme;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class NotifyMeItem
 {
-	String lines;
+	private List<String> subways;
 	int day;
 	int hour;
 	int minutes;
 	
-	public String getLines() {
-		return lines;
+	public List<String> getSubways() {
+		return subways;
 	}
 
 	public int getDay() {
@@ -25,8 +27,8 @@ public class NotifyMeItem
 		return minutes;
 	}
 
-	public NotifyMeItem(String _lines, int _day, int _hour, int _minutes) {
-		lines = _lines;
+	public NotifyMeItem(ArrayList<String> _subways, int _day, int _hour, int _minutes) {
+		subways = _subways;
 		day = _day;
 		hour = _hour;
 		minutes = _minutes;
