@@ -11,16 +11,13 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class SelectSubwayDialog extends Dialog
 {
-
+	private static final String TAG = "SelectSubwayDialog";
+	
 	private TextView dialogText;
 	private LinearLayout subwayLinesHolder;
 	public Button saveButton;
@@ -93,11 +90,7 @@ public class SelectSubwayDialog extends Dialog
 		for (int i = 0; i < lineButtonArray.size(); i++)
 		{
 			if (trainLinesArray.contains(lineButtonArray.get(i).id))
-			{
 				lineButtonArray.get(i).setSelected();
-			}
 		}
-
 	}
-
 }

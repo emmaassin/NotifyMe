@@ -27,7 +27,7 @@ public class AddEditActivity extends Activity
 	private SelectSubwayDialog linesDialog;
 	private ImageView trainsCheck, daysCheck;
 
-	public List<String> trainLinesArray = new ArrayList<String>();
+	public List<String> subwayLinesSelected = new ArrayList<String>();
 	//public List<String> daysArray = new ArrayList<String>();
 	public List<Integer> daysSelectedArr = new ArrayList<Integer>();
 		
@@ -104,16 +104,16 @@ public class AddEditActivity extends Activity
 	private void makeLinesPopup()
 	{
 		linesDialog = new SelectSubwayDialog(this);
-		if (trainLinesArray.size() > 0)
-			linesDialog.setAlreadyChecked(trainLinesArray);
+		if (subwayLinesSelected.size() > 0)
+			linesDialog.setAlreadyChecked(subwayLinesSelected);
 
 		linesDialog.show();
 		linesDialog.saveButton.setOnClickListener(new View.OnClickListener()
 		{
 			public void onClick(View v)
 			{
-				trainLinesArray = linesDialog.getCheckedLinessArray();
-				if (trainLinesArray.size() > 0)
+				subwayLinesSelected = linesDialog.getCheckedLinessArray();
+				if (subwayLinesSelected.size() > 0)
 				{
 					trainsCheck.setImageResource(R.drawable.check);
 				} else
@@ -142,7 +142,7 @@ public class AddEditActivity extends Activity
 				if (daysSelectedArr.size() > 0)
 				{
 					daysCheck.setImageResource(R.drawable.check);
-					if (trainLinesArray.size() > 0)
+					if (subwayLinesSelected.size() > 0)
 					{
 						saveButton.setEnabled(true);
 					}
@@ -178,7 +178,8 @@ public class AddEditActivity extends Activity
 		for (int i = 0; i < daysSelectedArr.size(); i++)
 		{
 			//reminderMgr.setReminder(hour, minute, daysPositionArray.indexOf(daysArray.get(i)) + 1);
-			//insert to database!
+			//insert to database and serialize subway lines array
+			
 			int alarmID = 0;
 			reminderMgr.setReminder(hour, minute, daysSelectedArr.get(i), alarmID);
 			//Log.w(TAG, "day = "+ daysSelectedArr.get(i));
