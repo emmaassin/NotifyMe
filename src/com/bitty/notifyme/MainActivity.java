@@ -41,8 +41,12 @@ public class MainActivity extends Activity
 
 		//"NotifyMe title text
 		TextView titleText = (TextView) findViewById(R.id.title);
+		TextView infoHeader = (TextView) findViewById(R.id.info_header);
+		TextView infoBody = (TextView) findViewById(R.id.info_body);
 		Typeface font = Typeface.createFromAsset(getAssets(), "fonts/VarelaRound-Regular.ttf");
 		titleText.setTypeface(font);
+		infoHeader.setTypeface(font);
+		infoBody.setTypeface(font);
 
 		createAddNotifyBtn();
 		
@@ -106,9 +110,9 @@ public class MainActivity extends Activity
 	//and parse to arrays by day
 	private void populateNotifyList()
 	{
-		notifyCursor = notifyDBAdapter.getAllNotifyItemsCursor();
-		startManagingCursor(notifyCursor);
-		notifyCursor.requery();
+		//notifyCursor = notifyDBAdapter.getAllNotifyItemsCursor();
+		//startManagingCursor(notifyCursor);
+		//notifyCursor.requery();
 		
 		Resources res = this.getResources();
 		String[] days = res.getStringArray(R.array.days_array);

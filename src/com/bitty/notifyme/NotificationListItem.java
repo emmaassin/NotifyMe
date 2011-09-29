@@ -54,6 +54,9 @@ public class NotificationListItem extends RelativeLayout
 		ImageView img = new ImageView(mContext);
 		img.setImageResource(R.drawable.line_123);
 		linesImagesHolder.addView(img);
+		ImageView img2 = new ImageView(mContext);
+		img2.setImageResource(R.drawable.line_nqr);
+		linesImagesHolder.addView(img2);
 		
 		if(hr < 12)
 		{

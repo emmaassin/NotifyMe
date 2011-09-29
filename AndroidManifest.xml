@@ -11,16 +11,19 @@
 	   android:name="android.permission.WRITE_CALENDAR">
 	</uses-permission>
 
-    <application android:icon="@drawable/icon" android:label="@string/app_name" android:theme="@android:style/Theme.NoTitleBar" android:screenOrientation="portrait">
+    <application android:icon="@drawable/icon" android:label="@string/app_name" android:theme="@android:style/Theme.NoTitleBar">
         <activity android:name="MainActivity"
-                  android:label="@string/app_name">
+                  android:label="@string/app_name"
+                  android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="AddEditActivity"></activity>
-        <activity android:name="DelayInfoActivity"></activity>
+        <activity android:name="AddEditActivity"
+        android:screenOrientation="portrait"></activity>
+        <activity android:name="DelayInfoActivity"
+        android:screenOrientation="portrait"></activity>
         
         <receiver android:name=".OnBootReceiver">
 		<intent-filter>
