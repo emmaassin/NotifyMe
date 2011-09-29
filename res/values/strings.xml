@@ -26,15 +26,15 @@
     <string name="saturday">SATURDAY</string>
     <string name="sunday">SUNDAY</string>
     <string-array name="trains_array">
-        <item>1,2,3</item>
-        <item>4,5,6</item>
+        <item>123</item>
+        <item>456</item>
         <item>7</item>
-        <item>A,C,E</item>
-        <item>B,D,F,M</item>
+        <item>ACE</item>
+        <item>BDFM</item>
         <item>G</item>
-        <item>J,Z</item>
+        <item>JZ</item>
         <item>L</item>
-        <item>N,Q,R</item>
+        <item>NQR</item>
         <item>S</item>
         <item>SIR</item>
     </string-array>  
