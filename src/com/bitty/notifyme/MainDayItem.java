@@ -1,7 +1,6 @@
 package com.bitty.notifyme;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +10,9 @@ import android.widget.TextView;
 
 public class MainDayItem extends FrameLayout
 {
-
-	public int notifications = 1;
-	public String dayOfWeek;
+	public int notifyCount;
+	public int dayIntValue;
+	public String dayName;
 
 	private TextView boxText;
 	private TextView howMany;
@@ -38,23 +37,21 @@ public class MainDayItem extends FrameLayout
 		box = (FrameLayout) findViewById(R.id.box);
 	}
 
-	public void init(String day)
+	public void init(String _dayName, int _dayIntValue, int _notifyCount)
 	{
-		boxText.setText(day);
-		dayOfWeek = day;
-		if (day == "SUNDAY")
-		{
-			line.setVisibility(GONE);
-		}
-
+		dayName = _dayName;
+		dayIntValue = _dayIntValue;
+		notifyCount = _notifyCount;
+		
+		boxText.setText(_dayName);
+		
 		// for now... but we need to grab this from the database
-
 		displaySetNotifications();
 	}
 
 	public void displaySetNotifications()
 	{
-		if (notifications > 0)
+		if (notifyCount > 0)
 		{
 			someNotifications();
 		} else
@@ -65,7 +62,7 @@ public class MainDayItem extends FrameLayout
 
 	private void someNotifications()
 	{
-		howMany.setText(String.valueOf(notifications));
+		howMany.setText(String.valueOf(notifyCount));
 		notificationDisplay.setVisibility(VISIBLE);
 		box.setBackgroundColor(0xffececec);
 	}

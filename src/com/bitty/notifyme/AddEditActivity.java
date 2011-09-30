@@ -208,13 +208,12 @@ public class AddEditActivity extends Activity
 		// set alerts for each day in the day array
 		for (int i = 0; i < daysSelectedArr.size(); i++)
 		{
-			// reminderMgr.setReminder(hour, minute,
-			// daysPositionArray.indexOf(daysArray.get(i)) + 1);
 			// insert to database and serialize subway lines array
-
-
-			int alarmID = 0;
-			reminderMgr.setReminder(hour, minute, daysSelectedArr.get(i), alarmID);
+			int daySelected = daysSelectedArr.get(i);
+			NotifyMeItem item = new NotifyMeItem(subwaySelected, daySelected , hour, minute);
+			long alarmID = notifyDBAdapter.insertTask(item);
+			
+			reminderMgr.setReminder(hour, minute, daySelected, alarmID);
 			// Log.w(TAG, "day = "+ daysSelectedArr.get(i));
 		}
 	}

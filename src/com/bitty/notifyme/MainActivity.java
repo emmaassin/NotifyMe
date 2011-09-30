@@ -22,16 +22,26 @@ public class MainActivity extends Activity
 	private static final int ACTIVITY_CREATE = 0;
 	private static final int ACTIVITY_EDIT = 1;
 	
+	//These days represent the calendar ids for each day
+	private static final int MONDAY = 2;
+	private static final int TUESDAY = 3;
+	private static final int WEDNESDAY = 4;
+	private static final int THURSDAY= 5;
+	private static final int FRIDAY = 6;
+	private static final int SATURDAY = 7;
+	private static final int SUNDAY = 1;
+	
+	private int[] dayInts = {MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY};
+	
 	private MainDayItem mondayBox, tuesdayBox, wednesdayBox, thursdayBox, fridayBox, saturdayBox, sundayBox;
 	private MainDayItem[] dayBoxArray = { mondayBox, tuesdayBox, wednesdayBox, thursdayBox, fridayBox, saturdayBox,
 			sundayBox };
-	private List<String> dayOfWeekArray = new ArrayList<String>();
 	private LinearLayout holder;
 	private LinearLayout addNotificationButton;
 	private TextView addText;
 	private NotifyInfoDialog notificationChooser;
 	
-	private NotifyMeDBAdapter notifyDBAdapter;
+	private NotifyMeDBAdapter notifyDB;
 	private Cursor notifyCursor;
 
 	public void onCreate(Bundle savedInstanceState)
@@ -46,10 +56,14 @@ public class MainActivity extends Activity
 
 		createAddNotifyBtn();
 		
-		notifyDBAdapter = new NotifyMeDBAdapter(this);
-		notifyDBAdapter.open();
-		populateNotifyList();
+		holder = (LinearLayout) findViewById(R.id.days_holder);
+
+		notifyDB = new NotifyMeDBAdapter(this);
+		notifyDB.open();
+		notifyCursor = notifyDB.getAllNotifyItemsCursor();
+		startManagingCursor(notifyCursor);
 		
+		//populateNotifyList();
 	}
 	
 	@Override
@@ -62,6 +76,7 @@ public class MainActivity extends Activity
 	protected void onResume() {
 		Log.w(TAG, "onResume");
 		super.onResume();
+		populateNotifyList();
 	}
 
 	@Override
@@ -83,7 +98,7 @@ public class MainActivity extends Activity
 		super.onDestroy();
 		
 		//close DB
-		notifyDBAdapter.close();
+		notifyDB.close();
 	}
 	
 	private void createAddNotifyBtn()
@@ -106,34 +121,29 @@ public class MainActivity extends Activity
 	//and parse to arrays by day
 	private void populateNotifyList()
 	{
-		notifyCursor = notifyDBAdapter.getAllNotifyItemsCursor();
-		startManagingCursor(notifyCursor);
+
 		notifyCursor.requery();
 		
 		Resources res = this.getResources();
 		String[] days = res.getStringArray(R.array.days_array);
 
-		for (int i = 1; i < days.length; i++)
-		{
-			dayOfWeekArray.add(days[i]);
-		}
-
-		dayOfWeekArray.add(days[0]);
-
-		holder = (LinearLayout) findViewById(R.id.days_holder);
-
+		if(holder.getChildCount() > 0)
+			holder.removeAllViews();
+		
 		for (int i = 0; i < dayBoxArray.length; i++)
 		{
+			int dayCount = notifyDB.getDayCount(dayInts[i]);
+			
 			dayBoxArray[i] = new MainDayItem(this);
-			dayBoxArray[i].init(dayOfWeekArray.get(i).toUpperCase());
+			dayBoxArray[i].init(days[i].toUpperCase(), dayInts[i], dayCount);
 
 			holder.addView(dayBoxArray[i]);
 
 			dayBoxArray[i].setOnClickListener(new OnClickListener()
 			{
-				public void onClick(View arg0)
+				public void onClick(View view)
 				{
-					handleDayBoxClick((MainDayItem) arg0);
+					handleDayBoxClick((MainDayItem) view);
 				}
 			});
 		}
@@ -141,10 +151,10 @@ public class MainActivity extends Activity
 	
 	private void handleDayBoxClick(MainDayItem daybox)
 	{
-		if (daybox.notifications > 0)
+		if (daybox.notifyCount > 0)
 		{
 			notificationChooser = new NotifyInfoDialog(this);
-			notificationChooser.passInData(daybox.dayOfWeek);
+			notificationChooser.passInData(daybox.dayName);
 			// need to pass in all the data for that day of the week - TO DO!
 			notificationChooser.show();
 		}

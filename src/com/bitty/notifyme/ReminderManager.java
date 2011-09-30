@@ -20,7 +20,7 @@ public class ReminderManager {
 		alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 	}
 	
-	public void setReminder(int hour, int minute, int day, int alarmID)
+	public void setReminder(int hour, int minute, int day, long alarmID)
 	{
 		Log.w(TAG, "setReminder DAY =" + day);
 		
@@ -28,7 +28,7 @@ public class ReminderManager {
 		 // alarm Id needs to be a reference to the database line for this notification
 		 intent.putExtra("alarm_id", alarmID);	
 		 
-		 PendingIntent sender = PendingIntent.getBroadcast(context, alarmID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+		 PendingIntent sender = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 		 Calendar calendar = Calendar.getInstance();
 		 calendar.set(Calendar.HOUR_OF_DAY, hour);
 		 calendar.set(Calendar.MINUTE, minute);

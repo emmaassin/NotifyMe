@@ -26,7 +26,7 @@ import android.util.Log;
 public class ReminderService extends Service
 {
 	private static final String TAG = "ReminderIntentService";
-	private int notificationID;
+	private long notificationID;
 	private String subwayLine;
 	private CurrentStatusLookupTask lastLookup = null;
 
@@ -59,6 +59,10 @@ public class ReminderService extends Service
 
 		notificationID = intent.getExtras().getInt("alarm_id");
 		subwayLine = intent.getExtras().getString("subway_line");
+		
+		//TODO:GET DB ITEM
+		
+		
 		loadMTAFeed();
 	}
 
@@ -90,11 +94,15 @@ public class ReminderService extends Service
 		NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 		Intent notificationIntent = new Intent(this, DelayInfoActivity.class);
 		PendingIntent pi = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
+		
 		Notification notification = new Notification(R.drawable.notify_icon, "MTA DELAY!", System
 				.currentTimeMillis());
 		notification.setLatestEventInfo(this, notificationTitle, "PRESS FOR MORE INFO", pi);
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;
-		notificationManager.notify(notificationID, notification);
+		
+		//Using notification of 0 instead of notificationID
+		//not sure if it will matter 
+		notificationManager.notify(0, notification);
 	}
 
 	/*

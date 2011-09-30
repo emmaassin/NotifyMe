@@ -27,8 +27,8 @@ public class NotifyMeItem
 		return minutes;
 	}
 
-	public NotifyMeItem(ArrayList<String> _subways, int _day, int _hour, int _minutes) {
-		subways = _subways;
+	public NotifyMeItem(List<String> subwaySelected, int _day, int _hour, int _minutes) {
+		subways = subwaySelected;
 		day = _day;
 		hour = _hour;
 		minutes = _minutes;
