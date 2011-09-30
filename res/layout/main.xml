@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:panel="http://schemas.android.com/apk/res/com.bitty.notifyme"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -47,7 +48,7 @@
     android:text="@string/add_button"
     android:textColor="#ffffff"
     android:textSize="21dip"
-    android:paddingTop="13dip"
+    android:paddingTop="12dip"
     />
     </LinearLayout>
 	<LinearLayout 
@@ -64,11 +65,52 @@
     android:background="#3e3e3e"
     android:layout_gravity="bottom"
     />
-	<ImageView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:src="@drawable/infotab"
-    android:layout_gravity="right"
-    android:layout_marginRight="10dip"
-    />
+    <com.bitty.notifyme.Panel
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/topPanel"
+			android:paddingBottom="20dip"
+			panel:position="top"
+			panel:animationDuration="1000"
+			panel:linearFlying="true"
+			panel:openedHandle="@drawable/infotab_open"
+			panel:closedHandle="@drawable/infotab">
+		<Button
+			android:id="@id/panelHandle"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="right"
+			android:layout_marginRight="14dip"
+			 />
+		<LinearLayout
+			android:id="@+id/panelContent"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			android:background="#2d2d2d"
+			>
+			<TextView
+			android:id="@+id/info_header"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/info_header"
+			android:textColor="#6ec610"
+			android:textSize="32dip"
+			android:layout_marginLeft="14dip"
+			android:layout_marginTop ="10dip"
+			/>
+			<TextView
+			android:id="@+id/info_body"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/info_body"
+			android:textColor="#ececec"
+			android:textSize="15dip"
+			android:layout_marginLeft="14dip"
+			android:paddingTop="10dip"
+			android:paddingRight="14dip"
+			android:paddingBottom="30dip"
+			/>
+			</LinearLayout>
+	</com.bitty.notifyme.Panel>
 </FrameLayout>

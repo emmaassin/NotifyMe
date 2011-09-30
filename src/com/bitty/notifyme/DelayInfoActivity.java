@@ -2,6 +2,7 @@ package com.bitty.notifyme;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +21,19 @@ public class DelayInfoActivity extends Activity{
         homeBtn = (Button) findViewById(R.id.home_btn);
         delayTextView = (TextView) findViewById(R.id.delay_info_text);
         
+        TextView title = (TextView) findViewById(R.id.title);
+        TextView infoHeader = (TextView) findViewById(R.id.info_header);
+		TextView infoBody = (TextView) findViewById(R.id.info_body);
+		
+		Typeface font = Typeface.createFromAsset(getAssets(), "fonts/VarelaRound-Regular.ttf");
+		Typeface font2 = Typeface.createFromAsset(getAssets(), "fonts/DINEngschrift-Regular.ttf");
+		
+		title.setTypeface(font);
+		delayTextView.setTypeface(font);
+		infoHeader.setTypeface(font);
+		infoBody.setTypeface(font);
+        homeBtn.setTypeface(font2);
+		
         // set the text
         
         homeBtn.setOnClickListener(new View.OnClickListener() {
