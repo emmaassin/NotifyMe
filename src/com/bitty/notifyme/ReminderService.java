@@ -26,7 +26,7 @@ import android.util.Log;
 
 public class ReminderService extends Service
 {
-	private static final String TAG = "ReminderIntentService";
+	private static final String TAG = "ReminderService";
 	private long notificationID;
 	private CurrentStatusLookupTask lastLookup = null;
 
@@ -48,7 +48,6 @@ public class ReminderService extends Service
 		super.onStart(intent, startId);
 
 		notificationID = intent.getExtras().getLong("alarm_id");
-		Log.w(TAG, "NOTIFY ID SHOULD BE LONG");
 		
 		//GET DB ITEM
 		notifyDB = new NotifyMeDBAdapter(this);
@@ -79,24 +78,7 @@ public class ReminderService extends Service
 	 * "doReminderWork"); }
 	 */
 
-	/*
-	 * Only called if notification is required
-	 */
-	private void sendNotification()
-	{
-		NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-		Intent notificationIntent = new Intent(this, DelayInfoActivity.class);
-		PendingIntent pi = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
-		
-		Notification notification = new Notification(R.drawable.notify_icon, "MTA DELAY!", System
-				.currentTimeMillis());
-		notification.setLatestEventInfo(this, notificationTitle, "PRESS FOR MORE INFO", pi);
-		notification.flags |= Notification.FLAG_AUTO_CANCEL;
-		
-		//Using notification of 0 instead of notificationID
-		//not sure if it will matter 
-		notificationManager.notify(0, notification);
-	}
+
 
 	/*
 	 * This function should check if a notification should occur by comparing
@@ -122,16 +104,27 @@ public class ReminderService extends Service
 				}
 			}
 		}
-
-
-		/*
-		 * intent.putExtra("line", arr.get(0)); intent.putExtra("status",
-		 * arr.get(1)); intent.putExtra("statusTxt", arr.get(2));
-		 * intent.putExtra("date", arr.get(3)); intent.putExtra("time",
-		 * arr.get(4)); intent.putExtra("category", arr.get(5));
-		 */
 	}
 
+	/*
+	 * Only called if notification is required
+	 */
+	private void sendNotification()
+	{
+		NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+		Intent mtaInfoIntent = new Intent(this, MTAInfoActivity.class);
+		PendingIntent pi = PendingIntent.getActivity(this, 0, mtaInfoIntent, PendingIntent.FLAG_ONE_SHOT);
+		
+		Notification notification = new Notification(R.drawable.notify_icon, "MTA SOMETHING IS UP WITH:", System
+				.currentTimeMillis());
+		notification.setLatestEventInfo(this, notificationTitle, "PRESS FOR MORE INFO", pi);
+		notification.flags |= Notification.FLAG_AUTO_CANCEL;
+		
+		//Using notification of 0 instead of notificationID
+		//not sure if it will matter 
+		notificationManager.notify(0, notification);
+	}
+	
 	@Override
 	public IBinder onBind(Intent intent)
 	{

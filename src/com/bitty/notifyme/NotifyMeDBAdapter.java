@@ -105,7 +105,7 @@ public class NotifyMeDBAdapter
 	{
 		Cursor cursor = db.query(true, DATABASE_TABLE, new String[] { KEY_ID, KEY_NOTIFY_SUBWAYS, KEY_NOTIFY_DAY,
 				KEY_NOTIFY_HOUR, KEY_NOTIFY_MINUTES }, KEY_ID + "=" + _rowIndex, null, null, null, null, null);
-
+		
 		if ((cursor.getCount() == 0) || !cursor.moveToFirst())
 		{
 			throw new SQLException("No to do item found for row: " + _rowIndex);
@@ -124,6 +124,7 @@ public class NotifyMeDBAdapter
 			ObjectInputStream in = new ObjectInputStream(fis);
 			subwaysArray = (ArrayList<String>) in.readObject();
 			in.close();
+			fis.close();
 		} catch (IOException ex)
 		{
 			ex.printStackTrace();
@@ -131,8 +132,10 @@ public class NotifyMeDBAdapter
 		{
 			ex.printStackTrace();
 		}
-
+		
 		NotifyMeItem result = new NotifyMeItem(subwaysArray, day, hour, minutes, db_ID);
+		
+		cursor.close();
 		return result;
 	}
 
@@ -160,7 +163,7 @@ public class NotifyMeDBAdapter
 	{
 		Cursor result = db.query(true, DATABASE_TABLE, new String[] { KEY_ID, KEY_NOTIFY_HOUR, KEY_NOTIFY_DAY,
 				KEY_NOTIFY_SUBWAYS }, KEY_ID + "=" + _rowIndex, null, null, null, null, null);
-
+		
 		// Checks if row exits
 		if ((result.getCount() == 0) || !result.moveToFirst())
 		{

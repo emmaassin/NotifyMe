@@ -38,7 +38,7 @@ public class MainActivity extends Activity
 	private LinearLayout holder;
 	private LinearLayout addNotificationButton;
 	private TextView addText;
-	private NotifyInfoDialog notificationChooser;
+	private DailyNotificationsDialog notificationChooser;
 	
 	private NotifyMeDBAdapter notifyDB;
 
@@ -144,18 +144,18 @@ public class MainActivity extends Activity
 			{
 				public void onClick(View view)
 				{
-					handleDayBoxClick((MainDayItem) view);
+					onDayClick((MainDayItem) view);
 				}
 			});
 		}
 	}
 	
-	private void handleDayBoxClick(MainDayItem dayItem)
+	private void onDayClick(MainDayItem dayItem)
 	{
 		if (dayItem.notifyCount > 0)
 		{
 			ArrayList<NotifyMeItem> notifyItemsByDay = notifyDB.getNotifyItemsByDay(dayItem.dayDBValue, this);
-			notificationChooser = new NotifyInfoDialog(this);
+			notificationChooser = new DailyNotificationsDialog(this);
 			notificationChooser.passInData(dayItem.getDayName(), notifyItemsByDay);
 			notificationChooser.show();
 		}

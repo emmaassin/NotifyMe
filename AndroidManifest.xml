@@ -22,7 +22,7 @@
         </activity>
         <activity android:name="AddEditActivity"
         android:screenOrientation="portrait"></activity>
-        <activity android:name="DelayInfoActivity"
+        <activity android:name="MTAInfoActivity"
         android:screenOrientation="portrait"></activity>
         
         <receiver android:name=".OnBootReceiver">

@@ -45,7 +45,6 @@ public class MainDayItem extends FrameLayout
 		
 		boxText.setText(_dayName);
 		
-		// for now... but we need to grab this from the database
 		displaySetNotifications();
 	}
 
