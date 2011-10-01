@@ -7,9 +7,10 @@ import java.util.List;
 public class NotifyMeItem
 {
 	private List<String> subways;
-	int day;
-	int hour;
-	int minutes;
+	private int day;
+	private int hour;
+	private int minutes;
+	private long db_ID;
 	
 	public List<String> getSubways() {
 		return subways;
@@ -27,11 +28,23 @@ public class NotifyMeItem
 		return minutes;
 	}
 
+	public long getDB_ID() {
+		return db_ID;
+	}
+
 	public NotifyMeItem(List<String> subwaySelected, int _day, int _hour, int _minutes) {
 		subways = subwaySelected;
 		day = _day;
 		hour = _hour;
 		minutes = _minutes;
+	}
+
+	public NotifyMeItem(List<String> subwaySelected, int _day, int _hour, int _minutes, long _db_ID) {
+		subways = subwaySelected;
+		day = _day;
+		hour = _hour;
+		minutes = _minutes;
+		db_ID = _db_ID;
 	}
 	
 }

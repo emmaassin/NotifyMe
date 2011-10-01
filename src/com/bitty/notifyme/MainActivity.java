@@ -1,7 +1,6 @@
 package com.bitty.notifyme;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -31,10 +30,10 @@ public class MainActivity extends Activity
 	private static final int SATURDAY = 7;
 	private static final int SUNDAY = 1;
 	
-	private int[] dayInts = {MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY};
+	private int[] dayDBValue = {MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY};
 	
 	private MainDayItem mondayBox, tuesdayBox, wednesdayBox, thursdayBox, fridayBox, saturdayBox, sundayBox;
-	private MainDayItem[] dayBoxArray = { mondayBox, tuesdayBox, wednesdayBox, thursdayBox, fridayBox, saturdayBox,
+	private MainDayItem[] dayItemsArray = { mondayBox, tuesdayBox, wednesdayBox, thursdayBox, fridayBox, saturdayBox,
 			sundayBox };
 	private LinearLayout holder;
 	private LinearLayout addNotificationButton;
@@ -42,7 +41,6 @@ public class MainActivity extends Activity
 	private NotifyInfoDialog notificationChooser;
 	
 	private NotifyMeDBAdapter notifyDB;
-	private Cursor notifyCursor;
 
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -53,6 +51,7 @@ public class MainActivity extends Activity
 		TextView titleText = (TextView) findViewById(R.id.title);
 		TextView infoHeader = (TextView) findViewById(R.id.info_header);
 		TextView infoBody = (TextView) findViewById(R.id.info_body);
+		
 		Typeface font = Typeface.createFromAsset(getAssets(), "fonts/VarelaRound-Regular.ttf");
 		titleText.setTypeface(font);
 		infoHeader.setTypeface(font);
@@ -64,15 +63,11 @@ public class MainActivity extends Activity
 
 		notifyDB = new NotifyMeDBAdapter(this);
 		notifyDB.open();
-		notifyCursor = notifyDB.getAllNotifyItemsCursor();
-		startManagingCursor(notifyCursor);
-		
-		//populateNotifyList();
 	}
 	
 	@Override
 	protected void onStart() {
-		Log.w(TAG, "onStart");
+		//Log.w(TAG, "onStart");
 		super.onStart();
 	}
 
@@ -80,6 +75,7 @@ public class MainActivity extends Activity
 	protected void onResume() {
 		Log.w(TAG, "onResume");
 		super.onResume();
+		notifyDB.open();
 		populateNotifyList();
 	}
 
@@ -87,12 +83,16 @@ public class MainActivity extends Activity
 	protected void onPause() {
 		Log.w(TAG, "onPause");
 		super.onPause();
+		notifyDB.close();
 	}
 
 	@Override
 	protected void onStop() {
 		Log.w(TAG, "onStop");
 		super.onStop();
+		
+		if(notifyDB.isOpen())
+			notifyDB.close();
 	}
 	
 	
@@ -125,31 +125,22 @@ public class MainActivity extends Activity
 	//and parse to arrays by day
 	private void populateNotifyList()
 	{
-<<<<<<< HEAD
-
-		notifyCursor.requery();
-=======
-		//notifyCursor = notifyDBAdapter.getAllNotifyItemsCursor();
-		//startManagingCursor(notifyCursor);
-		//notifyCursor.requery();
->>>>>>> 99ed28372959173127d94701add9a51fe8bfb038
-		
 		Resources res = this.getResources();
-		String[] days = res.getStringArray(R.array.days_array);
+		String[] dayNames = res.getStringArray(R.array.days_array);
 
 		if(holder.getChildCount() > 0)
 			holder.removeAllViews();
 		
-		for (int i = 0; i < dayBoxArray.length; i++)
+		for (int i = 0; i < dayItemsArray.length; i++)
 		{
-			int dayCount = notifyDB.getDayCount(dayInts[i]);
+			int dayCount = notifyDB.getDayCount(dayDBValue[i]);
 			
-			dayBoxArray[i] = new MainDayItem(this);
-			dayBoxArray[i].init(days[i].toUpperCase(), dayInts[i], dayCount);
+			dayItemsArray[i] = new MainDayItem(this);
+			dayItemsArray[i].init(dayNames[i].toUpperCase(), dayDBValue[i], dayCount);
 
-			holder.addView(dayBoxArray[i]);
+			holder.addView(dayItemsArray[i]);
 
-			dayBoxArray[i].setOnClickListener(new OnClickListener()
+			dayItemsArray[i].setOnClickListener(new OnClickListener()
 			{
 				public void onClick(View view)
 				{
@@ -159,13 +150,13 @@ public class MainActivity extends Activity
 		}
 	}
 	
-	private void handleDayBoxClick(MainDayItem daybox)
+	private void handleDayBoxClick(MainDayItem dayItem)
 	{
-		if (daybox.notifyCount > 0)
+		if (dayItem.notifyCount > 0)
 		{
+			ArrayList<NotifyMeItem> notifyItemsByDay = notifyDB.getNotifyItemsByDay(dayItem.dayDBValue, this);
 			notificationChooser = new NotifyInfoDialog(this);
-			notificationChooser.passInData(daybox.dayName);
-			// need to pass in all the data for that day of the week - TO DO!
+			notificationChooser.passInData(dayItem.getDayName(), notifyItemsByDay);
 			notificationChooser.show();
 		}
 	}

@@ -10,9 +10,9 @@ import android.widget.TextView;
 
 public class MainDayItem extends FrameLayout
 {
-	public int notifyCount;
-	public int dayIntValue;
-	public String dayName;
+	private String dayName; //name of day e.g. "MONDAY", "TUESDAY" etc
+	public int notifyCount; //number of notifications for the day
+	public int dayDBValue; //DB value used to pull relevant data for particular day
 
 	private TextView boxText;
 	private TextView howMany;
@@ -37,10 +37,10 @@ public class MainDayItem extends FrameLayout
 		box = (FrameLayout) findViewById(R.id.box);
 	}
 
-	public void init(String _dayName, int _dayIntValue, int _notifyCount)
+	public void init(String _dayName, int _dayDBValue, int _notifyCount)
 	{
 		dayName = _dayName;
-		dayIntValue = _dayIntValue;
+		dayDBValue = _dayDBValue;
 		notifyCount = _notifyCount;
 		
 		boxText.setText(_dayName);
@@ -49,6 +49,11 @@ public class MainDayItem extends FrameLayout
 		displaySetNotifications();
 	}
 
+	public String getDayName()
+	{
+		return dayName;
+	}
+	
 	public void displaySetNotifications()
 	{
 		if (notifyCount > 0)

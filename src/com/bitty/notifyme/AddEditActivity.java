@@ -1,13 +1,9 @@
 package com.bitty.notifyme;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
-import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,16 +29,16 @@ public class AddEditActivity extends Activity
 	public List<String> subwaySelected = new ArrayList<String>();
 	public List<Integer> daysSelectedArr = new ArrayList<Integer>();
 	
-	private NotifyMeDBAdapter notifyDBAdapter;
+	private NotifyMeDBAdapter notifyDB;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
-	{
+	{		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.editscreen);
 		
-		notifyDBAdapter = new NotifyMeDBAdapter(this);
-		notifyDBAdapter.open();
+		notifyDB = new NotifyMeDBAdapter(this);
+		
 
 		title = (TextView) findViewById(R.id.edit_title1);
 		Typeface font = Typeface.createFromAsset(this.getAssets(), "fonts/VarelaRound-Regular.ttf");
@@ -78,7 +74,7 @@ public class AddEditActivity extends Activity
 				Toast
 						.makeText(AddEditActivity.this, getString(R.string.notification_saved_message),
 								Toast.LENGTH_SHORT).show();
-				finish();
+				
 			}
 		});
 
@@ -111,26 +107,31 @@ public class AddEditActivity extends Activity
 
 	@Override
 	protected void onStart() {
-		//Log.w(TAG, "onStart");
+		Log.w(TAG, "onStart");
 		super.onStart();
 	}
 
 	@Override
 	protected void onResume() {
-		//Log.w(TAG, "onResume");
+		Log.w(TAG, "onResume");
 		super.onResume();
+		notifyDB.open();
 	}
 
 	@Override
 	protected void onPause() {
-		//Log.w(TAG, "onPause");
+		Log.w(TAG, "onPause");
 		super.onPause();
+		notifyDB.close();
 	}
 
 	@Override
 	protected void onStop() {
-		//Log.w(TAG, "onStop");
+		Log.w(TAG, "onStop");
 		super.onStop();
+		
+		if(notifyDB.isOpen())
+			notifyDB.close();
 	}
 	
 	
@@ -139,7 +140,7 @@ public class AddEditActivity extends Activity
 	{
 		super.onDestroy();
 		//close DB
-		notifyDBAdapter.close();
+		notifyDB.close();
 	}
 	
 	private void createSubwayPopUp()
@@ -198,12 +199,10 @@ public class AddEditActivity extends Activity
 
 	private void saveState()
 	{
-		Log.w(TAG, "saveState");
-
+		//Log.w(TAG, "saveState");
 		ReminderManager reminderMgr = new ReminderManager(getApplicationContext());
 		int hour = timePicker.getCurrentHour();
 		int minute = timePicker.getCurrentMinute();
-
 		
 		// set alerts for each day in the day array
 		for (int i = 0; i < daysSelectedArr.size(); i++)
@@ -211,10 +210,13 @@ public class AddEditActivity extends Activity
 			// insert to database and serialize subway lines array
 			int daySelected = daysSelectedArr.get(i);
 			NotifyMeItem item = new NotifyMeItem(subwaySelected, daySelected , hour, minute);
-			long alarmID = notifyDBAdapter.insertTask(item);
+			long alarmID = notifyDB.insertNewNotification(item, this);
 			
 			reminderMgr.setReminder(hour, minute, daySelected, alarmID);
 			// Log.w(TAG, "day = "+ daysSelectedArr.get(i));
 		}
+		
+		
+		finish();
 	}
 }

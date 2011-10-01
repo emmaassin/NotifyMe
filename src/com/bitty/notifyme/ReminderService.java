@@ -2,6 +2,7 @@ package com.bitty.notifyme;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,13 +28,14 @@ public class ReminderService extends Service
 {
 	private static final String TAG = "ReminderIntentService";
 	private long notificationID;
-	private String subwayLine;
 	private CurrentStatusLookupTask lastLookup = null;
 
 	private ArrayList<String> notificatonList = new ArrayList<String>();
-	private ArrayList<String> subwayLines = new ArrayList<String>();
+	
+	private NotifyMeDBAdapter notifyDB;
 
 	private String notificationTitle = "MTA DELAY ON THE";
+	private NotifyMeItem notifyMeItem;
 	
 	/*
 	 * public ReminderService() { super("ReminderIntentService"); }
@@ -45,23 +47,14 @@ public class ReminderService extends Service
 		Log.w(TAG, "onStart");
 		super.onStart(intent, startId);
 
-		subwayLines.add("123");
-		subwayLines.add("456");
-		subwayLines.add("7");
-		subwayLines.add("ACE");
-		subwayLines.add("BDFM");
-		subwayLines.add("G");
-		subwayLines.add("JZ");
-		subwayLines.add("L");
-		subwayLines.add("NQR");
-		subwayLines.add("S");
-		subwayLines.add("SIR");
-
-		notificationID = intent.getExtras().getInt("alarm_id");
-		subwayLine = intent.getExtras().getString("subway_line");
+		notificationID = intent.getExtras().getLong("alarm_id");
+		Log.w(TAG, "NOTIFY ID SHOULD BE LONG");
 		
-		//TODO:GET DB ITEM
-		
+		//GET DB ITEM
+		notifyDB = new NotifyMeDBAdapter(this);
+		notifyDB.open();
+		notifyMeItem = notifyDB.getNotifyItem(notificationID, this);
+		notifyDB.close();
 		
 		loadMTAFeed();
 	}
@@ -111,6 +104,8 @@ public class ReminderService extends Service
 	 */
 	private void announceNewStatusItem(ArrayList<String> arr)
 	{
+		List<String> subwayLines = notifyMeItem.getSubways();
+		
 		for (int i = 0; i < subwayLines.size(); i++)
 		{
 			if (subwayLines.get(i).equals(arr.get(0)))

@@ -1,12 +1,11 @@
 package com.bitty.notifyme;
 
 import java.util.Calendar;
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
-import android.widget.Toast;
 
 public class ReminderManager {
 
@@ -22,20 +21,11 @@ public class ReminderManager {
 	
 	public void setReminder(int hour, int minute, int day, long alarmID)
 	{
-		Log.w(TAG, "setReminder DAY =" + day);
-		
-		 Intent intent = new Intent(context, AlarmReceiver.class);
-		 // alarm Id needs to be a reference to the database line for this notification
-		 intent.putExtra("alarm_id", alarmID);	
-		 
-		 PendingIntent sender = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 		 Calendar calendar = Calendar.getInstance();
 		 calendar.set(Calendar.HOUR_OF_DAY, hour);
 		 calendar.set(Calendar.MINUTE, minute);
 		 calendar.set(Calendar.SECOND, 0);
 		 calendar.setFirstDayOfWeek(Calendar.SUNDAY);
-		 
-		 //Log.w(TAG, "GET FIRST DAY OF WEEK FROM CALENDAR = " + calendar.getFirstDayOfWeek());
 		 
 		 if(calendar.get(Calendar.DAY_OF_WEEK) != day)
 		 {
@@ -56,18 +46,22 @@ public class ReminderManager {
 			 calendar.set(Calendar.DAY_OF_WEEK, day);
 		 }
 		 
-		 
-		 long start = calendar.getTimeInMillis();
+		 long currentTime = calendar.getTimeInMillis();
 		 if (calendar.before(Calendar.getInstance())) {
-		      start += AlarmManager.INTERVAL_DAY * 7;
+		      currentTime += AlarmManager.INTERVAL_DAY * 7;
 		 }
 
-		 Log.i("LOGGING",calendar.toString());
+		 // alarm Id needs to be a reference to the database line for this notification
+		 Intent intent = new Intent(context, AlarmReceiver.class);
+		 intent.putExtra("alarm_id", alarmID);	
+		 PendingIntent pedingIntent = PendingIntent.getBroadcast(context, safeLongToInt(alarmID), intent, PendingIntent.FLAG_UPDATE_CURRENT);
 		 
+		 //Log.i("LOGGING",calendar.toString());
 		 // set the alarm to repeat every week at the same time
-		 alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, start, AlarmManager.INTERVAL_DAY * 7, sender);
+		 alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, currentTime, AlarmManager.INTERVAL_DAY * 7, pedingIntent);
 	}
 	
+	//TODO:This needs to be called when removing an item
 	public void clearReminder(int theId)
 	{
 		 Intent intent = new Intent(context, AlarmReceiver.class);
@@ -81,4 +75,13 @@ public class ReminderManager {
 		 
 		 sender.cancel();
 	}
+	
+	public static int safeLongToInt(long l) {
+	    if (l < Integer.MIN_VALUE || l > Integer.MAX_VALUE) {
+	        throw new IllegalArgumentException
+	            (l + " cannot be cast to int without changing its value.");
+	    }
+	    return (int) l;
+	}
+	
 }
