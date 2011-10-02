@@ -12,7 +12,7 @@ public abstract class WakeReminderIntentService extends IntentService
 	
 	abstract void doReminderWork(Intent intent);
 
-	public static final String LOCK_NAME_STATIC = "com.bitty.kegelkat.Static";
+	public static final String LOCK_NAME_STATIC = "com.bitty.notifyme.Static";
 	private static PowerManager.WakeLock lockStatic = null;
 
 	public static void acquireStaticLock(Context context)

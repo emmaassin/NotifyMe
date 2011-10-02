@@ -21,6 +21,10 @@
     <string name="train_prompt">Choose a train line</string>
     <string name="notification_saved_message">Your Notification has been saved.</string>
     <string name="notification_cancel_message">No Notifications were saved.</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="are_you_sure_delete">Are you sure you want to delete this notification?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
     <string name="monday">MONDAY</string>
     <string name="tuesday">TUESDAY</string>
     <string name="wednesday">WEDNESDAY</string>

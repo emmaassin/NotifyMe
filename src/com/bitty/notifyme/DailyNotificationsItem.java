@@ -2,7 +2,9 @@ package com.bitty.notifyme;
 
 import java.util.Calendar;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +39,25 @@ public class DailyNotificationsItem extends RelativeLayout
 		deleteButton.setOnClickListener(new View.OnClickListener() {
 			
 			public void onClick(View v) {
-				
+				AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+				builder.setMessage(R.string.are_you_sure_delete)
+				.setTitle(R.string.are_you_sure)
+				.setCancelable(false)
+				.setPositiveButton(R.string.yes,
+				new DialogInterface.OnClickListener() {
+					
+					public void onClick(DialogInterface dialog, int which) {
+						// delete this notification!
+					}	
+				})
+				.setNegativeButton(R.string.no,
+				new DialogInterface.OnClickListener() {
+					
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.cancel();
+					}
+				});
+				builder.create().show();
 			}
 		});
 		

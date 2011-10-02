@@ -232,6 +232,8 @@ containing a value of this type.
     public static final class string {
         public static final int add_button=0x7f050002;
         public static final int app_name=0x7f050000;
+        public static final int are_you_sure=0x7f050015;
+        public static final int are_you_sure_delete=0x7f050016;
         public static final int cancel_button=0x7f05000c;
         public static final int choose_days=0x7f050008;
         public static final int choose_days2=0x7f050009;
@@ -241,23 +243,25 @@ containing a value of this type.
         public static final int edit_button=0x7f05000e;
         public static final int edit_title1=0x7f050005;
         public static final int edit_title2=0x7f05000a;
-        public static final int friday=0x7f050019;
+        public static final int friday=0x7f05001d;
         public static final int home_button=0x7f050010;
         public static final int info_body=0x7f050004;
         public static final int info_header=0x7f050003;
-        public static final int monday=0x7f050015;
+        public static final int monday=0x7f050019;
         public static final int mta_feed=0x7f050001;
+        public static final int no=0x7f050018;
         public static final int notification_cancel_message=0x7f050014;
         public static final int notification_saved_message=0x7f050013;
         public static final int ok_button=0x7f05000f;
         public static final int return_home_button=0x7f050011;
-        public static final int saturday=0x7f05001a;
+        public static final int saturday=0x7f05001e;
         public static final int save_button=0x7f05000b;
-        public static final int sunday=0x7f05001b;
-        public static final int thursday=0x7f050018;
+        public static final int sunday=0x7f05001f;
+        public static final int thursday=0x7f05001c;
         public static final int train_prompt=0x7f050012;
-        public static final int tuesday=0x7f050016;
-        public static final int wednesday=0x7f050017;
+        public static final int tuesday=0x7f05001a;
+        public static final int wednesday=0x7f05001b;
+        public static final int yes=0x7f050017;
     }
     public static final class style {
         public static final int FullscreenDialogTheme=0x7f070000;
