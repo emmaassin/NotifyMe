@@ -1,15 +1,19 @@
 package com.bitty.notifyme;
 
-import java.util.Calendar;
-
+import java.util.List;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -64,28 +68,70 @@ public class DailyNotificationsItem extends RelativeLayout
 		editButton.setOnClickListener(new View.OnClickListener() {
 			
 			public void onClick(View v) {
-				
+				// edit this notification
 			}
 		});
 	}
 
-	public void setContent(int hr, int min, String string) {
-		// for now
-		ImageView img = new ImageView(mContext);
-		img.setImageResource(R.drawable.line_123);
-		linesImagesHolder.addView(img);
-		ImageView img2 = new ImageView(mContext);
-		img2.setImageResource(R.drawable.line_nqr);
-		linesImagesHolder.addView(img2);
+	public void setContent(int hr, int min, List<String> subways) {
+		
+		for(int i=0; i<subways.size(); i++)
+		{
+			ImageView img = new ImageView(mContext);
+			String resID = "line_" + subways.get(i).toLowerCase();
+			int resources = getResources().getIdentifier(resID, "drawable", "com.bitty.notifyme");
+			
+			// load the original BitMap
+	        Bitmap bitmapOrg = BitmapFactory.decodeResource(getResources(),
+	               resources);
+	       
+	        int width = bitmapOrg.getWidth();
+	        int height = bitmapOrg.getHeight();
+	        int newHeight = 30;
+	       
+	        // calculate the scale
+	        float scale = ((float) newHeight) / height;
+	       
+	        // create a matrix for the manipulation
+	        Matrix matrix = new Matrix();
+	        // resize the bit map
+	        matrix.postScale(scale, scale);
+	 
+	        // recreate the new Bitmap
+	        Bitmap resizedBitmap = Bitmap.createBitmap(bitmapOrg, 0, 0,
+	                          width, height, matrix, true);
+	   
+	        // make a Drawable from Bitmap to allow to set the BitMap
+	        // to the ImageView
+	        BitmapDrawable bmd = new BitmapDrawable(resizedBitmap);
+	       
+	        // set the Drawable on the ImageView
+	        img.setImageDrawable(bmd);
+	     
+	        // center the Image
+	        img.setScaleType(ScaleType.CENTER);
+			
+			//img.setImageResource(resources);
+			linesImagesHolder.addView(img);
+		}
+		
+		String minString;
+		
+		if(min < 10)
+		{
+			minString = "0" + min;
+		} else {
+			minString = String.valueOf(min);
+		}
 		
 		if(hr < 12)
 		{
-			timeTextView.setText(hr + ":" + min + " AM");
+			timeTextView.setText(hr + ":" + minString + " AM");
 		} else if (hr == 12)
 		{
-			timeTextView.setText(12 + ":" + min + " AM");
+			timeTextView.setText(12 + ":" + minString + " AM");
 		} else {
-			timeTextView.setText((hr - 12) + ":" + min + " PM");
+			timeTextView.setText((hr - 12) + ":" + minString + " PM");
 		}
 		
 	} 

@@ -75,7 +75,7 @@ public class DailyNotificationsDialog extends Dialog
 		for (int i = 0; i < 3; i++)
 		{
 			DailyNotificationsItem item = new DailyNotificationsItem(mContext);
-			item.setContent(10, 40, "123");
+			//item.setContent(10, 40, "123");
 			notificationList.addView(item);
 		}
 	}

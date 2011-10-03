@@ -11,7 +11,7 @@
 	   android:name="android.permission.WRITE_CALENDAR">
 	</uses-permission>
 
-    <application android:icon="@drawable/icon" android:label="@string/app_name" android:theme="@android:style/Theme.NoTitleBar">
+    <application android:icon="@drawable/icon" android:label="@string/app_name" android:theme="@android:style/Theme.NoTitleBar" android:name=".NotifyMeApplication">
         <activity android:name="MainActivity"
                   android:label="@string/app_name"
                   android:screenOrientation="portrait">
@@ -23,6 +23,8 @@
         <activity android:name="AddEditActivity"
         android:screenOrientation="portrait"></activity>
         <activity android:name="MTAInfoActivity"
+        android:screenOrientation="portrait"></activity>
+        <activity android:name="DailyNotificationsActivity"
         android:screenOrientation="portrait"></activity>
         
         <receiver android:name=".OnBootReceiver">

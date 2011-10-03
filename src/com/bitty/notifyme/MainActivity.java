@@ -155,9 +155,13 @@ public class MainActivity extends Activity
 		if (dayItem.notifyCount > 0)
 		{
 			ArrayList<NotifyMeItem> notifyItemsByDay = notifyDB.getNotifyItemsByDay(dayItem.dayDBValue, this);
-			notificationChooser = new DailyNotificationsDialog(this);
-			notificationChooser.passInData(dayItem.getDayName(), notifyItemsByDay);
-			notificationChooser.show();
+			((NotifyMeApplication)getApplication()).setCurrentDaysNotifications(notifyItemsByDay);
+			((NotifyMeApplication)getApplication()).setCurrentDay(dayItem.getDayName());
+//			notificationChooser = new DailyNotificationsDialog(this);
+//			notificationChooser.passInData(dayItem.getDayName(), notifyItemsByDay);
+//			notificationChooser.show();
+			Intent i = new Intent(this, DailyNotificationsActivity.class);
+			startActivityForResult(i, ACTIVITY_CREATE);
 		}
 	}
 
