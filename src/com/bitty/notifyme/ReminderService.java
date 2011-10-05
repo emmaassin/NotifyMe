@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.RemoteViews;
 
 public class ReminderService extends Service
 {
@@ -111,17 +112,27 @@ public class ReminderService extends Service
 	 */
 	private void sendNotification()
 	{
-		NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-		Intent mtaInfoIntent = new Intent(this, MTAInfoActivity.class);
-		PendingIntent pi = PendingIntent.getActivity(this, 0, mtaInfoIntent, PendingIntent.FLAG_ONE_SHOT);
+		//create custom view for status bar
+		/*
+		RemoteViews contentView = new RemoteViews(getPackageName(), R.layout.status_bar_notification);
+		RemoteViews contentViewItem = new RemoteViews(getPackageName(), R.layout.status_bar_notification_item);
+		contentViewItem.setTextViewText(R.id.status_line, "Hello, this message is in a custom expanded view");
+		contentViewItem.setTextViewText(R.id.status_line, "Hello, this message is in a custom expanded view");
+		*/
 		
+		//create notification 
+		Intent mtaInfoIntent = new Intent(this, MTAInfoActivity.class);
+		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, mtaInfoIntent, PendingIntent.FLAG_ONE_SHOT);
 		Notification notification = new Notification(R.drawable.notify_icon, "MTA SOMETHING IS UP WITH:", System
 				.currentTimeMillis());
-		notification.setLatestEventInfo(this, notificationTitle, "PRESS FOR MORE INFO", pi);
+		notification.setLatestEventInfo(this, notificationTitle, "PRESS FOR MORE INFO", contentIntent);
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;
+		//notification.contentIntent = contentIntent;
+		//notification.contentView = contentView;
 		
 		//Using notification of 0 instead of notificationID
-		//not sure if it will matter 
+		//No other notification will be called in this app 
+		NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 		notificationManager.notify(0, notification);
 	}
 	
