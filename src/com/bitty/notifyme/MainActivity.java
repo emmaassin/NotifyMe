@@ -36,27 +36,34 @@ public class MainActivity extends Activity
 	private MainDayItem[] dayItemsArray = { mondayBox, tuesdayBox, wednesdayBox, thursdayBox, fridayBox, saturdayBox,
 			sundayBox };
 	private LinearLayout holder;
+	private LinearLayout delaysButton;
 	private LinearLayout addNotificationButton;
-	private TextView addText;
 	private DailyNotificationsDialog notificationChooser;
 	
 	private NotifyMeDBAdapter notifyDB;
 
 	public void onCreate(Bundle savedInstanceState)
 	{
-		super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState); 
 		setContentView(R.layout.main);
 
 		//"NotifyMe title text
 		TextView titleText = (TextView) findViewById(R.id.title);
 		TextView infoHeader = (TextView) findViewById(R.id.info_header);
 		TextView infoBody = (TextView) findViewById(R.id.info_body);
+		TextView addText = (TextView) findViewById(R.id.add_text);
+		TextView delayText = (TextView) findViewById(R.id.delay_text);
 		
 		Typeface font = Typeface.createFromAsset(getAssets(), "fonts/VarelaRound-Regular.ttf");
 		titleText.setTypeface(font);
 		infoHeader.setTypeface(font);
 		infoBody.setTypeface(font);
+		
+		Typeface font2 = Typeface.createFromAsset(getAssets(), "fonts/DINEngschrift-Regular.ttf");
+		addText.setTypeface(font2);
+		delayText.setTypeface(font2);
 
+		createDelaysBtn();
 		createAddNotifyBtn();
 		
 		holder = (LinearLayout) findViewById(R.id.days_holder);
@@ -105,12 +112,22 @@ public class MainActivity extends Activity
 		notifyDB.close();
 	}
 	
+	private void createDelaysBtn()
+	{
+		delaysButton = (LinearLayout) findViewById(R.id.delays);
+		
+		delaysButton.setOnClickListener(new View.OnClickListener() {
+			
+			public void onClick(View v)
+			{
+				// go to MTA site 
+			}
+		});
+	}
+	
 	private void createAddNotifyBtn()
 	{
 		addNotificationButton = (LinearLayout) findViewById(R.id.add);
-		addText = (TextView) findViewById(R.id.add_text);
-		Typeface font2 = Typeface.createFromAsset(getAssets(), "fonts/DINEngschrift-Regular.ttf");
-		addText.setTypeface(font2);
 
 		addNotificationButton.setOnClickListener(new View.OnClickListener()
 		{

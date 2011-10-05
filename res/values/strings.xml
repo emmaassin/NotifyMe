@@ -5,6 +5,7 @@
     <string name="add_button">ADD NOTIFICATION</string>
     <string name="info_header">Info!</string>
     <string name="info_body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin purus nibh, malesuada id adipiscing faucibus, pellentesque ac nulla. Phasellus ut ante tortor. Cras mattis nisl et orci adipiscing quis cursus felis imperdiet. Cras a tincidunt lectus. Vivamus suscipit lacus a purus aliquam sed tincidunt odio volutpat.</string>
+    <string name="delays_button">VIEW CURRENT DELAYS</string>
     <string name="edit_title1">ADD/EDIT NOTIFICATION</string>
     <string name="choose_line">CHOOSE YOUR LINE</string>
     <string name="choose_line2">CHOOSE YOUR LINES</string>
