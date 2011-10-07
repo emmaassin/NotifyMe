@@ -93,19 +93,6 @@ public class SelectDayDialog extends Dialog
 		return (ArrayList) checkedDaysArray;
 	}
 	
-	/*
-	public void setAlreadyChecked(List<String> daysArray)
-	{
-		for (int i = 0; i < checkBoxArray.size(); i++)
-		{
-			if (daysArray.contains(checkBoxArray.get(i).getText()))
-			{
-				checkBoxArray.get(i).setChecked(true);
-			}
-		}
-		Toast.makeText(getContext(), checkedDaysArray.toString(), Toast.LENGTH_SHORT).show();
-	}
-	*/
 	public void setAlreadyChecked(List<Integer> daysArray)
 	{
 		for (int i = 0; i < checkBoxArray.size(); i++)
@@ -115,6 +102,5 @@ public class SelectDayDialog extends Dialog
 				checkBoxArray.get(i).setChecked(true);
 			}
 		}
-		Toast.makeText(getContext(), checkedDaysArray.toString(), Toast.LENGTH_SHORT).show();
 	}
 }

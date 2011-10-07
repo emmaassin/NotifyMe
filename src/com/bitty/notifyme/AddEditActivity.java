@@ -26,7 +26,7 @@ public class AddEditActivity extends Activity
 	private SelectSubwayDialog subwayDialog;
 	private ImageView trainsCheck, daysCheck;
 
-	public List<String> subwaySelected = new ArrayList<String>();
+	public ArrayList<String> subwaySelected = new ArrayList<String>();
 	public List<Integer> daysSelectedArr = new ArrayList<Integer>();
 	
 	private NotifyMeDBAdapter notifyDB;
@@ -69,12 +69,22 @@ public class AddEditActivity extends Activity
 		{
 			public void onClick(View view)
 			{
-				saveState();
-				setResult(RESULT_OK);
-				Toast
-						.makeText(AddEditActivity.this, getString(R.string.notification_saved_message),
+				if(subwaySelected.size() < 1)
+				{
+					Toast.makeText(AddEditActivity.this, getString(R.string.no_lines_selected_message),
+							Toast.LENGTH_SHORT).show();
+				} else {
+					if (daysSelectedArr.size() < 1)
+					{
+						Toast.makeText(AddEditActivity.this, getString(R.string.no_days_selected_message),
 								Toast.LENGTH_SHORT).show();
-				
+					} else {
+						saveState();
+						setResult(RESULT_OK);
+						Toast.makeText(AddEditActivity.this, getString(R.string.notification_saved_message),
+										Toast.LENGTH_SHORT).show();
+					}
+				}
 			}
 		});
 
@@ -154,15 +164,15 @@ public class AddEditActivity extends Activity
 		{
 			public void onClick(View v)
 			{
-				subwaySelected = subwayDialog.getCheckedLinessArray();
+				subwaySelected = subwayDialog.getCheckedLinesArray();
 				if (subwaySelected.size() > 0)
 				{
 					trainsCheck.setImageResource(R.drawable.check);
 				} else
 				{
 					trainsCheck.setImageResource(R.drawable.add);
-					saveButton.setEnabled(false);
 				}
+				//Toast.makeText(getApplicationContext(), subwaySelected.toString(), Toast.LENGTH_SHORT).show();
 				subwayDialog.cancel();
 			}
 		});
@@ -184,10 +194,6 @@ public class AddEditActivity extends Activity
 				if (daysSelectedArr.size() > 0)
 				{
 					daysCheck.setImageResource(R.drawable.check);
-					if (subwaySelected.size() > 0)
-					{
-						saveButton.setEnabled(true);
-					}
 				} else
 				{
 					daysCheck.setImageResource(R.drawable.add);

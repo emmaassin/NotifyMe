@@ -13,6 +13,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class SelectSubwayDialog extends Dialog
 {
@@ -80,17 +81,20 @@ public class SelectSubwayDialog extends Dialog
 		}
 	}
 
-	public ArrayList getCheckedLinessArray()
+	public ArrayList getCheckedLinesArray()
 	{
 		return (ArrayList) checkedLinesArray;
 	}
 
-	public void setAlreadyChecked(List<String> trainLinesArray)
+	public void setAlreadyChecked(ArrayList<String> trainLinesArray)
 	{
 		for (int i = 0; i < lineButtonArray.size(); i++)
 		{
 			if (trainLinesArray.contains(lineButtonArray.get(i).id))
+			{
 				lineButtonArray.get(i).setSelected();
+			}
+			checkedLinesArray = trainLinesArray;
 		}
 	}
 }

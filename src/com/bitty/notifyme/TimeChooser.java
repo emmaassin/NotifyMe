@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class TimeChooser extends LinearLayout{
 	
@@ -56,7 +57,13 @@ public class TimeChooser extends LinearLayout{
          ampmTxt = (TextView) findViewById(R.id.ampm_txt);
          
          theHour = mHour = Calendar.getInstance().get(Calendar.HOUR);
+         //Toast.makeText(context, String.valueOf(Calendar.getInstance().get(Calendar.HOUR)), Toast.LENGTH_LONG).show();
          theMinute = mMinute = Calendar.getInstance().get(Calendar.MINUTE);
+         
+         if(theHour == 0)
+         {
+        	 theHour = mHour = 12;
+         }
          
          if(theHour < 10)
 			{
