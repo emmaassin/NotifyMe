@@ -4,9 +4,12 @@ import java.util.Calendar;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -31,6 +34,7 @@ public class TimeChooser extends LinearLayout{
     private int theHour;
     private int theMinute;
     private boolean am;
+    private Handler mHandler = new Handler(); 
 	
 	public TimeChooser(Context context) {
 		super(context);
@@ -95,39 +99,15 @@ public class TimeChooser extends LinearLayout{
         	 mHour = theHour+12;
          }
          
-         hrPlusBtn.setOnClickListener(new View.OnClickListener() {
-			
-			public void onClick(View v) {
-				if(theHour < 12)
-				{
-					theHour++;
-				} else {
-					theHour = 1;
-				}
-				if(theHour < 10)
-				{
-					hrTxt.setText("0"+String.valueOf(theHour));
-				} else {
-					hrTxt.setText(String.valueOf(theHour));
-				}
-				if(am)
-				{
-					mHour = theHour;
-				} else {
-					mHour = theHour+12;
-				}
-				
-			}
-		});
-         
-         hrMinusBtn.setOnClickListener(new View.OnClickListener() {
- 			
- 			public void onClick(View v) {
- 				if(theHour > 1)
+         final Runnable increaseHr = new Runnable() 
+         { 
+             public void run() 
+             { 
+            	if(theHour < 12)
  				{
- 					theHour--;
+ 					theHour++;
  				} else {
- 					theHour = 12;
+ 					theHour = 1;
  				}
  				if(theHour < 10)
  				{
@@ -136,41 +116,50 @@ public class TimeChooser extends LinearLayout{
  					hrTxt.setText(String.valueOf(theHour));
  				}
  				if(am)
-				{
-					mHour = theHour;
-				} else {
-					mHour = theHour+12;
-				}
- 			}
- 		});
-         
-         minPlusBtn.setOnClickListener(new View.OnClickListener() {
- 			
- 			public void onClick(View v) {
- 				if(theMinute < 59)
  				{
- 					theMinute++;
+ 					mHour = theHour;
  				} else {
- 					theMinute = 0;
- 				}
- 				if(theMinute < 10)
- 				{
- 					minTxt.setText("0" + String.valueOf(theMinute));
- 				} else {
- 					minTxt.setText(String.valueOf(theMinute));
- 				}
- 				mMinute = theMinute;
- 			}
- 		});
+ 					mHour = theHour+12;
+ 				} 
+                 mHandler.postAtTime(this, SystemClock.uptimeMillis() + 100); 
+             } 
+         };
          
-         minMinusBtn.setOnClickListener(new View.OnClickListener() {
-  			
-  			public void onClick(View v) {
-  				if(theMinute > 0)
+         final Runnable decreaseHr = new Runnable() 
+         { 
+             public void run() 
+             { 
+            	 if(theHour > 1)
   				{
-  					theMinute--;
+  					theHour--;
   				} else {
-  					theMinute = 59;
+  					theHour = 12;
+  				}
+  				if(theHour < 10)
+  				{
+  					hrTxt.setText("0"+String.valueOf(theHour));
+  				} else {
+  					hrTxt.setText(String.valueOf(theHour));
+  				}
+  				if(am)
+ 				{
+ 					mHour = theHour;
+ 				} else {
+ 					mHour = theHour+12;
+ 				}
+                 mHandler.postAtTime(this, SystemClock.uptimeMillis() + 100); 
+             } 
+         };
+         
+         final Runnable increaseMin = new Runnable() 
+         { 
+             public void run() 
+             { 
+            	 if(theMinute < 59)
+  				{
+  					theMinute++;
+  				} else {
+  					theMinute = 0;
   				}
   				if(theMinute < 10)
   				{
@@ -179,8 +168,103 @@ public class TimeChooser extends LinearLayout{
   					minTxt.setText(String.valueOf(theMinute));
   				}
   				mMinute = theMinute;
-  			}
-  		});
+                 mHandler.postAtTime(this, SystemClock.uptimeMillis() + 100); 
+             } 
+         };
+         
+         final Runnable decreaseMin = new Runnable() 
+         { 
+             public void run() 
+             { 
+            	 if(theMinute > 0)
+   				{
+   					theMinute--;
+   				} else {
+   					theMinute = 59;
+   				}
+   				if(theMinute < 10)
+   				{
+   					minTxt.setText("0" + String.valueOf(theMinute));
+   				} else {
+   					minTxt.setText(String.valueOf(theMinute));
+   				}
+   				mMinute = theMinute; 
+                 mHandler.postAtTime(this, SystemClock.uptimeMillis() + 100); 
+             } 
+         };
+         
+         hrPlusBtn.setOnTouchListener(new View.OnTouchListener() {
+			public boolean onTouch(View v, MotionEvent event) {
+				int action = event.getAction();
+                if (action == MotionEvent.ACTION_DOWN) 
+                { 
+                    Log.i("repeatBtn", "MotionEvent.ACTION_DOWN"); 
+                    mHandler.removeCallbacks(increaseHr); 
+                    mHandler.postAtTime(increaseHr, SystemClock.uptimeMillis() + 100); 
+                } 
+                else if (action == MotionEvent.ACTION_UP) 
+                { 
+                    Log.i("repeatBtn", "MotionEvent.ACTION_UP"); 
+                    mHandler.removeCallbacks(increaseHr); 
+                } 
+				return false;
+			}
+		});
+
+         
+         hrMinusBtn.setOnTouchListener(new View.OnTouchListener() {
+			public boolean onTouch(View v, MotionEvent event) {
+				int action = event.getAction();
+                if (action == MotionEvent.ACTION_DOWN) 
+                { 
+                    Log.i("repeatBtn", "MotionEvent.ACTION_DOWN"); 
+                    mHandler.removeCallbacks(decreaseHr); 
+                    mHandler.postAtTime(decreaseHr, SystemClock.uptimeMillis() + 100); 
+                } 
+                else if (action == MotionEvent.ACTION_UP) 
+                { 
+                    Log.i("repeatBtn", "MotionEvent.ACTION_UP"); 
+                    mHandler.removeCallbacks(decreaseHr); 
+                } 
+				return false;
+			}
+		});
+         
+         minPlusBtn.setOnTouchListener(new View.OnTouchListener() {
+			public boolean onTouch(View v, MotionEvent event) {
+				int action = event.getAction();
+                if (action == MotionEvent.ACTION_DOWN) 
+                { 
+                    Log.i("repeatBtn", "MotionEvent.ACTION_DOWN"); 
+                    mHandler.removeCallbacks(increaseMin); 
+                    mHandler.postAtTime(increaseMin, SystemClock.uptimeMillis() + 100); 
+                } 
+                else if (action == MotionEvent.ACTION_UP) 
+                { 
+                    Log.i("repeatBtn", "MotionEvent.ACTION_UP"); 
+                    mHandler.removeCallbacks(increaseMin); 
+                } 
+				return false;
+			}
+		});
+         
+         minMinusBtn.setOnTouchListener(new View.OnTouchListener() {
+			public boolean onTouch(View v, MotionEvent event) {
+				int action = event.getAction();
+                if (action == MotionEvent.ACTION_DOWN) 
+                { 
+                    Log.i("repeatBtn", "MotionEvent.ACTION_DOWN"); 
+                    mHandler.removeCallbacks(decreaseMin); 
+                    mHandler.postAtTime(decreaseMin, SystemClock.uptimeMillis() + 100); 
+                } 
+                else if (action == MotionEvent.ACTION_UP) 
+                { 
+                    Log.i("repeatBtn", "MotionEvent.ACTION_UP"); 
+                    mHandler.removeCallbacks(decreaseMin); 
+                } 
+				return false;
+			}
+		});
          
          ampmPlusBtn.setOnClickListener(new View.OnClickListener()
          {
