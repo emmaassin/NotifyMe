@@ -17,13 +17,11 @@
     android:id="@+id/edit_title1"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="@string/edit_title1"
     android:textColor="#ececec"
     android:textSize="21dip"
     android:paddingLeft="14dip"
     android:paddingTop="10dip"
-    android:paddingBottom="8dip"
-    />
+    android:paddingBottom="8dip" android:text="@string/add_notification_title"/>
     </LinearLayout>
     <LinearLayout
     android:id="@+id/trains"
@@ -85,12 +83,11 @@
   	android:id="@+id/edit_title2"
   	android:layout_width="wrap_content"
   	android:layout_height="wrap_content"
-  	android:text="@string/edit_title2"
   	android:textSize="21dip"
   	android:textColor="#3e3e3e"
   	android:paddingLeft="14dip"
   	android:paddingTop="22dip"
-  	/>
+  	android:text="@string/choose_time_title"/>
   	<com.bitty.notifyme.TimeChooser
   	android:id="@+id/time_picker"
   	android:layout_width="wrap_content"
