@@ -61,23 +61,17 @@ public class TimeChooser extends LinearLayout{
          theMinute = mMinute = Calendar.getInstance().get(Calendar.MINUTE);
          
          if(theHour == 0)
-         {
         	 theHour = mHour = 12;
-         }
          
          if(theHour < 10)
-			{
 				hrTxt.setText("0"+String.valueOf(theHour));
-			} else {
+			 else 
 				hrTxt.setText(String.valueOf(theHour));
-			}
 
          if(theMinute < 10)
-			{
 				minTxt.setText("0" + String.valueOf(theMinute));
-			} else {
+			 else 
 				minTxt.setText(String.valueOf(theMinute));
-			}
          
          Typeface font = Typeface.createFromAsset(context.getAssets(), "fonts/VarelaRound-Regular.ttf");
          hrTxt.setTypeface(font);
@@ -227,22 +221,21 @@ public class TimeChooser extends LinearLayout{
     	{
     		hrTxt.setText(String.valueOf(currentHr-12));
     		if(hrTxt.getText().length() < 2)
-    		{
     			hrTxt.setText("0" + hrTxt.getText());
-    		}
+
     		theHour = currentHr-12;
     		am = false;
     		ampmTxt.setText("PM");
     	} else {
-    		if(theHour < 10)
-			{
+    		if(currentHr < 10)
 				hrTxt.setText("0"+String.valueOf(currentHr));
-			} else {
+			 else 
 				hrTxt.setText(String.valueOf(currentHr));
-			}
+    		
     		theHour = currentHr;
+    		am = true;
+    		ampmTxt.setText("AM");
     	}
-    	
     	mHour = currentHr;
     }
     
