@@ -22,7 +22,7 @@
   	android:id="@+id/hr_txt"
   	android:text="01"
   	android:textSize="42dip"
-  	android:layout_marginLeft="10dip"
+  	android:layout_marginLeft="7dip"
   	android:layout_marginTop="5dip"
   	android:textColor="#3e3e3e"
   	/>
@@ -64,7 +64,7 @@
   	android:id="@+id/min_txt"
   	android:text="00"
   	android:textSize="42dip"
-  	android:layout_marginLeft="10dip"
+  	android:layout_marginLeft="7dip"
   	android:layout_marginTop="5dip"
   	android:textColor="#3e3e3e"
   	/>

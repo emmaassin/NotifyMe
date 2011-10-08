@@ -127,6 +127,8 @@ public class ReminderService extends Service
 				.currentTimeMillis());
 		notification.setLatestEventInfo(this, notificationTitle, "PRESS FOR MORE INFO", contentIntent);
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;
+		notification.defaults |= Notification.DEFAULT_SOUND;
+		notification.defaults |= Notification.DEFAULT_VIBRATE;
 		//notification.contentIntent = contentIntent;
 		//notification.contentView = contentView;
 		
