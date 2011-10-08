@@ -33,7 +33,7 @@ public class ReminderService extends Service
 
 	private ArrayList<String> notificatonList = new ArrayList<String>();
 	
-	private NotifyMeDBAdapter notifyDB;
+	private NotifyDBAdapter notifyDB;
 
 	private String notificationTitle = "MTA DELAY ON THE";
 	private NotifyMeItem notifyMeItem;
@@ -51,10 +51,8 @@ public class ReminderService extends Service
 		notificationID = intent.getExtras().getLong("alarm_id");
 		
 		//GET DB ITEM
-		notifyDB = new NotifyMeDBAdapter(this);
-		notifyDB.open();
-		notifyMeItem = notifyDB.getNotifyItem(notificationID, this);
-		notifyDB.close();
+		notifyDB = ((NotifyApplication) getApplication()).getNotifyDB();
+		notifyMeItem = notifyDB.getNotification(notificationID);
 		
 		loadMTAFeed();
 	}
@@ -301,8 +299,6 @@ public class ReminderService extends Service
 				mtaItemArr = null;
 				throw new EndOfProcessingException("Done.");
 			}
-
 		}
 	}
-
 }
