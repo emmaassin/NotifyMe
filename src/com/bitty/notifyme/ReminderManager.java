@@ -2,6 +2,8 @@ package com.bitty.notifyme;
 
 import java.util.Calendar;
 
+import com.bitty.utils.Convert;
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -54,7 +56,7 @@ public class ReminderManager {
 		 // alarm Id needs to be a reference to the database line for this notification
 		 Intent intent = new Intent(context, AlarmReceiver.class);
 		 intent.putExtra("alarm_id", alarmID);	
-		 PendingIntent pedingIntent = PendingIntent.getBroadcast(context, safeLongToInt(alarmID), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+		 PendingIntent pedingIntent = PendingIntent.getBroadcast(context, Convert.safeLongToInt(alarmID), intent, PendingIntent.FLAG_UPDATE_CURRENT);
 		 
 		 //Log.i("LOGGING",calendar.toString());
 		 // set the alarm to repeat every week at the same time
@@ -75,13 +77,4 @@ public class ReminderManager {
 		 
 		 sender.cancel();
 	}
-	
-	public static int safeLongToInt(long l) {
-	    if (l < Integer.MIN_VALUE || l > Integer.MAX_VALUE) {
-	        throw new IllegalArgumentException
-	            (l + " cannot be cast to int without changing its value.");
-	    }
-	    return (int) l;
-	}
-	
 }

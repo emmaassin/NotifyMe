@@ -18,7 +18,7 @@ public class AddEditActivity extends Activity
 {
 	private static final String TAG = "AddEditActivity";
 
-	private TextView title, trainsText, daysText, title2;
+	private TextView title, trainsText, daysText, time_title;
 	private LinearLayout subwayButton, daysButton;
 	private TimeChooser timePicker;
 	private Button saveButton, cancelButton;
@@ -28,28 +28,30 @@ public class AddEditActivity extends Activity
 
 	public ArrayList<String> subwaySelected = new ArrayList<String>();
 	public List<Integer> daysSelectedArr = new ArrayList<Integer>();
-	
-	private NotifyMeDBAdapter notifyDB;
+
+	private NotifyDBAdapter notifyDB;
+	private NotifyMeItem notifyEditItem;
+
+	private Boolean isEditMode;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
-	{		
+	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.editscreen);
-		
-		notifyDB = new NotifyMeDBAdapter(this);
-		
+
+		notifyDB = ((NotifyApplication) getApplication()).getNotifyDB();
 
 		title = (TextView) findViewById(R.id.edit_title1);
 		Typeface font = Typeface.createFromAsset(this.getAssets(), "fonts/VarelaRound-Regular.ttf");
 		title.setTypeface(font);
 		trainsText = (TextView) findViewById(R.id.trains_text);
 		daysText = (TextView) findViewById(R.id.days_text);
-		title2 = (TextView) findViewById(R.id.edit_title2);
+		time_title = (TextView) findViewById(R.id.edit_title2);
 		Typeface font2 = Typeface.createFromAsset(this.getAssets(), "fonts/DINEngschrift-Regular.ttf");
 		trainsText.setTypeface(font2);
 		daysText.setTypeface(font2);
-		title2.setTypeface(font2);
+		time_title.setTypeface(font2);
 
 		trainsCheck = (ImageView) findViewById(R.id.trains_check);
 		daysCheck = (ImageView) findViewById(R.id.days_check);
@@ -64,25 +66,54 @@ public class AddEditActivity extends Activity
 		subwayButton = (LinearLayout) findViewById(R.id.trains);
 		daysButton = (LinearLayout) findViewById(R.id.days);
 
+		// Check to if this is an edit
+
+		isEditMode = getIntent().getBooleanExtra("edit_mode", false);
+
+		if (isEditMode)
+		{
+			int array_index = getIntent().getIntExtra("array_index", -1);
+			NotifyApplication app = (NotifyApplication) getApplication();
+
+			notifyEditItem = (NotifyMeItem) app.getCurrentDaysNotifications().get(array_index);
+			daysSelectedArr.add(notifyEditItem.getDay());
+			subwaySelected = (ArrayList<String>) notifyEditItem.getSubways();
+
+			//Log.w(TAG, "HOUR : " + Integer.toString(notifyEditItem.getHour()));
+			timePicker.setCurrentHour(notifyEditItem.getHour());
+			timePicker.setCurrentMinute(notifyEditItem.getMinutes());
+			
+			title.setText(R.string.add_notification_title);
+		}
+
 		saveButton.setEnabled(true);
 		saveButton.setOnClickListener(new View.OnClickListener()
 		{
 			public void onClick(View view)
 			{
-				if(subwaySelected.size() < 1)
+				if (subwaySelected.size() < 1)
 				{
 					Toast.makeText(AddEditActivity.this, getString(R.string.no_lines_selected_message),
 							Toast.LENGTH_SHORT).show();
-				} else {
+				} else
+				{
 					if (daysSelectedArr.size() < 1)
 					{
 						Toast.makeText(AddEditActivity.this, getString(R.string.no_days_selected_message),
 								Toast.LENGTH_SHORT).show();
-					} else {
-						saveState();
+					} else
+					{
+						String msg;
+						if(isEditMode){
+							saveEditItem();
+							msg = getString(R.string.notification_edit_message);
+						}else{
+							saveState();
+							msg = getString(R.string.notification_saved_message);
+						}
+						
 						setResult(RESULT_OK);
-						Toast.makeText(AddEditActivity.this, getString(R.string.notification_saved_message),
-										Toast.LENGTH_SHORT).show();
+						Toast.makeText(AddEditActivity.this, msg, Toast.LENGTH_SHORT).show();
 					}
 				}
 			}
@@ -92,67 +123,74 @@ public class AddEditActivity extends Activity
 		{
 			public void onClick(View view)
 			{
-				Toast.makeText(AddEditActivity.this, getString(R.string.notification_cancel_message),
-						Toast.LENGTH_SHORT).show();
+				String msg;
+				if(isEditMode)
+					msg = getString(R.string.notification_cancel_edit);
+				else
+					msg = getString(R.string.notification_saved_message);
+				
+				Toast.makeText(AddEditActivity.this, msg, Toast.LENGTH_SHORT).show();
 				finish();
 			}
 		});
 
 		daysButton.setOnClickListener(new View.OnClickListener()
 		{
-			public void onClick(View v)
-			{
-				createDaysPopup();
-			}
+			public void onClick(View v){ createDaysPopup(); }
 		});
 
 		subwayButton.setOnClickListener(new View.OnClickListener()
 		{
-			public void onClick(View v)
-			{
-				createSubwayPopUp();
-			}
+			public void onClick(View v){ createSubwayPopUp(); }
 		});
 	}
 
 	@Override
-	protected void onStart() {
-		Log.w(TAG, "onStart");
+	protected void onStart()
+	{
+		// Log.w(TAG, "onStart");
 		super.onStart();
 	}
 
 	@Override
-	protected void onResume() {
-		Log.w(TAG, "onResume");
+	protected void onResume()
+	{
+		//Log.w(TAG, "onResume");
 		super.onResume();
-		notifyDB.open();
-	}
-
-	@Override
-	protected void onPause() {
-		Log.w(TAG, "onPause");
-		super.onPause();
-		notifyDB.close();
-	}
-
-	@Override
-	protected void onStop() {
-		Log.w(TAG, "onStop");
-		super.onStop();
 		
-		if(notifyDB.isOpen())
-			notifyDB.close();
+		if(isEditMode){
+			title.setText(R.string.edit_notification_title);
+			trainsText.setText(R.string.edit_line);
+			daysText.setText(R.string.edit_days);
+			time_title.setText(R.string.edit_time);
+		}else{
+			title.setText(R.string.add_notification_title);
+			trainsText.setText(R.string.choose_line);
+			daysText.setText(R.string.choose_days);
+			time_title.setText(R.string.choose_time_title);
+		}
 	}
-	
-	
+
+	@Override
+	protected void onPause()
+	{
+		// Log.w(TAG, "onPause");
+		super.onPause();
+	}
+
+	@Override
+	protected void onStop()
+	{
+		// Log.w(TAG, "onStop");
+		super.onStop();
+	}
+
 	@Override
 	protected void onDestroy()
 	{
 		super.onDestroy();
-		//close DB
-		notifyDB.close();
 	}
-	
+
 	private void createSubwayPopUp()
 	{
 		subwayDialog = new SelectSubwayDialog(this);
@@ -172,7 +210,8 @@ public class AddEditActivity extends Activity
 				{
 					trainsCheck.setImageResource(R.drawable.add);
 				}
-				//Toast.makeText(getApplicationContext(), subwaySelected.toString(), Toast.LENGTH_SHORT).show();
+				// Toast.makeText(getApplicationContext(),
+				// subwaySelected.toString(), Toast.LENGTH_SHORT).show();
 				subwayDialog.cancel();
 			}
 		});
@@ -181,6 +220,7 @@ public class AddEditActivity extends Activity
 	private void createDaysPopup()
 	{
 		daysDialog = new SelectDayDialog(this);
+
 		if (daysSelectedArr.size() > 0)
 			daysDialog.setAlreadyChecked(daysSelectedArr);
 
@@ -205,24 +245,34 @@ public class AddEditActivity extends Activity
 
 	private void saveState()
 	{
-		//Log.w(TAG, "saveState");
+		// Log.w(TAG, "saveState");
 		ReminderManager reminderMgr = new ReminderManager(getApplicationContext());
 		int hour = timePicker.getCurrentHour();
 		int minute = timePicker.getCurrentMinute();
-		
+
 		// set alerts for each day in the day array
 		for (int i = 0; i < daysSelectedArr.size(); i++)
 		{
 			// insert to database and serialize subway lines array
 			int daySelected = daysSelectedArr.get(i);
-			NotifyMeItem item = new NotifyMeItem(subwaySelected, daySelected , hour, minute);
-			long alarmID = notifyDB.insertNewNotification(item, this);
-			
+			NotifyMeItem item = new NotifyMeItem(subwaySelected, daySelected, hour, minute);
+			long alarmID = notifyDB.insertNotification(item);
+
 			reminderMgr.setReminder(hour, minute, daySelected, alarmID);
-			// Log.w(TAG, "day = "+ daysSelectedArr.get(i));
 		}
+		finish();
+	}
+	
+	private void saveEditItem()
+	{
+		ReminderManager reminderMgr = new ReminderManager(getApplicationContext());
 		
-		
+		notifyEditItem.setHour(timePicker.getCurrentHour());
+		notifyEditItem.setMinutes(timePicker.getCurrentMinute());
+		notifyEditItem.setDay(daysSelectedArr.get(0));
+		notifyEditItem.setSubways(subwaySelected);
+		notifyDB.updateNotification(notifyEditItem);
+		reminderMgr.setReminder(notifyEditItem.getHour(), notifyEditItem.getMinutes(), notifyEditItem.getDay(), notifyEditItem.getDB_ID());
 		finish();
 	}
 }

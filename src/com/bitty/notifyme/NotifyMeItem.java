@@ -16,16 +16,32 @@ public class NotifyMeItem
 		return subways;
 	}
 
+	public void setSubways(List<String> arr) {
+		subways = arr;
+	}
+
 	public int getDay() {
 		return day;
+	}
+
+	public void setDay(int _day) {
+		day = _day;
 	}
 	
 	public int getHour() {
 		return hour;
 	}
 
+	public void setHour(int _hour) {
+		hour = _hour;
+	}
+
 	public int getMinutes() {
 		return minutes;
+	}
+
+	public void setMinutes(int _min) {
+		minutes = _min;
 	}
 
 	public long getDB_ID() {
