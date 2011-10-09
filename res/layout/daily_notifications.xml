@@ -24,16 +24,17 @@
 	android:id="@+id/return_home_btn"
     android:layout_width="fill_parent"
     android:layout_height="75dip"
-    android:background="#3e3e3e"
+    android:background="#2d2d2d"
     android:layout_alignParentBottom="true"
     android:text="@string/return_home_button"
-    android:textColor="#ececec"
+    android:textColor="@drawable/light_button_text"
     android:textSize="23dip"
     />
     <ListView android:id="@android:id/list"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
-              android:drawSelectorOnTop="false"
               android:layout_below="@id/header"
-              android:layout_above="@id/return_home_btn"/>
+              android:layout_above="@id/return_home_btn"
+              android:divider="#e3e3e3"
+  			  android:dividerHeight="1dip"/>
 </RelativeLayout>

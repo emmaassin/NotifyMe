@@ -78,6 +78,10 @@ public class AddEditActivity extends Activity
 			notifyEditItem = (NotifyMeItem) app.getCurrentDaysNotifications().get(array_index);
 			daysSelectedArr.add(notifyEditItem.getDay());
 			subwaySelected = (ArrayList<String>) notifyEditItem.getSubways();
+			// hiding the choose days button so it can't be edited
+			daysButton.setVisibility(View.GONE);
+			LinearLayout thinLine = (LinearLayout) findViewById(R.id.thinline);
+			thinLine.setVisibility(View.GONE);
 
 			//Log.w(TAG, "HOUR : " + Integer.toString(notifyEditItem.getHour()));
 			timePicker.setCurrentHour(notifyEditItem.getHour());
@@ -127,7 +131,7 @@ public class AddEditActivity extends Activity
 				if(isEditMode)
 					msg = getString(R.string.notification_cancel_edit);
 				else
-					msg = getString(R.string.notification_saved_message);
+					msg = getString(R.string.notification_cancel_add);
 				
 				Toast.makeText(AddEditActivity.this, msg, Toast.LENGTH_SHORT).show();
 				finish();

@@ -50,6 +50,7 @@
     />
     </LinearLayout>
     <View
+    android:id="@+id/thinline"
   	android:layout_width="fill_parent"
   	android:layout_height="1dip"
   	android:background="#3e3e3e"/>
@@ -112,7 +113,7 @@
 	  	android:layout_weight="1"
 	  	android:text="@string/cancel_button"
 	  	android:textSize="23dip"
-	  	android:textColor="#ececec"
+	  	android:textColor="@drawable/light_button_text"
 	  	android:background="@android:color/transparent"
 	  	android:layout_gravity="center_vertical"
 	  	/>
@@ -123,7 +124,7 @@
 	  	android:layout_weight="1"
 	  	android:text="@string/save_button"
 	  	android:textSize="23dip"
-	  	android:textColor="#6ec610"
+	  	android:textColor="@drawable/green_button_text"
 	  	android:background="@android:color/transparent"
 	  	android:layout_gravity="center_vertical"
 	  	/>

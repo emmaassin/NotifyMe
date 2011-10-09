@@ -40,10 +40,4 @@
   android:layout_toLeftOf="@id/delete_button"
   android:layout_marginTop="10dip"
   />
-  <View
-  android:id="@+id/thin_line"
-  android:layout_width="fill_parent"
-  android:layout_height="1dip"
-  android:background="#e3e3e3"
-  android:layout_alignParentBottom="true"/>
 </RelativeLayout>
