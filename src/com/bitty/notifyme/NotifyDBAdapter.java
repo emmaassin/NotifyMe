@@ -1,13 +1,6 @@
 package com.bitty.notifyme;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -19,11 +12,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.util.Log;
 
+import com.bitty.utils.Serializer;
+
 public class NotifyDBAdapter
 {
 	private static final String TAG = "NotifyMeDBAdapter";
 
-	private static final int DATABASE_VERSION = 3;
+	private static final int DATABASE_VERSION = 4;
 	private static final String DATABASE_NAME = "notifyMe.db";
 	private static final String DATABASE_TABLE = "notifyItems";
 
@@ -69,7 +64,7 @@ public class NotifyDBAdapter
 		ContentValues newTaskValues = new ContentValues();
 
 		// Assign values for each row
-		newTaskValues.put(KEY_NOTIFY_SUBWAYS, serializeArray(_notify.getSubways()));
+		newTaskValues.put(KEY_NOTIFY_SUBWAYS, Serializer.serializeArray(_notify.getSubways(), context));
 		newTaskValues.put(KEY_NOTIFY_DAY, _notify.getDay());
 		newTaskValues.put(KEY_NOTIFY_HOUR, _notify.getHour());
 		newTaskValues.put(KEY_NOTIFY_MINUTES, _notify.getMinutes());
@@ -85,32 +80,15 @@ public class NotifyDBAdapter
 				KEY_NOTIFY_HOUR, KEY_NOTIFY_MINUTES }, KEY_ID + "=" + _rowIndex, null, null, null, null, null);
 		
 		if ((cursor.getCount() == 0) || !cursor.moveToFirst())
-		{
 			throw new SQLException("No to do item found for row: " + _rowIndex);
-		}
 
-		String subwaySerialized = cursor.getString(cursor.getColumnIndex(KEY_NOTIFY_SUBWAYS));
+		String serialString = cursor.getString(cursor.getColumnIndex(KEY_NOTIFY_SUBWAYS));
 		int day = cursor.getInt(cursor.getColumnIndex(KEY_NOTIFY_DAY));
 		int hour = cursor.getInt(cursor.getColumnIndex(KEY_NOTIFY_HOUR));
 		int minutes = cursor.getInt(cursor.getColumnIndex(KEY_NOTIFY_MINUTES));
 		long db_ID = cursor.getLong(cursor.getColumnIndex(KEY_ID));
 
-		ArrayList<String> subwaysArray = null;
-		try
-		{
-			FileInputStream fis = context.openFileInput(subwaySerialized);
-			ObjectInputStream in = new ObjectInputStream(fis);
-			subwaysArray = (ArrayList<String>) in.readObject();
-			in.close();
-			fis.close();
-		} catch (IOException ex)
-		{
-			ex.printStackTrace();
-		} catch (ClassNotFoundException ex)
-		{
-			ex.printStackTrace();
-		}
-		
+		ArrayList<String> subwaysArray = Serializer.deSerializeArray(serialString, context);
 		NotifyMeItem result = new NotifyMeItem(subwaysArray, day, hour, minutes, db_ID);
 		
 		cursor.close();
@@ -120,7 +98,7 @@ public class NotifyDBAdapter
 	// Remove a notification based on its index
 	public boolean removeNotification(long _rowIndex)
 	{
-		Log.w(TAG, Long.toString(_rowIndex));
+		//Log.w(TAG, Long.toString(_rowIndex));
 		return db.delete(DATABASE_TABLE, KEY_ID + "=" + _rowIndex, null) > 0;
 	}
 
@@ -128,7 +106,7 @@ public class NotifyDBAdapter
 	public boolean updateNotification(NotifyMeItem _notify)
 	{
 		ContentValues newValues = new ContentValues();
-		newValues.put(KEY_NOTIFY_SUBWAYS, serializeArray(_notify.getSubways()));
+		newValues.put(KEY_NOTIFY_SUBWAYS, Serializer.serializeArray(_notify.getSubways(), context));
 		newValues.put(KEY_NOTIFY_DAY, _notify.getDay());
 		newValues.put(KEY_NOTIFY_HOUR, _notify.getHour());
 		newValues.put(KEY_NOTIFY_MINUTES, _notify.getMinutes());
@@ -138,7 +116,7 @@ public class NotifyDBAdapter
 
 	public Cursor getAllNotifications()
 	{
-		return db.query(DATABASE_TABLE, new String[] { KEY_ID, KEY_NOTIFY_DAY, KEY_NOTIFY_HOUR, KEY_NOTIFY_SUBWAYS },
+		return db.query(DATABASE_TABLE, new String[] { KEY_ID, KEY_NOTIFY_DAY, KEY_NOTIFY_HOUR, KEY_NOTIFY_MINUTES , KEY_NOTIFY_SUBWAYS },
 				null, null, null, null, null);
 	}
 
@@ -176,27 +154,6 @@ public class NotifyDBAdapter
 		
 		cursor.close();
 		return notifyMeItems;
-	}
-	
-	private String serializeArray(List<String> arr)
-	{
-		// serialize subwaySelected
-		Calendar calendar = Calendar.getInstance();
-		long time = calendar.getTimeInMillis();
-		String subwaySerialized = "subway" + Long.toString(time)  + ".ser";
-		try
-		{
-			FileOutputStream fos = context.openFileOutput(subwaySerialized, Context.MODE_PRIVATE);
-			ObjectOutputStream out = new ObjectOutputStream(fos);
-			out.writeObject(arr);
-			out.close();
-			fos.close();
-		} catch (IOException ex)
-		{
-			ex.printStackTrace();
-		}
-		
-		return subwaySerialized;
 	}
 
 	// ///////////////////////////////////////////////////

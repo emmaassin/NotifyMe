@@ -3,6 +3,8 @@ package com.bitty.notifyme;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bitty.utils.Convert;
+
 import android.app.Activity;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -33,13 +35,17 @@ public class AddEditActivity extends Activity
 	private NotifyMeItem notifyEditItem;
 
 	private Boolean isEditMode;
+	
+	private ReminderManager reminderMngr;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.editscreen);
-
+		
+		reminderMngr = new ReminderManager(this);
+		
 		notifyDB = ((NotifyApplication) getApplication()).getNotifyDB();
 
 		title = (TextView) findViewById(R.id.edit_title1);
@@ -57,7 +63,7 @@ public class AddEditActivity extends Activity
 		daysCheck = (ImageView) findViewById(R.id.days_check);
 
 		timePicker = (TimeChooser) findViewById(R.id.time_picker);
-		timePicker.initComponent(getApplicationContext());
+		timePicker.initComponent(this);
 
 		saveButton = (Button) findViewById(R.id.save_button);
 		saveButton.setTypeface(font2);
@@ -75,13 +81,15 @@ public class AddEditActivity extends Activity
 			int array_index = getIntent().getIntExtra("array_index", -1);
 			NotifyApplication app = (NotifyApplication) getApplication();
 
-			notifyEditItem = (NotifyMeItem) app.getCurrentDaysNotifications().get(array_index);
+			notifyEditItem = (NotifyMeItem) app.getDailyNotificationArray().get(array_index);
 			daysSelectedArr.add(notifyEditItem.getDay());
+			
+			
 			subwaySelected = (ArrayList<String>) notifyEditItem.getSubways();
 			// hiding the choose days button so it can't be edited
 			daysButton.setVisibility(View.GONE);
-			LinearLayout thinLine = (LinearLayout) findViewById(R.id.thinline);
-			thinLine.setVisibility(View.GONE);
+			//LinearLayout thinLine = (LinearLayout) findViewById(R.id.thinline);
+			//thinLine.setVisibility(View.GONE);
 
 			//Log.w(TAG, "HOUR : " + Integer.toString(notifyEditItem.getHour()));
 			timePicker.setCurrentHour(notifyEditItem.getHour());
@@ -115,7 +123,6 @@ public class AddEditActivity extends Activity
 							saveState();
 							msg = getString(R.string.notification_saved_message);
 						}
-						
 						setResult(RESULT_OK);
 						Toast.makeText(AddEditActivity.this, msg, Toast.LENGTH_SHORT).show();
 					}
@@ -214,8 +221,6 @@ public class AddEditActivity extends Activity
 				{
 					trainsCheck.setImageResource(R.drawable.add);
 				}
-				// Toast.makeText(getApplicationContext(),
-				// subwaySelected.toString(), Toast.LENGTH_SHORT).show();
 				subwayDialog.cancel();
 			}
 		});
@@ -250,7 +255,6 @@ public class AddEditActivity extends Activity
 	private void saveState()
 	{
 		// Log.w(TAG, "saveState");
-		ReminderManager reminderMgr = new ReminderManager(getApplicationContext());
 		int hour = timePicker.getCurrentHour();
 		int minute = timePicker.getCurrentMinute();
 
@@ -262,21 +266,20 @@ public class AddEditActivity extends Activity
 			NotifyMeItem item = new NotifyMeItem(subwaySelected, daySelected, hour, minute);
 			long alarmID = notifyDB.insertNotification(item);
 
-			reminderMgr.setReminder(hour, minute, daySelected, alarmID);
+			reminderMngr.setReminder(hour, minute, daySelected, alarmID);
 		}
 		finish();
 	}
 	
 	private void saveEditItem()
 	{
-		ReminderManager reminderMgr = new ReminderManager(getApplicationContext());
-		
 		notifyEditItem.setHour(timePicker.getCurrentHour());
 		notifyEditItem.setMinutes(timePicker.getCurrentMinute());
 		notifyEditItem.setDay(daysSelectedArr.get(0));
 		notifyEditItem.setSubways(subwaySelected);
 		notifyDB.updateNotification(notifyEditItem);
-		reminderMgr.setReminder(notifyEditItem.getHour(), notifyEditItem.getMinutes(), notifyEditItem.getDay(), notifyEditItem.getDB_ID());
+		reminderMngr.clearReminder(Convert.safeLongToInt(notifyEditItem.getDB_ID()));
+		reminderMngr.setReminder(notifyEditItem.getHour(), notifyEditItem.getMinutes(), notifyEditItem.getDay(), notifyEditItem.getDB_ID());
 		finish();
 	}
 }

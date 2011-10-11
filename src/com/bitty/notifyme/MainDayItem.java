@@ -53,6 +53,10 @@ public class MainDayItem extends FrameLayout
 		return dayName;
 	}
 	
+	public int getDayID(){
+		return dayDBValue;
+	}
+	
 	public void displaySetNotifications()
 	{
 		if (notifyCount > 0)

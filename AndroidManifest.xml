@@ -26,6 +26,8 @@
         android:screenOrientation="portrait"></activity>
         <activity android:name="DailyNotificationsActivity"
         android:screenOrientation="portrait"></activity>
+        <activity android:name="MTACurrentStatusActivity"
+        android:screenOrientation="portrait"></activity>
         
         <receiver android:name=".OnBootReceiver">
 		<intent-filter>
@@ -33,7 +35,7 @@
 			<action android:name="android.intent.action.BOOT_COMPLETED" />
 		</intent-filter>
 		</receiver>
-		<receiver  android:process=":remote" android:name="AlarmReceiver"></receiver>
+		<receiver  android:process=":remote" android:name=".AlarmReceiver"></receiver>
 		<service android:enabled="true" android:name=".ReminderService" />
     </application>
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>

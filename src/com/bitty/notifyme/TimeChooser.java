@@ -49,12 +49,14 @@ public class TimeChooser extends LinearLayout{
          LayoutInflater inflater = LayoutInflater.from(context);
          View v = inflater.inflate(R.layout.timechooser, null, false);
          this.addView(v);
+         
          hrPlusBtn = (Button) findViewById(R.id.hr_plus);
          hrMinusBtn = (Button) findViewById(R.id.hr_minus);
          minPlusBtn = (Button) findViewById(R.id.min_plus);
          minMinusBtn = (Button) findViewById(R.id.min_minus);
          ampmPlusBtn = (Button) findViewById(R.id.ampm_plus);
          ampmMinusBtn = (Button) findViewById(R.id.ampm_minus);
+         
          hrTxt = (TextView) findViewById(R.id.hr_txt);
          dotsTxt = (TextView) findViewById(R.id.dots);
          minTxt = (TextView) findViewById(R.id.min_txt);

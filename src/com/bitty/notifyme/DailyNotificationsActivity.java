@@ -2,11 +2,7 @@ package com.bitty.notifyme;
 
 import java.util.ArrayList;
 
-import com.bitty.utils.Convert;
-
-import android.app.AlarmManager;
 import android.app.ListActivity;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +15,8 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.bitty.utils.Convert;
+
 public class DailyNotificationsActivity extends ListActivity
 {
 
@@ -29,14 +27,17 @@ public class DailyNotificationsActivity extends ListActivity
 	private ArrayList<DailyNotificationsItem> itemArray = new ArrayList<DailyNotificationsItem>();
 
 	private NotificationAdapter adapter;
-
 	private MyBroadCastReceiver receiver;
+	private NotifyApplication app;
 
+	@SuppressWarnings("unchecked")
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.daily_notifications);
+
+		app = (NotifyApplication) getApplication();
 
 		dayText = (TextView) findViewById(R.id.day_text);
 		returnHomeButton = (Button) findViewById(R.id.return_home_btn);
@@ -53,12 +54,12 @@ public class DailyNotificationsActivity extends ListActivity
 			}
 		});
 
-		notifyMeArray = ((NotifyApplication) getApplication()).getCurrentDaysNotifications();
+		notifyMeArray = app.getDailyNotificationArray();
 		adapter = new NotificationAdapter(this);
 		this.setListAdapter(adapter);
 
-		dayText.setText(((NotifyApplication) getApplication()).getCurrentDay());
-	
+		dayText.setText(app.getCurrentDayName());
+
 		receiver = new MyBroadCastReceiver();
 	}
 
@@ -78,32 +79,48 @@ public class DailyNotificationsActivity extends ListActivity
 		unregisterReceiver(receiver);
 	}
 
-	private void onDeleteDailyNotificationItem(int _arrayIndex, long _db_ID)
+	private void onDeleteNotification(int _arrayIndex, long _db_ID)
 	{
 		long dbID = _db_ID;
+
+		ReminderManager reminderMngr = new ReminderManager(this);
 		
-		//Delete from daily array
-		notifyMeArray.remove(_arrayIndex);
-		
-		//Delete from db and remove reminder
+		// Remove alert for all notifications because DB resets key IDs. Alarm Id needs to be a reference
+		// to the database key
+		for (int i = 0; i < notifyMeArray.size(); i++)
+		{
+			NotifyMeItem item = notifyMeArray.get(i);
+			reminderMngr.clearReminder(Convert.safeLongToInt(item.getDB_ID()));
+		}
+
+		// Delete from DB
 		NotifyDBAdapter notifyDB = ((NotifyApplication) getApplication()).getNotifyDB();
 		notifyDB.removeNotification(dbID);
 		notifyDB.open();
 
-		//Remove alert reminder. Alarm Id needs to be a reference to the database key
-		Intent intent = new Intent(this, AlarmReceiver.class);
-		intent.putExtra("alarm_id", dbID);
-		PendingIntent pedingIntent = PendingIntent.getBroadcast(this, Convert.safeLongToInt(dbID), intent,
-				PendingIntent.FLAG_UPDATE_CURRENT);
+		//Remove from array
+		notifyMeArray.remove(_arrayIndex);
 
-		//Cancel alarm
-		AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-		alarmManager.cancel(pedingIntent);
-
-		adapter.notifyDataSetChanged();
-		
-		if(notifyMeArray.size() == 0)
+		if (notifyMeArray.size() == 0)
+		{
 			finish();
+		} else
+		{
+			// reset array and reset notification alarms
+			notifyMeArray.clear();
+			ArrayList<NotifyMeItem> temp = notifyDB.getNotifyItemsByDay(app.getCurrentDayID());
+			app.setDailyNotificationArray(temp);
+			
+			notifyMeArray = app.getDailyNotificationArray();
+
+			for (int j = 0; j < notifyMeArray.size(); j++)
+			{
+				NotifyMeItem item = notifyMeArray.get(j);
+				reminderMngr.setReminder(item.getHour(), item.getMinutes(), item.getDay(),
+						item.getDB_ID());
+			}
+		}
+		adapter.notifyDataSetChanged();
 	}
 
 	/*
@@ -152,10 +169,9 @@ public class DailyNotificationsActivity extends ListActivity
 		@Override
 		public void onReceive(Context context, Intent intent)
 		{
-			// TODO Auto-generated method stub
 			int arrayIndex = intent.getIntExtra("array_index", -1);
 			long db_ID = intent.getLongExtra("db_ID", -1);
-			onDeleteDailyNotificationItem(arrayIndex, db_ID);
+			onDeleteNotification(arrayIndex, db_ID);
 		}
 	}
 }

@@ -163,12 +163,13 @@ public class MainActivity extends Activity
 	{
 		if (dayItem.notifyCount > 0)
 		{
-			ArrayList<NotifyMeItem> notifyItemsByDayArray = notifyDB.getNotifyItemsByDay(dayItem.dayDBValue);
+			ArrayList<NotifyMeItem> notificationByDayArray = notifyDB.getNotifyItemsByDay(dayItem.dayDBValue);
 
 			NotifyApplication app = (NotifyApplication) getApplication();
-			app.setCurrentDaysNotificationArray(notifyItemsByDayArray);
-			app.setCurrentDay(dayItem.getDayName());
-
+			app.setDailyNotificationArray(notificationByDayArray);
+			app.setCurrentDayName(dayItem.getDayName());
+			app.setCurrentDayID(dayItem.getDayID());
+			
 			startActivity(new Intent(this, DailyNotificationsActivity.class));
 		}
 	}

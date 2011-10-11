@@ -7,23 +7,41 @@ import android.app.Application;
 public class NotifyApplication extends Application{
 	
 	private ArrayList<NotifyMeItem> currentDaysNotifications;
+	private ArrayList<MTAStatusItem> mtaStatusArray;
 	private String currentDay;
+	private int currentDayID;
 	private NotifyDBAdapter notifyDB;
 	
-	public ArrayList getCurrentDaysNotifications() {
+	public ArrayList<NotifyMeItem> getDailyNotificationArray() {
         return currentDaysNotifications;
 	}
 	
-	public void setCurrentDaysNotificationArray(ArrayList notifications) {
+	public void setDailyNotificationArray(ArrayList<NotifyMeItem> notifications) {
 		this.currentDaysNotifications = notifications;
 	}
 	
-	public String getCurrentDay() {
+	public String getCurrentDayName() {
         return currentDay;
 	}
 	
-	public void setCurrentDay(String day) {
+	public void setCurrentDayName(String day) {
 	        this.currentDay = day;
+	}
+
+	public int getCurrentDayID() {
+		return currentDayID;
+	}
+	
+	public void setCurrentDayID(int day) {
+		this.currentDayID = day;
+	}
+	
+	public void setMTAStatusArray(ArrayList<MTAStatusItem> arr){
+		this.mtaStatusArray = arr;
+	}
+	
+	public ArrayList<MTAStatusItem> getMTAStatusArray(){
+		return mtaStatusArray;
 	}
 	
 	@Override
@@ -42,7 +60,6 @@ public class NotifyApplication extends Application{
 	@Override
 	public void onTerminate()
 	{
-		// TODO Auto-generated method stub
 		super.onTerminate();
 		notifyDB.close();
 	}

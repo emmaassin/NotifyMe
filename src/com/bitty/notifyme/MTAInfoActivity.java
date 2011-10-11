@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -35,6 +36,9 @@ public class MTAInfoActivity extends Activity{
         homeBtn.setTypeface(font2);
 		
         // set the text
+        Intent intent = getIntent();
+        String status_txt = intent.getStringExtra("status_txt");
+        delayTextView.setText(Html.fromHtml(status_txt));
         
         homeBtn.setOnClickListener(new View.OnClickListener() {
 			

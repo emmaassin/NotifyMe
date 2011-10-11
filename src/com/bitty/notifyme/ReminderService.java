@@ -18,43 +18,49 @@ import org.xml.sax.helpers.DefaultHandler;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.Service;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.util.Log;
-import android.widget.RemoteViews;
 
-public class ReminderService extends Service
+public class ReminderService extends WakeReminderIntentService
 {
 	private static final String TAG = "ReminderService";
 	private long notificationID;
 	private CurrentStatusLookupTask lastLookup = null;
 
 	private ArrayList<String> notificatonList = new ArrayList<String>();
-	
+	private ArrayList<MTAStatusItem> mtaStatusArray = null;
+
 	private NotifyDBAdapter notifyDB;
 
-	private String notificationTitle = "MTA DELAY ON THE";
+	private String notificationTitle = "";
 	private NotifyMeItem notifyMeItem;
-	
-	/*
-	 * public ReminderService() { super("ReminderIntentService"); }
-	 */
+
+	public ReminderService()
+	{
+		super("ReminderService");
+		Log.w(TAG, "constructor");
+	}
 
 	@Override
-	public void onStart(Intent intent, int startId)
+	void doReminderWork(Intent intent)
 	{
-		Log.w(TAG, "onStart");
-		super.onStart(intent, startId);
+		Log.w(TAG, "doReminderWork");
+		// app reaches out to MTA service if there's currently a delay on the
+		// line in the notification
+		// we can store a reference to the line in the extras
+		// once we've grabbed that data, if there's something to report, do the
+		// notify code be
 
 		notificationID = intent.getExtras().getLong("alarm_id");
-		
-		//GET DB ITEM
+
+		// GET DB ITEM
 		notifyDB = ((NotifyApplication) getApplication()).getNotifyDB();
 		notifyMeItem = notifyDB.getNotification(notificationID);
-		
+
 		loadMTAFeed();
+
 	}
 
 	// so here is where the app reaches out to the MTA service to find out
@@ -73,13 +79,6 @@ public class ReminderService extends Service
 	}
 
 	/*
-	 * @Override void doReminderWork(Intent intent) { Log.w(TAG,
-	 * "doReminderWork"); }
-	 */
-
-
-
-	/*
 	 * This function should check if a notification should occur by comparing
 	 * the users notifications with the data
 	 */
@@ -87,19 +86,26 @@ public class ReminderService extends Service
 	{
 		List<String> subwayLines = notifyMeItem.getSubways();
 		
+
 		for (int i = 0; i < subwayLines.size(); i++)
 		{
 			if (subwayLines.get(i).equals(arr.get(0)))
 			{
 				if (!arr.get(1).equals("GOOD SERVICE"))
 				{
-					notificationTitle += " " +  arr.get(0) + " ";
+					if (mtaStatusArray == null)
+						mtaStatusArray = new ArrayList<MTAStatusItem>();
+
+					mtaStatusArray.add(new MTAStatusItem(arr.get(0), arr.get(1), arr.get(2), arr.get(3), arr.get(4)));
+
+					notificationTitle += " " + arr.get(0) + " ";
 					notificatonList.add(arr.get(0));
+
 					Log.w(TAG, "line" + arr.get(0));
 					Log.w(TAG, "status" + arr.get(1));
 					Log.w(TAG, "status text" + arr.get(2));
-					Log.w(TAG, "date" + arr.get(3));
-					Log.w(TAG, "time" + arr.get(4));
+					// Log.w(TAG, "date" + arr.get(3));
+					// Log.w(TAG, "time" + arr.get(4));
 				}
 			}
 		}
@@ -110,32 +116,22 @@ public class ReminderService extends Service
 	 */
 	private void sendNotification()
 	{
-		//create custom view for status bar
-		/*
-		RemoteViews contentView = new RemoteViews(getPackageName(), R.layout.status_bar_notification);
-		RemoteViews contentViewItem = new RemoteViews(getPackageName(), R.layout.status_bar_notification_item);
-		contentViewItem.setTextViewText(R.id.status_line, "Hello, this message is in a custom expanded view");
-		contentViewItem.setTextViewText(R.id.status_line, "Hello, this message is in a custom expanded view");
-		*/
-		
-		//create notification 
-		Intent mtaInfoIntent = new Intent(this, MTAInfoActivity.class);
-		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, mtaInfoIntent, PendingIntent.FLAG_ONE_SHOT);
-		Notification notification = new Notification(R.drawable.notify_icon, "MTA SOMETHING IS UP WITH:", System
+		// create notification
+		Intent mtaIntent = new Intent(this, MTACurrentStatusActivity.class);
+		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, mtaIntent, PendingIntent.FLAG_ONE_SHOT);
+		Notification notification = new Notification(R.drawable.notify_icon, "NOTIFY ME NYC ALERT!", System
 				.currentTimeMillis());
-		notification.setLatestEventInfo(this, notificationTitle, "PRESS FOR MORE INFO", contentIntent);
+		notification.setLatestEventInfo(this, "FOR THE FOLLOWING TRAINS:", notificationTitle, contentIntent);
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;
 		notification.defaults |= Notification.DEFAULT_SOUND;
 		notification.defaults |= Notification.DEFAULT_VIBRATE;
-		//notification.contentIntent = contentIntent;
-		//notification.contentView = contentView;
-		
-		//Using notification of 0 instead of notificationID
-		//No other notification will be called in this app 
+
+		// Using notification of 0 instead of notificationID
+		// No other notification will be called in this app
 		NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 		notificationManager.notify(0, notification);
 	}
-	
+
 	@Override
 	public IBinder onBind(Intent intent)
 	{
@@ -146,8 +142,12 @@ public class ReminderService extends Service
 	private void announceUpdateEnd()
 	{
 		Log.w(TAG, "announceUpdateEnd");
-		if(notificatonList.size() > 0)
+		if (notificatonList.size() > 0)
+		{
+			NotifyApplication app = (NotifyApplication)getApplication();
+			app.setMTAStatusArray(mtaStatusArray);
 			sendNotification();
+		}
 	}
 
 	/*
@@ -155,7 +155,8 @@ public class ReminderService extends Service
 	 */
 	private class CurrentStatusLookupTask extends AsyncTask<Void, Void, Void>
 	{
-
+		private static final String TAG = "CurrentStatusLookupTask";
+		
 		@Override
 		protected Void doInBackground(Void... params)
 		{
@@ -177,7 +178,7 @@ public class ReminderService extends Service
 
 			} catch (Exception e)
 			{
-				// Log.w(TAG, "XML Pasing Excpetion = " + e.getMessage());
+				Log.w(TAG, "XML Pasing Excpetion = " + e.getMessage());
 			}
 
 			return null;
@@ -199,9 +200,8 @@ public class ReminderService extends Service
 		protected void onPostExecute(Void result)
 		{
 			super.onPostExecute(result);
-			// Log.w(TAG, "onPostExecute");
+			Log.w(TAG, "onPostExecute");
 			stopSelf();
-			announceUpdateEnd();
 		}
 	}
 
@@ -214,6 +214,7 @@ public class ReminderService extends Service
 		{
 			super(msg);
 			Log.w(TAG, "STOP PARSING XML");
+			announceUpdateEnd();
 		}
 	}
 
@@ -228,13 +229,13 @@ public class ReminderService extends Service
 		String buffer = "";
 		String currentQName = null;
 		ArrayList<String> mtaItemArr = new ArrayList<String>();
-		Pattern pattern;
+		//Pattern pattern;
 
 		@Override
 		public void startDocument() throws SAXException
 		{
 			Log.w(TAG, "startDocument");
-			pattern = Pattern.compile("000000");
+			//pattern = Pattern.compile("000000");
 		}
 
 		@Override
@@ -273,6 +274,8 @@ public class ReminderService extends Service
 
 			if (localName.equals("text"))
 			{
+				mtaItemArr.add(buffer);
+				/*
 				Matcher matcher = pattern.matcher(buffer);
 				if (matcher.find())
 				{
@@ -282,6 +285,7 @@ public class ReminderService extends Service
 				{
 					mtaItemArr.add(buffer);
 				}
+				*/
 			}
 
 			if (localName.equals("line"))

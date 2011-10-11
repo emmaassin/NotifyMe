@@ -34,6 +34,8 @@
     <string name="delete_notification_message">Are you sure you want to delete?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    
+    <!-- Days of the week not sure if this is still used? -->
     <string name="monday">MONDAY</string>
     <string name="tuesday">TUESDAY</string>
     <string name="wednesday">WEDNESDAY</string>
@@ -41,6 +43,14 @@
     <string name="friday">FRIDAY</string>
     <string name="saturday">SATURDAY</string>
     <string name="sunday">SUNDAY</string>
+    
+    <!-- MTA Service Status -->
+    <string name="mta_status_good">GOOD SERVICE</string>
+	<string name="mta_status_planned">PLANNED WORK</string>
+	<string name="mta_status_delay">DELAYS</string>
+	<string name="mta_status_service">SERVICE CHANGE</string>
+    
+    <!-- Subway line labels -->
     <string-array name="trains_array">
         <item>123</item>
         <item>456</item>
@@ -53,7 +63,9 @@
         <item>NQR</item>
         <item>S</item>
         <item>SIR</item>
-    </string-array>  
+    </string-array> 
+    
+    <!-- Days of the Weeks --> 
     <string-array name="days_array">
     	<item>MONDAY</item>
     	<item>TUESDAY</item>
