@@ -1,0 +1,438 @@
+<service>
+	<responsecode>0</responsecode>
+	<timestamp>2/23/2011 12:42:10 PM</timestamp>
+	<subway>
+		<line>
+			<name>123</name>
+			<status>PLANNED WORK</status>
+			<text>
+				&lt;span id="plannedwork"&gt;
+				&lt;br/&gt; </text>
+			<url></url>
+			<Date>02/23/2011</Date>
+			<Time>12:39PM</Time>
+		</line>
+		<line>
+			<name>456</name>
+			<status>PLANNED WORK</status>
+			<text>
+				&lt;span id="plannedwork"&gt;
+				&lt;br/&gt;
+				&lt;/span&gt; </text>
+			<url></url>
+			<Date>02/23/2011</Date>
+			<Time>12:39PM</Time>
+		</line>
+		<line>
+			<name>7</name>
+			<status>PLANNED WORK</status>
+			<text>
+				&lt;br/&gt;
+				&lt;br/&gt;
+				&lt;/span&gt; </text>
+			<url></url>
+			<Date>02/23/2011</Date>
+			<Time>12:39PM</Time>
+		</line>
+		<line>
+			<name>ACE</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/22/2011</Date>
+			<Time> 8:59PM</Time>
+		</line>
+		<line>
+			<name>BDFM</name>
+			<status>PLANNED WORK</status>
+			<text>
+				&lt;span id="plannedwork"&gt;
+				
+				&lt;/span&gt; </text>
+			<url></url>
+			<Date>02/23/2011</Date>
+			<Time>12:39PM</Time>
+		</line>
+		<line>
+			<name>G</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/18/2011</Date>
+			<Time>11:50AM</Time>
+		</line>
+		<line>
+			<name>JZ</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/19/2011</Date>
+			<Time> 4:15AM</Time>
+		</line>
+		<line>
+			<name>L</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/18/2011</Date>
+			<Time> 8:30AM</Time>
+		</line>
+		<line>
+			<name>NQR</name>
+			<status>PLANNED WORK</status>
+			<text>
+				&lt;/span&gt; </text>
+			<url></url>
+			<Date>02/23/2011</Date>
+			<Time>12:39PM</Time>
+		</line>
+		<line>
+			<name>S</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/19/2011</Date>
+			<Time> 5:20AM</Time>
+		</line>
+		<line>
+			<name>SIR</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/07/2011</Date>
+			<Time> 8:45AM</Time>
+		</line>
+	</subway>
+	<bus>
+		<line>
+			<name>B1 - B83</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/22/2011</Date>
+			<Time> 5:15AM</Time>
+		</line>
+		<line>
+			<name>B100 - B103</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/03/2011</Date>
+			<Time> 9:20AM</Time>
+		</line>
+		<line>
+			<name>BM1 - BM5</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/09/2011</Date>
+			<Time>12:20PM</Time>
+		</line>
+		<line>
+			<name>BX1 - BX55</name>
+			<status>SERVICE CHANGE</status>
+			<text>Due to &lt;STRONG&gt;Con Edison&lt;/STRONG&gt; working in the vicinity of
+				&lt;STRONG&gt;Bainbridge Avenue&lt;/STRONG&gt; and &lt;STRONG&gt;194th Street&lt;/STRONG&gt;,
+				please expect detours and delays in &lt;STRONG&gt;Bx34&lt;/STRONG&gt; buses at this time.</text>
+			<url></url>
+			<Date>02/23/2011</Date>
+			<Time> 9:22AM</Time>
+		</line>
+		<line>
+			<name>BXM1 - BXM18</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/09/2011</Date>
+			<Time> 3:25PM</Time>
+		</line>
+		<line>
+			<name>M1 - M116</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/15/2011</Date>
+			<Time> 5:00AM</Time>
+		</line>
+		<line>
+			<name>N1- N88</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/03/2011</Date>
+			<Time> 7:22AM</Time>
+		</line>
+		<line>
+			<name>Q1 - Q113</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/20/2011</Date>
+			<Time> 5:20PM</Time>
+		</line>
+		<line>
+			<name>QM1 - QM25</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/03/2011</Date>
+			<Time> 9:20AM</Time>
+		</line>
+		<line>
+			<name>S40 - S98</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/18/2011</Date>
+			<Time> 9:50PM</Time>
+		</line>
+		<line>
+			<name>x1 - x68</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/09/2011</Date>
+			<Time>12:40PM</Time>
+		</line>
+	</bus>
+	<BT>
+		<line>
+			<name>Throgs Neck</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/23/2011</Date>
+			<Time> 8:45AM</Time>
+		</line>
+		<line>
+			<name>Henry Hudson</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>01/28/2011</Date>
+			<Time> 6:32AM</Time>
+		</line>
+		<line>
+			<name>Marine Parkway</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/16/2011</Date>
+			<Time>10:21AM</Time>
+		</line>
+		<line>
+			<name>Bronx-Whitestone</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/20/2011</Date>
+			<Time> 6:49AM</Time>
+		</line>
+		<line>
+			<name>Brooklyn-Battery</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/13/2011</Date>
+			<Time>11:27AM</Time>
+		</line>
+		<line>
+			<name>Queens Midtown</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/19/2011</Date>
+			<Time>11:15AM</Time>
+		</line>
+		<line>
+			<name>Robert F. Kennedy</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/20/2011</Date>
+			<Time> 3:40PM</Time>
+		</line>
+		<line>
+			<name>Cross Bay</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/20/2011</Date>
+			<Time> 6:51AM</Time>
+		</line>
+		<line>
+			<name>Verrazano-Narrows</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/23/2011</Date>
+			<Time> 8:05AM</Time>
+		</line>
+	</BT>
+	<LIRR>
+		<line>
+			<name>City Terminal Zone</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/22/2011</Date>
+			<Time> 8:21PM</Time>
+		</line>
+		<line>
+			<name>Babylon</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/18/2011</Date>
+			<Time>11:03PM</Time>
+		</line>
+		<line>
+			<name>Far Rockaway</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/22/2011</Date>
+			<Time> 8:21PM</Time>
+		</line>
+		<line>
+			<name>Hempstead</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/19/2011</Date>
+			<Time> 8:52PM</Time>
+		</line>
+		<line>
+			<name>Long Beach</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/17/2011</Date>
+			<Time> 8:40PM</Time>
+		</line>
+		<line>
+			<name>Montauk</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/22/2011</Date>
+			<Time> 2:40PM</Time>
+		</line>
+		<line>
+			<name>Oyster Bay</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/19/2011</Date>
+			<Time> 8:52PM</Time>
+		</line>
+		<line>
+			<name>Port Jefferson</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/22/2011</Date>
+			<Time> 8:15PM</Time>
+		</line>
+		<line>
+			<name>Port Washington</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/23/2011</Date>
+			<Time> 5:17AM</Time>
+		</line>
+		<line>
+			<name>Ronkonkoma</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/22/2011</Date>
+			<Time> 8:53AM</Time>
+		</line>
+		<line>
+			<name>West Hempstead</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/22/2011</Date>
+			<Time> 9:29AM</Time>
+		</line>
+	</LIRR>
+	<MetroNorth>
+		<line>
+			<name>Hudson</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/04/2011</Date>
+			<Time> 9:24AM</Time>
+		</line>
+		<line>
+			<name>Harlem</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/02/2011</Date>
+			<Time> 7:51AM</Time>
+		</line>
+		<line>
+			<name>Wassaic</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/13/2011</Date>
+			<Time> 5:47PM</Time>
+		</line>
+		<line>
+			<name>New Haven</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/14/2011</Date>
+			<Time> 5:10AM</Time>
+		</line>
+		<line>
+			<name>New Canaan</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>02/23/2011</Date>
+			<Time> 1:00AM</Time>
+		</line>
+		<line>
+			<name>Danbury</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>01/28/2011</Date>
+			<Time> 9:25PM</Time>
+		</line>
+		<line>
+			<name>Waterbury</name>
+			<status>SERVICE CHANGE</status>
+			<text>&lt;P&gt;On Monday, February 14th, busing will continue until further notice on the Waterbury
+				Branch. However, we will be operating on a revised busing schedule which is available at stations
+				and on the web at www.mta.info. &lt;/P&gt;</text>
+			<url></url>
+			<Date>02/14/2011</Date>
+			<Time> 5:11AM</Time>
+		</line>
+		<line>
+			<name>Pascack Valley</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>12/09/2010</Date>
+			<Time> 7:57AM</Time>
+		</line>
+		<line>
+			<name>Port Jervis</name>
+			<status>GOOD SERVICE</status>
+			<text></text>
+			<url></url>
+			<Date>10/07/2010</Date>
+			<Time> 8:45AM</Time>
+		</line>
+	</MetroNorth>
+</service>
