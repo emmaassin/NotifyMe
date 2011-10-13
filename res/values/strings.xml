@@ -6,7 +6,7 @@
     <string name="info_header">Info!</string>
     <string name="info_body">"Enter the train lines, the days you ride and the time you usually ride. Notify Me NYC will check for delays at those times and ONLY send you a notification if there's a hold-up. Easily edit or delete your notifications or add as many as you like! \n\nDeveloped by The Cortelyou Collective (??)
 \nDesigned by Haley Fieg"</string>
-    <string name="delays_button">VIEW CURRENT DELAYS</string>
+    <string name="delays_button">VIEW ALL CURRENT SERVICE STATUS</string>
     <string name="add_notification_title">ADD NOTIFICATION</string>
     <string name="edit_notification_title">EDIT NOTIFICATION</string>
     <string name="choose_line">CHOOSE YOUR LINE(S)</string>
