@@ -3,15 +3,14 @@ package com.bitty.notifyme;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -26,23 +25,37 @@ public class MTACurrentStatusActivity extends Activity
 	private ArrayList<MTAStatusItem> statusArray;
 	private MTAStatusItem selectedStatusItem;
 
+	private Button homeButton;
+
 	@Override
 	public void onCreate(Bundle icicle)
 	{
 		Log.w(TAG, "onCreate");
 		super.onCreate(icicle);
 		setContentView(R.layout.status_main);
-		
+
+		homeButton = (Button) findViewById(R.id.home_btn);
+		TextView title = (TextView) findViewById(R.id.title);
+		TextView infoHeader = (TextView) findViewById(R.id.info_header);
+		TextView infoBody = (TextView) findViewById(R.id.info_body);
+		Typeface font = Typeface.createFromAsset(getAssets(), "fonts/VarelaRound-Regular.ttf");
+		Typeface font2 = Typeface.createFromAsset(getAssets(), "fonts/DINEngschrift-Regular.ttf");
+
+		title.setTypeface(font);
+		infoHeader.setTypeface(font);
+		infoBody.setTypeface(font);
+		homeButton.setTypeface(font2);
+
 		final Context context = this;
-		
+
 		statusListView = (ListView) this.findViewById(R.id.statusListView);
 		statusListView.setOnItemClickListener(new OnItemClickListener() {
 			@SuppressWarnings("unchecked")
 			public void onItemClick(AdapterView _av, View _v, int _index, long arg3)
 			{
 				selectedStatusItem = statusArray.get(_index);
-				
-				//CALL MTA INFO ACTIVITY
+
+				// CALL MTA INFO ACTIVITY
 				Intent intent = new Intent(context, MTAInfoActivity.class);
 				intent.putExtra("line", selectedStatusItem.getLine());
 				intent.putExtra("status_txt", selectedStatusItem.getStatusText());
@@ -50,8 +63,17 @@ public class MTACurrentStatusActivity extends Activity
 			}
 		});
 
-		statusArray =  ((NotifyApplication) getApplication()).getMTAStatusArray();
-		
+		homeButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v)
+			{
+				finish();
+				Intent myIntent = new Intent(getApplicationContext(),MainActivity.class);
+				startActivityForResult(myIntent, 0);
+			}
+		});
+
+		statusArray = ((NotifyApplication) getApplication()).getMTAStatusArray();
+
 		int layoutID = R.layout.listviewitem;
 		aa = new MTAStatusAdapter(this, layoutID, statusArray);
 		statusListView.setAdapter(aa);
@@ -60,35 +82,35 @@ public class MTACurrentStatusActivity extends Activity
 	@Override
 	protected void onStart()
 	{
-		//Log.w(TAG, "onStart");
+		// Log.w(TAG, "onStart");
 		super.onStart();
 	}
 
 	@Override
 	protected void onResume()
 	{
-		//Log.w(TAG, "onResume");
+		// Log.w(TAG, "onResume");
 		super.onResume();
 	}
 
 	@Override
 	protected void onPause()
 	{
-		//Log.w(TAG, "onPause");
+		// Log.w(TAG, "onPause");
 		super.onPause();
 	}
 
 	@Override
 	protected void onStop()
 	{
-		//Log.w(TAG, "onStop");
+		// Log.w(TAG, "onStop");
 		super.onStop();
 	}
 
 	@Override
 	protected void onDestroy()
 	{
-		//Log.w(TAG, "onDestroy");
+		// Log.w(TAG, "onDestroy");
 		super.onDestroy();
 	}
 }

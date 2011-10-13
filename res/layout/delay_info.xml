@@ -46,10 +46,9 @@
     android:layout_height="75dip"
     android:background="#3e3e3e"
     android:layout_gravity="bottom"
-    android:text="@string/home_button"
     android:textColor="#6ec610"
     android:textSize="23dip"
-    />
+    android:text="@string/back_button"/>
 	<com.bitty.notifyme.Panel
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"

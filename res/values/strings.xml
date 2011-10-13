@@ -4,7 +4,8 @@
     <string name="mta_feed">http://www.mta.info/status/serviceStatus.txt</string>
     <string name="add_button">ADD NOTIFICATION</string>
     <string name="info_header">Info!</string>
-    <string name="info_body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin purus nibh, malesuada id adipiscing faucibus, pellentesque ac nulla. Phasellus ut ante tortor. Cras mattis nisl et orci adipiscing quis cursus felis imperdiet. Cras a tincidunt lectus. Vivamus suscipit lacus a purus aliquam sed tincidunt odio volutpat.</string>
+    <string name="info_body">"Enter the train lines, the days you ride and the time you usually ride. Notify Me NYC will check for delays at those times and ONLY send you a notification if there's a hold-up. Easily edit or delete your notifications or add as many as you like! \n\nDeveloped by The Cortelyou Collective (??)
+\nDesigned by Haley Fieg"</string>
     <string name="delays_button">VIEW CURRENT DELAYS</string>
     <string name="add_notification_title">ADD NOTIFICATION</string>
     <string name="edit_notification_title">EDIT NOTIFICATION</string>
@@ -22,6 +23,7 @@
     <string name="edit_button">EDIT</string>
     <string name="ok_button">OK</string>
     <string name="home_button">HOME</string>
+    <string name="back_button">BACK</string>
     <string name="return_home_button">RETURN HOME</string>
     <string name="train_prompt">Choose a train line</string>
     <string name="notification_saved_message">Your Notification has been saved.</string>

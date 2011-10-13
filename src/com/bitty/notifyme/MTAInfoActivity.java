@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 public class MTAInfoActivity extends Activity{
 	
-	private Button homeBtn;
+	private Button backButton;
 	private TextView delayTextView;
 
 	@Override
@@ -19,7 +19,7 @@ public class MTAInfoActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.delay_info);
         
-        homeBtn = (Button) findViewById(R.id.home_btn);
+        backButton = (Button) findViewById(R.id.home_btn);
         delayTextView = (TextView) findViewById(R.id.delay_info_text);
         
         TextView title = (TextView) findViewById(R.id.title);
@@ -33,19 +33,19 @@ public class MTAInfoActivity extends Activity{
 		delayTextView.setTypeface(font);
 		infoHeader.setTypeface(font);
 		infoBody.setTypeface(font);
-        homeBtn.setTypeface(font2);
+        backButton.setTypeface(font2);
 		
         // set the text
         Intent intent = getIntent();
         String status_txt = intent.getStringExtra("status_txt");
         delayTextView.setText(Html.fromHtml(status_txt));
         
-        homeBtn.setOnClickListener(new View.OnClickListener() {
+        backButton.setOnClickListener(new View.OnClickListener() {
 			
 			public void onClick(View v) {
 				finish();
-				Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivityForResult(myIntent, 0);
+				//Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
+                //startActivityForResult(myIntent, 0);
 			}
 		});
 	}
