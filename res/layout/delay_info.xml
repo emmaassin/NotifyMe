@@ -46,7 +46,7 @@
     android:layout_height="75dip"
     android:background="#3e3e3e"
     android:layout_gravity="bottom"
-    android:textColor="#6ec610"
+    android:textColor="@drawable/green_button_text"
     android:textSize="23dip"
     android:text="@string/back_button"/>
 	<com.bitty.notifyme.Panel

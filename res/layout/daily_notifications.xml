@@ -35,6 +35,6 @@
               android:layout_height="fill_parent"
               android:layout_below="@id/header"
               android:layout_above="@id/return_home_btn"
-              android:divider="#e3e3e3"
+              android:divider="#a8a8a8"
   			  android:dividerHeight="1dip"/>
 </RelativeLayout>

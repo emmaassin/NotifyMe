@@ -20,8 +20,8 @@
     android:textColor="#ececec"
     android:textSize="21dip"
     android:paddingLeft="14dip"
-    android:paddingTop="10dip"
-    android:paddingBottom="8dip" android:text="@string/add_notification_title"/>
+    android:paddingTop="12dip"
+    android:paddingBottom="6dip" android:text="@string/add_notification_title"/>
     </LinearLayout>
     <LinearLayout
     android:id="@+id/trains"

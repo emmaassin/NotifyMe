@@ -30,7 +30,7 @@
     android:textColor="#ececec"
     android:textSize="32dip"
     android:paddingLeft="14dip"
-    android:paddingTop="8dip"
+    android:paddingTop="9dip"
     android:paddingBottom="8dip"
     />
     </LinearLayout>
@@ -112,6 +112,7 @@
 			android:layout_height="wrap_content"
 			android:layout_gravity="right"
 			android:layout_marginRight="14dip"
+			android:layout_marginTop="-4dip"
 			 />
 		<LinearLayout
 			android:id="@+id/panelContent"

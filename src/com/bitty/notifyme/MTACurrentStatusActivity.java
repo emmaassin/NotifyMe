@@ -51,7 +51,7 @@ public class MTACurrentStatusActivity extends Activity
 		statusListView = (ListView) this.findViewById(R.id.statusListView);
 		statusListView.setOnItemClickListener(new OnItemClickListener() {
 			@SuppressWarnings("unchecked")
-			public void onItemClick(AdapterView _av, View _v, int _index, long arg3)
+			public void onItemClick(AdapterView _av, View _v, int _index, long arg3) 
 			{
 				selectedStatusItem = statusArray.get(_index);
 

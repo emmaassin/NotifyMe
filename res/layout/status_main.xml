@@ -37,8 +37,14 @@
     />
     </LinearLayout>
     	<ListView android:layout_height="wrap_content"
-		android:layout_width="fill_parent" android:id="@+id/statusListView" android:background="#ffffffff" android:cacheColorHint="#ffffffff" />
-    	
+		android:layout_width="fill_parent" android:id="@+id/statusListView" android:background="#ffffffff" android:cacheColorHint="#ffffffff"
+		android:divider="#e3e3e3"
+  		android:dividerHeight="1dip"/>
+    	<View
+	  android:id="@+id/thin_line"
+	  android:layout_width="fill_parent"
+	  android:layout_height="1dip"
+	  android:background="#e3e3e3"/>
 	</LinearLayout>
 		<Button
 	android:id="@+id/home_btn"
@@ -46,7 +52,7 @@
     android:layout_height="75dip"
     android:background="#3e3e3e"
     android:layout_gravity="bottom"
-    android:textColor="#6ec610"
+    android:textColor="@drawable/green_button_text"
     android:textSize="23dip" android:text="@string/home_button"/>
 	<com.bitty.notifyme.Panel
 			android:layout_width="fill_parent"
