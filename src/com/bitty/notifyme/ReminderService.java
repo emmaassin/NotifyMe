@@ -19,6 +19,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.util.Log;
@@ -36,6 +37,8 @@ public class ReminderService extends WakeReminderIntentService
 
 	private String notificationTitle = "";
 	private NotifyMeItem notifyMeItem;
+	
+	private SharedPreferences settings;
 
 	public ReminderService()
 	{
@@ -123,8 +126,27 @@ public class ReminderService extends WakeReminderIntentService
 				.currentTimeMillis());
 		notification.setLatestEventInfo(this, "FOR THE FOLLOWING TRAINS:", notificationTitle, contentIntent);
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;
-		notification.defaults |= Notification.DEFAULT_SOUND;
-		notification.defaults |= Notification.DEFAULT_VIBRATE;
+		
+		settings = getSharedPreferences("NotifyMeSettings", MODE_PRIVATE);
+		if(settings.contains("tone"))
+		{
+			if(settings.getBoolean("tone", true))
+			{
+				notification.defaults |= Notification.DEFAULT_SOUND;
+			}
+		} else {
+			notification.defaults |= Notification.DEFAULT_SOUND;
+		}
+		
+		if(settings.contains("vibration"))
+		{
+			if(settings.getBoolean("vibration", true))
+			{
+				notification.defaults |= Notification.DEFAULT_VIBRATE;
+			}
+		} else {
+			notification.defaults |= Notification.DEFAULT_VIBRATE;
+		}
 
 		// Using notification of 0 instead of notificationID
 		// No other notification will be called in this app

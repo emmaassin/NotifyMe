@@ -28,14 +28,22 @@
     <string name="train_prompt">Choose a train line</string>
     <string name="notification_saved_message">Your Notification has been saved.</string>
     <string name="notification_edit_message">Your Notification has been edited.</string>
-    <string name="notification_cancel_add">No Notifications were saved.</string>
+    <string name="notification_cancel_add">No Notifications were saved.  </string>
     <string name="notification_cancel_edit">No Notifications were edited.</string>
     <string name="no_lines_selected_message">Please select at least one train line</string>
     <string name="no_days_selected_message">Please select at least one day</string>
-    <string name="delete_notification_title">You are about to delete a notification</string>
+    <string name="delete_notification_title">You are about to delete a notification.</string>
     <string name="delete_notification_message">Are you sure you want to delete?</string>
+    <string name="delete_all_title">You are about to delete all your set notifications.</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    
+    <!-- Menu -->
+    <string name="menu_settings">Settings</string>
+    <string name="menu_delete_all">Delete all Notifications</string>
+    <string name="settings">SETTINGS</string>
+    <string name="vibrate">Vibrate phone on Notification?</string>
+    <string name="tone">Sound tone on Notification?</string>
     
     <!-- Days of the week not sure if this is still used? -->
     <string name="monday">MONDAY</string>

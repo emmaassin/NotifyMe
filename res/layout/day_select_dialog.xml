@@ -32,7 +32,8 @@ xmlns:android="http://schemas.android.com/apk/res/android"
     <LinearLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_marginLeft="14dip">
 			<CheckBox
 			android:id="@+id/mondayCheckBox"
 			android:layout_width="fill_parent"
@@ -40,7 +41,6 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 			android:text="@string/monday"
 			android:textColor="#3e3e3e"
 			android:button="@drawable/check_box"
-			android:layout_marginLeft="14dip"
 			android:tag="2"/>
 			<View
 			  android:layout_width="fill_parent"
@@ -53,7 +53,6 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 			android:text="@string/tuesday"
 			android:textColor="#3e3e3e"
 			android:button="@drawable/check_box"
-			android:layout_marginLeft="14dip"
 			android:tag="3"/>
 			<View
 			  android:layout_width="fill_parent"
@@ -66,7 +65,6 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 			android:text="@string/wednesday"
 			android:textColor="#3e3e3e"
 			android:button="@drawable/check_box"
-			android:layout_marginLeft="14dip"
 			android:tag="4"/>
 			<View
 			  android:layout_width="fill_parent"
@@ -79,7 +77,6 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 			android:text="@string/thursday"
 			android:textColor="#3e3e3e"
 			android:button="@drawable/check_box"
-			android:layout_marginLeft="14dip"
 			android:tag="5"/>
 			<View
 			  android:layout_width="fill_parent"
@@ -92,7 +89,6 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 			android:text="@string/friday"
 			android:textColor="#3e3e3e"
 			android:button="@drawable/check_box"
-			android:layout_marginLeft="14dip"
 			android:tag="6"/>
 			<View
 			  android:layout_width="fill_parent"
@@ -105,7 +101,6 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 			android:text="@string/saturday"
 			android:textColor="#3e3e3e"
 			android:button="@drawable/check_box"
-			android:layout_marginLeft="14dip"
 			android:tag="7"/>
 			<View
 			  android:layout_width="fill_parent"
@@ -118,7 +113,6 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 			android:text="@string/sunday"
 			android:textColor="#3e3e3e"
 			android:button="@drawable/check_box"
-			android:layout_marginLeft="14dip"
 			android:tag="1"
 			/>
 			</LinearLayout>

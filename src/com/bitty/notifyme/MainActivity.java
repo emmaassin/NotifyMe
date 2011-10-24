@@ -3,16 +3,22 @@ package com.bitty.notifyme;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity
 {
@@ -35,6 +41,7 @@ public class MainActivity extends Activity
 	private LinearLayout holder;
 	private LinearLayout delaysButton;
 	private LinearLayout addNotificationButton;
+	private SettingsDialog settingsDialog;
 
 	private NotifyDBAdapter notifyDB;
 
@@ -65,6 +72,47 @@ public class MainActivity extends Activity
 		holder = (LinearLayout) findViewById(R.id.days_holder);
 
 		notifyDB = ((NotifyApplication) getApplication()).getNotifyDB();
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.menu, menu);
+	    return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	        case R.id.menu_settings:     
+	        	makeSettingsPopup();
+	        	break;
+	        case R.id.menu_delete_all:     
+	        	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setMessage(R.string.delete_notification_message).setTitle(R.string.delete_all_title).setCancelable(false)
+						.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
+						{
+							public void onClick(DialogInterface dialog, int which)
+							{
+								// delete all notifications!
+							}
+						}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener()
+						{
+							public void onClick(DialogInterface dialog, int which)
+							{
+								dialog.cancel();
+							}
+						});
+				builder.create().show();
+	        	break;
+	    }
+	    return true;
+	}
+	
+	private void makeSettingsPopup()
+	{
+		settingsDialog = new SettingsDialog(this);
+		settingsDialog.show();
 	}
 
 	@Override

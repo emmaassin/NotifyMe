@@ -32,6 +32,6 @@ public class OnBootReceiver extends BroadcastReceiver
 			}while(cursor.moveToNext());
 		}
 		
-		Toast.makeText(context, "The Boot Receiver was received!", Toast.LENGTH_LONG).show();
+		//Toast.makeText(context, "The Boot Receiver was received!", Toast.LENGTH_LONG).show();
 	}
 }
