@@ -114,6 +114,9 @@ public class NotifyDBAdapter
 		return db.update(DATABASE_TABLE, newValues, KEY_ID + "=" + _notify.getDB_ID(), null) > 0;
 	}
 
+	/*
+	 * Get all values
+	 */
 	public Cursor getAllNotifications()
 	{
 		return db.query(DATABASE_TABLE, new String[] { KEY_ID, KEY_NOTIFY_DAY, KEY_NOTIFY_HOUR, KEY_NOTIFY_MINUTES , KEY_NOTIFY_SUBWAYS },

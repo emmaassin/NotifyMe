@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.widget.Toast;
 
 public class OnBootReceiver extends BroadcastReceiver
 {
@@ -15,6 +14,7 @@ public class OnBootReceiver extends BroadcastReceiver
 		//TODO May need to do this when deleting items since DB is reset
 		
 		NotifyDBAdapter db = new NotifyDBAdapter(context);
+		db.open();
 		
 		Cursor cursor = db.getAllNotifications();
 		
