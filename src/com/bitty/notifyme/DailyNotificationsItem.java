@@ -103,6 +103,7 @@ public class DailyNotificationsItem extends RelativeLayout
 	
 	public void setContent(int hr, int min, List<String> subways)
 	{
+		LinearLayout currentRow = null;
 		
 		for (int i = 0; i < subways.size(); i++)
 		{
@@ -138,8 +139,14 @@ public class DailyNotificationsItem extends RelativeLayout
 			// center the Image
 			img.setScaleType(ScaleType.CENTER);
 
-			// img.setImageResource(resources);
-			linesImagesHolder.addView(img);
+			if(i % 3 == 0)
+			{
+				LinearLayout ll = new LinearLayout(mContext);
+				linesImagesHolder.addView(ll);
+				currentRow = ll;
+			}
+			
+			currentRow.addView(img);
 		}
 
 		String minString;

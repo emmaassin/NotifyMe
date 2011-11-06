@@ -45,6 +45,12 @@
     <string name="vibrate">Vibrate phone on Notification?</string>
     <string name="tone">Sound tone on Notification?</string>
     
+    <!-- Chooser Menu -->
+    <string name="chooser_title">Choose what kind of train you ride:</string>
+    <string name="subway">NYC Subway</string>
+    <string name="LIRR">Long Island Railroad</string>
+    <string name="MN">Metro North</string>
+    
     <!-- Days of the week not sure if this is still used? -->
     <string name="monday">MONDAY</string>
     <string name="tuesday">TUESDAY</string>

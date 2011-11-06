@@ -11,11 +11,14 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -72,6 +75,32 @@ public class MainActivity extends Activity
 		holder = (LinearLayout) findViewById(R.id.days_holder);
 
 		notifyDB = ((NotifyApplication) getApplication()).getNotifyDB();
+	}
+	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,ContextMenuInfo menuInfo) {
+	  super.onCreateContextMenu(menu, v, menuInfo);
+	  MenuInflater inflater = getMenuInflater();
+	  inflater.inflate(R.menu.chooser_menu, menu);
+	  menu.setHeaderTitle(R.string.chooser_title);
+	}
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+	  AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+	  switch (item.getItemId()) {
+	  case R.id.subway:
+		  onAddEditActivity();
+	    return true;
+	  case R.id.LIRR:
+		  onAddEditActivity();
+	    return true;
+	  case R.id.MN:
+		  onAddEditActivity();  
+		return true;
+	  default:
+	    return super.onContextItemSelected(item);
+	  }
 	}
 	
 	@Override
@@ -174,7 +203,9 @@ public class MainActivity extends Activity
 		{
 			public void onClick(View v)
 			{
-				onAddEditActivity();
+				registerForContextMenu(v); 
+			    openContextMenu(v);
+			    unregisterForContextMenu(v);
 			}
 		});
 	}
