@@ -81,6 +81,34 @@
         <item>SIR</item>
     </string-array> 
     
+    <!-- Long Island Railroad -->
+    <string-array name="LIRR_array">
+    	<item>City Terminal Zone</item>
+    	<item>Babylon</item>
+    	<item>Far Rockaway</item>
+    	<item>Hempstead</item>
+    	<item>Long Beach</item>
+    	<item>Montauk</item>
+    	<item>Oyster Bay</item>
+    	<item>Port Jefferson</item>
+    	<item>Port Washington</item>
+    	<item>Ronkonkoma</item>
+    	<item>West Hempstead</item>
+    </string-array>
+    
+    <!-- Metro North -->
+    <string-array name="MN_array">
+    	<item>Hudson</item>
+    	<item>Harlem</item>
+    	<item>Wassaic</item>
+    	<item>New Haven</item>
+    	<item>New Canaan</item>
+    	<item>Danbury</item>
+    	<item>Waterbury</item>
+    	<item>Pascack Valley</item>
+    	<item>Port Jervis</item>
+    </string-array>
+    
     <!-- Days of the Weeks --> 
     <string-array name="days_array">
     	<item>MONDAY</item>

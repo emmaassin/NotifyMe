@@ -84,6 +84,8 @@ public class DailyNotificationsItem extends RelativeLayout
 				Intent i = new Intent(mContext, AddEditActivity.class);
 				i.putExtra("array_index", arrayIndex);
 				i.putExtra("edit_mode", true);
+				i.putExtra("train_type", "subway");
+				//////////////!!!!!!!!!!!!!!!!!????????????/////////////////////// need to get the type from the database and replace "subway" above
 				mContext.startActivity(i);
 			}
 		});

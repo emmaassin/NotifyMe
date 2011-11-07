@@ -24,17 +24,19 @@ public class AddEditActivity extends Activity
 	private LinearLayout subwayButton, daysButton;
 	private TimeChooser timePicker;
 	private Button saveButton, cancelButton;
-	private SelectDayDialog daysDialog;
+	private CheckboxDialog daysDialog;
 	private SelectSubwayDialog subwayDialog;
+	private CheckboxDialog trainsDialog;
 	private ImageView trainsCheck, daysCheck;
 
-	public ArrayList<String> subwaySelected = new ArrayList<String>();
+	public ArrayList<String> trainsSelected = new ArrayList<String>();
 	public List<Integer> daysSelectedArr = new ArrayList<Integer>();
 
 	private NotifyDBAdapter notifyDB;
 	private NotifyMeItem notifyEditItem;
 
 	private Boolean isEditMode;
+	private String trainType;
 	
 	private ReminderManager reminderMngr;
 
@@ -75,6 +77,7 @@ public class AddEditActivity extends Activity
 		// Check to if this is an edit
 
 		isEditMode = getIntent().getBooleanExtra("edit_mode", false);
+		trainType = getIntent().getStringExtra("train_type");
 
 		if (isEditMode)
 		{
@@ -85,7 +88,7 @@ public class AddEditActivity extends Activity
 			daysSelectedArr.add(notifyEditItem.getDay());
 			
 			
-			subwaySelected = (ArrayList<String>) notifyEditItem.getSubways();
+			trainsSelected = (ArrayList<String>) notifyEditItem.getSubways();
 			// hiding the choose days button so it can't be edited
 			daysButton.setVisibility(View.GONE);
 			//LinearLayout thinLine = (LinearLayout) findViewById(R.id.thinline);
@@ -103,7 +106,7 @@ public class AddEditActivity extends Activity
 		{
 			public void onClick(View view)
 			{
-				if (subwaySelected.size() < 1)
+				if (trainsSelected.size() < 1)
 				{
 					Toast.makeText(AddEditActivity.this, getString(R.string.no_lines_selected_message),
 							Toast.LENGTH_SHORT).show();
@@ -152,7 +155,16 @@ public class AddEditActivity extends Activity
 
 		subwayButton.setOnClickListener(new View.OnClickListener()
 		{
-			public void onClick(View v){ createSubwayPopUp(); }
+			public void onClick(View v){ 
+				if(trainType == "subway")
+				{
+					createSubwayPopUp(); 
+				} else if (trainType == "LIRR"){
+					createTrainPopup();
+				} else if (trainType == "MN") {
+					createTrainPopup();
+				}
+			}
 		});
 	}
 
@@ -205,16 +217,16 @@ public class AddEditActivity extends Activity
 	private void createSubwayPopUp()
 	{
 		subwayDialog = new SelectSubwayDialog(this);
-		if (subwaySelected.size() > 0)
-			subwayDialog.setAlreadyChecked(subwaySelected);
+		if (trainsSelected.size() > 0)
+			subwayDialog.setAlreadyChecked(trainsSelected);
 
 		subwayDialog.show();
 		subwayDialog.saveButton.setOnClickListener(new View.OnClickListener()
 		{
 			public void onClick(View v)
 			{
-				subwaySelected = subwayDialog.getCheckedLinesArray();
-				if (subwaySelected.size() > 0)
+				trainsSelected = subwayDialog.getCheckedLinesArray();
+				if (trainsSelected.size() > 0)
 				{
 					trainsCheck.setImageResource(R.drawable.check);
 				} else
@@ -225,10 +237,32 @@ public class AddEditActivity extends Activity
 			}
 		});
 	}
+	
+	protected void createTrainPopup()
+	{
+		int trainArray = 0;
+		Integer[] tags = new Integer[]{};
+		
+		if(trainType == "LIRR")
+		{
+			trainArray = R.string.LIRR;
+			tags = new Integer[]{0,1,2,3,4,5,6,7,8,9,10};
+
+		} else if (trainType == "MN")
+		{
+			trainArray = R.string.MN;
+			tags = new Integer[]{0,1,2,3,4,5,6,7,8};
+		}
+		trainsDialog = new CheckboxDialog(this);
+		trainsDialog.init(trainArray, tags);
+		
+		////////////////// unfinished - need to know how new lines info to be saved etc
+	}
 
 	private void createDaysPopup()
 	{
-		daysDialog = new SelectDayDialog(this);
+		daysDialog = new CheckboxDialog(this);
+		daysDialog.init(R.array.days_array, new Integer[]{2,3,4,5,6,7,1});
 
 		if (daysSelectedArr.size() > 0)
 			daysDialog.setAlreadyChecked(daysSelectedArr);
@@ -263,7 +297,7 @@ public class AddEditActivity extends Activity
 		{
 			// insert to database and serialize subway lines array
 			int daySelected = daysSelectedArr.get(i);
-			NotifyMeItem item = new NotifyMeItem(subwaySelected, daySelected, hour, minute);
+			NotifyMeItem item = new NotifyMeItem(trainsSelected, daySelected, hour, minute);
 			long alarmID = notifyDB.insertNotification(item);
 
 			reminderMngr.setReminder(hour, minute, daySelected, alarmID);
@@ -276,7 +310,7 @@ public class AddEditActivity extends Activity
 		notifyEditItem.setHour(timePicker.getCurrentHour());
 		notifyEditItem.setMinutes(timePicker.getCurrentMinute());
 		notifyEditItem.setDay(daysSelectedArr.get(0));
-		notifyEditItem.setSubways(subwaySelected);
+		notifyEditItem.setSubways(trainsSelected);
 		notifyDB.updateNotification(notifyEditItem);
 		reminderMngr.clearReminder(Convert.safeLongToInt(notifyEditItem.getDB_ID()));
 		reminderMngr.setReminder(notifyEditItem.getHour(), notifyEditItem.getMinutes(), notifyEditItem.getDay(), notifyEditItem.getDB_ID());
