@@ -27,7 +27,9 @@ public class CheckboxDialog extends Dialog
 	private LinearLayout checkboxContainer;
 	private List<CheckBox> checkBoxArray = new ArrayList<CheckBox>();
 	private List<Integer> checkedBoxesArray = new ArrayList<Integer>();
+	private List<String> checkedLinesArray = new ArrayList<String>();
 	private Typeface font;
+	private Boolean trainsNotDays;
 	private Context mContext;
 	
 	public CheckboxDialog(Context context) {
@@ -56,8 +58,9 @@ public class CheckboxDialog extends Dialog
 		});
 	}
 	
-	public void init(int boxesToAdd, Integer[] tags)
+	public void init(int boxesToAdd, Boolean trains)
 	{
+		trainsNotDays = trains;
 		Resources res = mContext.getResources();
 		String[] addingArray = res.getStringArray(boxesToAdd);
 		
@@ -72,7 +75,12 @@ public class CheckboxDialog extends Dialog
 			cb.setTypeface(font);
 			checkBoxArray.add(cb);
 			cb.setText(addingArray[i]);
-			cb.setTag(tags[i]);
+			if(trains)
+			{
+				cb.setTag(addingArray[i]);
+			} else {
+				cb.setTag(i);
+			}
 			cb.setHeight(47);
 			cb.setTextColor(Color.parseColor("#3e3e3e"));
 			cb.setButtonDrawable(R.drawable.check_box);
@@ -83,11 +91,23 @@ public class CheckboxDialog extends Dialog
 				{
 					if (isChecked)
 					{
-						checkedBoxesArray.add((Integer) buttonView.getTag());
+						if(trainsNotDays)
+						{
+							checkedLinesArray.add((String) buttonView.getTag());
+						} else {
+							checkedBoxesArray.add((Integer) buttonView.getTag());
+						}
 					} else
 					{
-						int tag = (Integer) buttonView.getTag();
-						checkedBoxesArray.remove(new Integer(tag));
+						if(trainsNotDays)
+						{
+							String tag = (String) buttonView.getTag();
+							checkedLinesArray.remove(new String(tag));
+						} else {
+							int tag = (Integer) buttonView.getTag();
+							checkedBoxesArray.remove(new Integer(tag));
+						}
+						
 					}
 				}
 			});
@@ -99,7 +119,23 @@ public class CheckboxDialog extends Dialog
 		return (ArrayList) checkedBoxesArray;
 	}
 	
+	public ArrayList getCheckedLinesArray()
+	{
+		return (ArrayList) checkedLinesArray;
+	}
+	
 	public void setAlreadyChecked(List<Integer> checkedArray)
+	{
+		for (int i = 0; i < checkBoxArray.size(); i++)
+		{
+			if (checkedArray.contains(checkBoxArray.get(i).getTag()))
+			{
+				checkBoxArray.get(i).setChecked(true);
+			}
+		}
+	}
+	
+	public void setAlreadyCheckedTrains(List<String> checkedArray)
 	{
 		for (int i = 0; i < checkBoxArray.size(); i++)
 		{

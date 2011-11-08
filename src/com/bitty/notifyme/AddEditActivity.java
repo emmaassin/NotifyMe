@@ -36,7 +36,6 @@ public class AddEditActivity extends Activity
 	private NotifyMeItem notifyEditItem;
 
 	private Boolean isEditMode;
-	private String trainType;
 	
 	private ReminderManager reminderMngr;
 
@@ -77,7 +76,6 @@ public class AddEditActivity extends Activity
 		// Check to if this is an edit
 
 		isEditMode = getIntent().getBooleanExtra("edit_mode", false);
-		trainType = getIntent().getStringExtra("train_type");
 
 		if (isEditMode)
 		{
@@ -155,13 +153,14 @@ public class AddEditActivity extends Activity
 
 		subwayButton.setOnClickListener(new View.OnClickListener()
 		{
-			public void onClick(View v){ 
-				if(trainType == "subway")
+			public void onClick(View v){
+				NotifyApplication app = (NotifyApplication) getApplication();
+				if(app.getCurrentTrainType() == "subway")
 				{
 					createSubwayPopUp(); 
-				} else if (trainType == "LIRR"){
+				} else if (app.getCurrentTrainType() == "LIRR"){
 					createTrainPopup();
-				} else if (trainType == "MN") {
+				} else if (app.getCurrentTrainType() == "MN") {
 					createTrainPopup();
 				}
 			}
@@ -241,28 +240,42 @@ public class AddEditActivity extends Activity
 	protected void createTrainPopup()
 	{
 		int trainArray = 0;
-		Integer[] tags = new Integer[]{};
-		
-		if(trainType == "LIRR")
+		NotifyApplication app = (NotifyApplication) getApplication();
+		if(app.getCurrentTrainType() == "LIRR")
 		{
-			trainArray = R.string.LIRR;
-			tags = new Integer[]{0,1,2,3,4,5,6,7,8,9,10};
+			trainArray = R.array.LIRR_array;
 
-		} else if (trainType == "MN")
+		} else if (app.getCurrentTrainType() == "MN")
 		{
-			trainArray = R.string.MN;
-			tags = new Integer[]{0,1,2,3,4,5,6,7,8};
+			trainArray = R.array.MN_array;
 		}
 		trainsDialog = new CheckboxDialog(this);
-		trainsDialog.init(trainArray, tags);
+		trainsDialog.init(trainArray, true);
+		if (trainsSelected.size() > 0)
+			trainsDialog.setAlreadyCheckedTrains(trainsSelected);
 		
-		////////////////// unfinished - need to know how new lines info to be saved etc
+		trainsDialog.show();
+		trainsDialog.saveButton.setOnClickListener(new View.OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				trainsSelected = trainsDialog.getCheckedLinesArray();
+				if (trainsSelected.size() > 0)
+				{
+					trainsCheck.setImageResource(R.drawable.check);
+				} else
+				{
+					trainsCheck.setImageResource(R.drawable.add);
+				}
+				trainsDialog.cancel();
+			}
+		});
 	}
 
 	private void createDaysPopup()
 	{
 		daysDialog = new CheckboxDialog(this);
-		daysDialog.init(R.array.days_array, new Integer[]{2,3,4,5,6,7,1});
+		daysDialog.init(R.array.days_array, false);
 
 		if (daysSelectedArr.size() > 0)
 			daysDialog.setAlreadyChecked(daysSelectedArr);
@@ -295,8 +308,15 @@ public class AddEditActivity extends Activity
 		// set alerts for each day in the day array
 		for (int i = 0; i < daysSelectedArr.size(); i++)
 		{
+			int daySelected = 0;
 			// insert to database and serialize subway lines array
-			int daySelected = daysSelectedArr.get(i);
+			if(daysSelectedArr.get(i) < 6)
+			{
+				daySelected = daysSelectedArr.get(i) + 2;
+			} else {
+				daySelected = 1;
+			}
+			//int daySelected = daysSelectedArr.get(i);
 			NotifyMeItem item = new NotifyMeItem(trainsSelected, daySelected, hour, minute);
 			long alarmID = notifyDB.insertNotification(item);
 

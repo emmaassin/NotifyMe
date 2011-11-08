@@ -10,6 +10,7 @@ public class NotifyApplication extends Application{
 	private ArrayList<MTAStatusItem> mtaStatusArray;
 	private String currentDay;
 	private int currentDayID;
+	private String currentTrainType;
 	private NotifyDBAdapter notifyDB;
 	
 	public ArrayList<NotifyMeItem> getDailyNotificationArray() {
@@ -42,6 +43,15 @@ public class NotifyApplication extends Application{
 	
 	public ArrayList<MTAStatusItem> getMTAStatusArray(){
 		return mtaStatusArray;
+	}
+	
+	public void setCurrentTrainType(String trainType)
+	{
+		currentTrainType = trainType;
+	}
+	
+	public String getCurrentTrainType() {
+		return currentTrainType;
 	}
 	
 	@Override

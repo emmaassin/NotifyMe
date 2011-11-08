@@ -45,7 +45,6 @@ public class MainActivity extends Activity
 	private LinearLayout delaysButton;
 	private LinearLayout addNotificationButton;
 	private SettingsDialog settingsDialog;
-	private String trainType;
 
 	private NotifyDBAdapter notifyDB;
 
@@ -89,17 +88,18 @@ public class MainActivity extends Activity
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 	  AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+	  NotifyApplication app = (NotifyApplication) getApplication();
 	  switch (item.getItemId()) {
 	  case R.id.subway:
-		  trainType = "subway";
+		  app.setCurrentTrainType("subway");
 		  onAddEditActivity();
 	    return true;
 	  case R.id.LIRR:
-		  trainType = "LIRR";
+		  app.setCurrentTrainType("LIRR");
 		  onAddEditActivity();
 	    return true;
 	  case R.id.MN:
-		  trainType = "MN";
+		  app.setCurrentTrainType("MN");
 		  onAddEditActivity();  
 		return true;
 	  default:
@@ -260,7 +260,6 @@ public class MainActivity extends Activity
 	private void onAddEditActivity()
 	{
 		Intent i = new Intent(this, AddEditActivity.class);
-		i.putExtra("train_type", trainType);
 		this.startActivity(i);
 	}
 }
