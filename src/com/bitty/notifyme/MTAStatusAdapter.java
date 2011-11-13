@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,9 @@ public class MTAStatusAdapter extends ArrayAdapter<MTAStatusItem>
 			//holder.lineTextView = (TextView) convertView.findViewById(R.id.line_id);
 			holder.lineImageView = (ImageView) convertView.findViewById(R.id.line_id_image);
 			holder.statusView = (TextView) convertView.findViewById(R.id.status_id);
+			Typeface font2 = Typeface.createFromAsset(getContext().getAssets(), "fonts/DINEngschrift-Regular.ttf");
+			holder.statusView.setTypeface(font2);
+			holder.statusView.setTextSize(20);
 			convertView.setTag(holder);
 
 			holder.statusView.setTextColor(convertView.getResources().getColor(R.color.red));
