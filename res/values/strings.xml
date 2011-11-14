@@ -39,11 +39,10 @@
     <string name="no">No</string>
     
     <!-- Menu -->
-    <string name="menu_settings">Settings</string>
-    <string name="menu_delete_all">Delete all Notifications</string>
-    <string name="settings">SETTINGS</string>
+    <string name="settings">SETTINGS MENU</string>
     <string name="vibrate">Vibrate phone on Notification?</string>
     <string name="tone">Sound tone on Notification?</string>
+    <string name="menu_delete_all">DELETE ALL NOTIFICATIONS</string>
     
     <!-- Chooser Menu -->
     <string name="chooser_title">CHOOSE WHAT KIND OF TRAIN YOU RIDE:</string>

@@ -27,7 +27,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
     />
     </LinearLayout>
     <LinearLayout
-    android:layout_width="wrap_content"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingTop="10dip"
@@ -49,6 +49,17 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 			android:button="@drawable/check_box"
 			android:tag="2"/>
 			</LinearLayout>
+			<Button
+			android:id="@+id/delete_all"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/menu_delete_all"
+			android:textSize="18dip"
+			android:textColor="#ffffff"
+			android:background="@drawable/delete_all_btn"
+			android:layout_marginTop="15dip"
+			android:layout_gravity="center_horizontal"
+			/>
 		</LinearLayout>
 	<LinearLayout
 		android:layout_width="fill_parent"

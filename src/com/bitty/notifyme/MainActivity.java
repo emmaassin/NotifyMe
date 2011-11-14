@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -112,44 +113,46 @@ public class MainActivity extends Activity
 	}
 	
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.menu, menu);
-	    return true;
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-	    switch (item.getItemId()) {
-	        case R.id.menu_settings:     
-	        	makeSettingsPopup();
-	        	break;
-	        case R.id.menu_delete_all:     
-	        	AlertDialog.Builder builder = new AlertDialog.Builder(this);
-				builder.setMessage(R.string.delete_notification_message).setTitle(R.string.delete_all_title).setCancelable(false)
-						.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
-						{
-							public void onClick(DialogInterface dialog, int which)
-							{
-								// delete all notifications!
-							}
-						}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener()
-						{
-							public void onClick(DialogInterface dialog, int which)
-							{
-								dialog.cancel();
-							}
-						});
-				builder.create().show();
-	        	break;
-	    }
-	    return true;
-	}
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_MENU) {
+        	makeSettingsPopup();
+           return true;
+        }
+        return false;
+    }
 	
 	private void makeSettingsPopup()
 	{
 		settingsDialog = new SettingsDialog(this);
 		settingsDialog.show();
+		settingsDialog.deleteAllButton.setOnClickListener(new View.OnClickListener() {
+			
+			public void onClick(View v) {
+				settingsDialog.cancel();
+				deleteAllNotifications();
+			}
+		});
+	}
+	
+	private void deleteAllNotifications()
+	{
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage(R.string.delete_notification_message).setTitle(R.string.delete_all_title).setCancelable(false)
+				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
+				{
+					public void onClick(DialogInterface dialog, int which)
+					{
+						// delete all the notifications
+						dialog.cancel();
+					}
+				}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener()
+				{
+					public void onClick(DialogInterface dialog, int which)
+					{
+						dialog.cancel();
+					}
+				});
+		builder.create().show();
 	}
 
 	@Override

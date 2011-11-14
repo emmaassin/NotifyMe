@@ -14,7 +14,7 @@ public class SettingsDialog extends Dialog
 {
 	private TextView dialogText;
 	private CheckBox toneBox, vibrateBox;
-	public Button saveButton;
+	public Button deleteAllButton, saveButton;
 	private SharedPreferences settings;
 	private SharedPreferences.Editor prefEditor;
 	
@@ -31,6 +31,9 @@ public class SettingsDialog extends Dialog
 		
 		dialogText = (TextView) findViewById(R.id.settings_header);
 		dialogText.setTypeface(font);
+		
+		deleteAllButton = (Button) findViewById(R.id.delete_all);
+		deleteAllButton.setTypeface(font2);
 		
 		saveButton = (Button) findViewById(R.id.save_button);
 		saveButton.setTypeface(font2);
