@@ -45,6 +45,7 @@ public class MainActivity extends Activity
 	private LinearLayout delaysButton;
 	private LinearLayout addNotificationButton;
 	private SettingsDialog settingsDialog;
+	private TrainTypeDialog trainTypeDialog;
 
 	private NotifyDBAdapter notifyDB;
 
@@ -77,34 +78,37 @@ public class MainActivity extends Activity
 		notifyDB = ((NotifyApplication) getApplication()).getNotifyDB();
 	}
 	
-	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v,ContextMenuInfo menuInfo) {
-	  super.onCreateContextMenu(menu, v, menuInfo);
-	  MenuInflater inflater = getMenuInflater();
-	  inflater.inflate(R.menu.chooser_menu, menu);
-	  menu.setHeaderTitle(R.string.chooser_title);
-	}
+	private void makeTrainTypePopup()
+	{
+		trainTypeDialog = new TrainTypeDialog(this);
+		trainTypeDialog.show();
+		trainTypeDialog.subwayBtn.setOnClickListener(new View.OnClickListener() {
+			
+			public void onClick(View v) {
+				NotifyApplication app = (NotifyApplication) getApplication();
+				app.setCurrentTrainType("subway");
+				onAddEditActivity();
+				trainTypeDialog.cancel();
+			}
+		});
+		trainTypeDialog.LIRRBtn.setOnClickListener(new View.OnClickListener() {
+			
+			public void onClick(View v) {
+				NotifyApplication app = (NotifyApplication) getApplication();
+				app.setCurrentTrainType("LIRR");
+				onAddEditActivity();
+				trainTypeDialog.cancel();
+			}
+		});
+		trainTypeDialog.MNBtn.setOnClickListener(new View.OnClickListener() {
 	
-	@Override
-	public boolean onContextItemSelected(MenuItem item) {
-	  AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-	  NotifyApplication app = (NotifyApplication) getApplication();
-	  switch (item.getItemId()) {
-	  case R.id.subway:
-		  app.setCurrentTrainType("subway");
-		  onAddEditActivity();
-	    return true;
-	  case R.id.LIRR:
-		  app.setCurrentTrainType("LIRR");
-		  onAddEditActivity();
-	    return true;
-	  case R.id.MN:
-		  app.setCurrentTrainType("MN");
-		  onAddEditActivity();  
-		return true;
-	  default:
-	    return super.onContextItemSelected(item);
-	  }
+			public void onClick(View v) {
+				NotifyApplication app = (NotifyApplication) getApplication();
+				app.setCurrentTrainType("MetroNorth");
+				onAddEditActivity();
+				trainTypeDialog.cancel();
+			}
+		});
 	}
 	
 	@Override
@@ -207,9 +211,7 @@ public class MainActivity extends Activity
 		{
 			public void onClick(View v)
 			{
-				registerForContextMenu(v); 
-			    openContextMenu(v);
-			    unregisterForContextMenu(v);
+				makeTrainTypePopup();
 			}
 		});
 	}

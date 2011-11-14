@@ -46,10 +46,10 @@
     <string name="tone">Sound tone on Notification?</string>
     
     <!-- Chooser Menu -->
-    <string name="chooser_title">Choose what kind of train you ride:</string>
-    <string name="subway">NYC Subway</string>
-    <string name="LIRR">Long Island Railroad</string>
-    <string name="MN">Metro North</string>
+    <string name="chooser_title">CHOOSE WHAT KIND OF TRAIN YOU RIDE:</string>
+    <string name="subway">NYC SUBWAY</string>
+    <string name="LIRR">LONG ISLAND RAILROAD</string>
+    <string name="MN">METRO NORTH</string>
     
     <!-- Days of the week not sure if this is still used? -->
     <string name="monday">MONDAY</string>
