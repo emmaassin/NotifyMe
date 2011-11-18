@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -24,7 +25,7 @@ public class DailyNotificationsItem extends RelativeLayout
 {
 	private static final String TAG = "DailyNotificationsItem";
 	public static final String DELETE_ITEM = "com.bitty.action.DELETE_ITEM";
-	
+
 	private Context mContext;
 	private LinearLayout linesImagesHolder;
 	private TextView timeTextView;
@@ -49,14 +50,12 @@ public class DailyNotificationsItem extends RelativeLayout
 		Typeface font = Typeface.createFromAsset(context.getAssets(), "fonts/VarelaRound-Regular.ttf");
 		timeTextView.setTypeface(font);
 
-		deleteButton.setOnClickListener(new View.OnClickListener()
-		{
+		deleteButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v)
 			{
 				AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-				builder.setMessage(R.string.delete_notification_message).setTitle(R.string.delete_notification_title).setCancelable(false)
-						.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
-						{
+				builder.setMessage(R.string.delete_notification_message).setTitle(R.string.delete_notification_title)
+						.setCancelable(false).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int which)
 							{
 								// delete this notification!
@@ -65,8 +64,7 @@ public class DailyNotificationsItem extends RelativeLayout
 								intent.putExtra("db_ID", db_ID);
 								mContext.sendBroadcast(intent);
 							}
-						}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener()
-						{
+						}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int which)
 							{
 								dialog.cancel();
@@ -76,19 +74,6 @@ public class DailyNotificationsItem extends RelativeLayout
 			}
 		});
 
-		editButton.setOnClickListener(new View.OnClickListener()
-		{
-			public void onClick(View v)
-			{
-				// edit this notification
-				Intent i = new Intent(mContext, AddEditActivity.class);
-				i.putExtra("array_index", arrayIndex);
-				i.putExtra("edit_mode", true);
-				i.putExtra("train_type", "subway");
-				//////////////!!!!!!!!!!!!!!!!!????????????/////////////////////// need to get the type from the database and replace "subway" above
-				mContext.startActivity(i);
-			}
-		});
 	}
 
 	public void setDB_ID(long _id)
@@ -99,70 +84,101 @@ public class DailyNotificationsItem extends RelativeLayout
 	/*
 	 * Array index used to get NotifyArrayItems
 	 */
-	public void setArrayIndex(int _index){
+	public void setArrayIndex(int _index)
+	{
 		arrayIndex = _index;
 	}
-	
-	public void setContent(int hr, int min, List<String> subways)
+
+	public void setContent(int hr, int min, List<String> trains, final String trainType)
 	{
-		LinearLayout currentRow = null;
-		
-		for (int i = 0; i < subways.size(); i++)
-		{
-			ImageView img = new ImageView(mContext);
-			String resID = "line_" + subways.get(i).toLowerCase();
-			int resources = getResources().getIdentifier(resID, "drawable", "com.bitty.notifyme");
-
-			// load the original BitMap
-			Bitmap bitmapOrg = BitmapFactory.decodeResource(getResources(), resources);
-
-			int width = bitmapOrg.getWidth();
-			int height = bitmapOrg.getHeight();
-			int newHeight = 30;
-
-			// calculate the scale
-			float scale = ((float) newHeight) / height;
-
-			// create a matrix for the manipulation
-			Matrix matrix = new Matrix();
-			// resize the bit map
-			matrix.postScale(scale, scale);
-
-			// recreate the new Bitmap
-			Bitmap resizedBitmap = Bitmap.createBitmap(bitmapOrg, 0, 0, width, height, matrix, true);
-
-			// make a Drawable from Bitmap to allow to set the BitMap
-			// to the ImageView
-			BitmapDrawable bmd = new BitmapDrawable(resizedBitmap);
-
-			// set the Drawable on the ImageView
-			img.setImageDrawable(bmd);
-
-			// center the Image
-			img.setScaleType(ScaleType.CENTER);
-
-			if(i % 3 == 0)
+		Log.w(TAG, "type" + trainType);
+		editButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v)
 			{
-				LinearLayout ll = new LinearLayout(mContext);
-				linesImagesHolder.addView(ll);
-				currentRow = ll;
+				// edit this notification
+				Intent i = new Intent(mContext, AddEditActivity.class);
+				i.putExtra("array_index", arrayIndex);
+				i.putExtra("edit_mode", true);
+				i.putExtra("train_type", trainType);
+				// ////////////!!!!!!!!!!!!!!!!!????????????///////////////////////
+				// need to get the type from the database and replace "subway"
+				// above
+				mContext.startActivity(i);
 			}
-			
-			currentRow.addView(img);
+		});
+
+		LinearLayout currentRow = null;
+
+		for (int i = 0; i < trains.size(); i++)
+		{
+			if (trainType.equals("subway"))
+			{
+				ImageView img = new ImageView(mContext);
+				String resID = "line_" + trains.get(i).toLowerCase();
+				int resources = getResources().getIdentifier(resID, "drawable", "com.bitty.notifyme");
+
+				// load the original BitMap
+				Bitmap bitmapOrg = BitmapFactory.decodeResource(getResources(), resources);
+
+				int width = bitmapOrg.getWidth();
+				int height = bitmapOrg.getHeight();
+				int newHeight = 30;
+
+				// calculate the scale
+				float scale = ((float) newHeight) / height;
+
+				// create a matrix for the manipulation
+				Matrix matrix = new Matrix();
+				// resize the bit map
+				matrix.postScale(scale, scale);
+
+				// recreate the new Bitmap
+				Bitmap resizedBitmap = Bitmap.createBitmap(bitmapOrg, 0, 0, width, height, matrix, true);
+
+				// make a Drawable from Bitmap to allow to set the BitMap
+				// to the ImageView
+				BitmapDrawable bmd = new BitmapDrawable(resizedBitmap);
+
+				// set the Drawable on the ImageView
+				img.setImageDrawable(bmd);
+
+				// center the Image
+				img.setScaleType(ScaleType.CENTER);
+
+				if (i % 3 == 0)
+				{
+					LinearLayout ll = new LinearLayout(mContext);
+					linesImagesHolder.addView(ll);
+					currentRow = ll;
+				}
+
+				currentRow.addView(img);
+			}
+			else
+			{
+				TextView line = new TextView(mContext);
+				Typeface font = Typeface.createFromAsset(mContext.getAssets(), "fonts/VarelaRound-Regular.ttf");
+				line.setTypeface(font);
+				line.setTextColor(R.color.black);
+				line.setText(trains.get(i));
+				
+				linesImagesHolder.addView(line);
+			}
 		}
 
 		String minString;
 
 		if (min < 10)
 			minString = "0" + min;
-		 else
+		else
 			minString = String.valueOf(min);
 
 		if (hr < 12)
 			timeTextView.setText(hr + ":" + minString + " AM");
-		 else if (hr == 12)
+		else if (hr == 12)
 			timeTextView.setText(12 + ":" + minString + " AM");
-		 else
+		else
 			timeTextView.setText((hr - 12) + ":" + minString + " PM");
 	}
+
 }

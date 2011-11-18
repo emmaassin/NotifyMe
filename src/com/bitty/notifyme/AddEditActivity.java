@@ -36,28 +36,39 @@ public class AddEditActivity extends Activity
 	private NotifyMeItem notifyEditItem;
 
 	private Boolean isEditMode;
-	
+
+	private NotifyApplication app;
+
 	private ReminderManager reminderMngr;
+	
+	private String trainType;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.editscreen);
-		
+
+		app = (NotifyApplication) getApplication();
+		trainType = app.getCurrentTrainType();
+
 		reminderMngr = new ReminderManager(this);
-		
-		notifyDB = ((NotifyApplication) getApplication()).getNotifyDB();
+
+		notifyDB = app.getNotifyDB();
+
+		Typeface font = Typeface.createFromAsset(this.getAssets(), "fonts/VarelaRound-Regular.ttf");
+		Typeface font2 = Typeface.createFromAsset(this.getAssets(), "fonts/DINEngschrift-Regular.ttf");
 
 		title = (TextView) findViewById(R.id.edit_title1);
-		Typeface font = Typeface.createFromAsset(this.getAssets(), "fonts/VarelaRound-Regular.ttf");
 		title.setTypeface(font);
+
 		trainsText = (TextView) findViewById(R.id.trains_text);
-		daysText = (TextView) findViewById(R.id.days_text);
-		time_title = (TextView) findViewById(R.id.edit_title2);
-		Typeface font2 = Typeface.createFromAsset(this.getAssets(), "fonts/DINEngschrift-Regular.ttf");
 		trainsText.setTypeface(font2);
+
+		daysText = (TextView) findViewById(R.id.days_text);
 		daysText.setTypeface(font2);
+
+		time_title = (TextView) findViewById(R.id.edit_title2);
 		time_title.setTypeface(font2);
 
 		trainsCheck = (ImageView) findViewById(R.id.trains_check);
@@ -68,40 +79,35 @@ public class AddEditActivity extends Activity
 
 		saveButton = (Button) findViewById(R.id.save_button);
 		saveButton.setTypeface(font2);
+
 		cancelButton = (Button) findViewById(R.id.cancel_button);
 		cancelButton.setTypeface(font2);
+
 		subwayButton = (LinearLayout) findViewById(R.id.trains);
 		daysButton = (LinearLayout) findViewById(R.id.days);
 
 		// Check to if this is an edit
-
 		isEditMode = getIntent().getBooleanExtra("edit_mode", false);
 
 		if (isEditMode)
 		{
 			int array_index = getIntent().getIntExtra("array_index", -1);
-			NotifyApplication app = (NotifyApplication) getApplication();
 
-			notifyEditItem = (NotifyMeItem) app.getDailyNotificationArray().get(array_index);
+			notifyEditItem = app.getDailyNotificationArray().get(array_index);
 			daysSelectedArr.add(notifyEditItem.getDay());
-			
-			
-			trainsSelected = (ArrayList<String>) notifyEditItem.getSubways();
+
+			trainsSelected = (ArrayList<String>) notifyEditItem.getTrains();
+			trainType = notifyEditItem.getTrainType();
 			// hiding the choose days button so it can't be edited
 			daysButton.setVisibility(View.GONE);
-			//LinearLayout thinLine = (LinearLayout) findViewById(R.id.thinline);
-			//thinLine.setVisibility(View.GONE);
-
-			//Log.w(TAG, "HOUR : " + Integer.toString(notifyEditItem.getHour()));
 			timePicker.setCurrentHour(notifyEditItem.getHour());
 			timePicker.setCurrentMinute(notifyEditItem.getMinutes());
-			
+
 			title.setText(R.string.add_notification_title);
 		}
 
 		saveButton.setEnabled(true);
-		saveButton.setOnClickListener(new View.OnClickListener()
-		{
+		saveButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view)
 			{
 				if (trainsSelected.size() < 1)
@@ -117,10 +123,12 @@ public class AddEditActivity extends Activity
 					} else
 					{
 						String msg;
-						if(isEditMode){
+						if (isEditMode)
+						{
 							saveEditItem();
 							msg = getString(R.string.notification_edit_message);
-						}else{
+						} else
+						{
 							saveState();
 							msg = getString(R.string.notification_saved_message);
 						}
@@ -131,38 +139,34 @@ public class AddEditActivity extends Activity
 			}
 		});
 
-		cancelButton.setOnClickListener(new View.OnClickListener()
-		{
+		cancelButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view)
 			{
 				String msg;
-				if(isEditMode)
+				if (isEditMode)
 					msg = getString(R.string.notification_cancel_edit);
 				else
 					msg = getString(R.string.notification_cancel_add);
-				
+
 				Toast.makeText(AddEditActivity.this, msg, Toast.LENGTH_SHORT).show();
 				finish();
 			}
 		});
 
-		daysButton.setOnClickListener(new View.OnClickListener()
-		{
-			public void onClick(View v){ createDaysPopup(); }
+		daysButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v)
+			{
+				createDaysPopup();
+			}
 		});
 
-		subwayButton.setOnClickListener(new View.OnClickListener()
-		{
-			public void onClick(View v){
-				NotifyApplication app = (NotifyApplication) getApplication();
-				if(app.getCurrentTrainType() == "subway")
-				{
-					createSubwayPopUp(); 
-				} else if (app.getCurrentTrainType() == "LIRR"){
+		subwayButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v)
+			{
+				if (trainType.equals("subway"))
+					createSubwayPopUp();
+				else if (trainType.equals("LIRR") || trainType.equals("MetroNorth"))
 					createTrainPopup();
-				} else if (app.getCurrentTrainType() == "MN") {
-					createTrainPopup();
-				}
 			}
 		});
 	}
@@ -177,15 +181,17 @@ public class AddEditActivity extends Activity
 	@Override
 	protected void onResume()
 	{
-		//Log.w(TAG, "onResume");
+		// Log.w(TAG, "onResume");
 		super.onResume();
-		
-		if(isEditMode){
+
+		if (isEditMode)
+		{
 			title.setText(R.string.edit_notification_title);
 			trainsText.setText(R.string.edit_line);
 			daysText.setText(R.string.edit_days);
 			time_title.setText(R.string.edit_time);
-		}else{
+		} else
+		{
 			title.setText(R.string.add_notification_title);
 			trainsText.setText(R.string.choose_line);
 			daysText.setText(R.string.choose_days);
@@ -216,57 +222,50 @@ public class AddEditActivity extends Activity
 	private void createSubwayPopUp()
 	{
 		subwayDialog = new SelectSubwayDialog(this);
+		
 		if (trainsSelected.size() > 0)
 			subwayDialog.setAlreadyChecked(trainsSelected);
 
 		subwayDialog.show();
-		subwayDialog.saveButton.setOnClickListener(new View.OnClickListener()
-		{
+		subwayDialog.saveButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v)
 			{
 				trainsSelected = subwayDialog.getCheckedLinesArray();
 				if (trainsSelected.size() > 0)
-				{
 					trainsCheck.setImageResource(R.drawable.check);
-				} else
-				{
+				else
 					trainsCheck.setImageResource(R.drawable.add);
-				}
+
 				subwayDialog.cancel();
 			}
 		});
 	}
-	
+
 	protected void createTrainPopup()
 	{
-		int trainArray = 0;
-		NotifyApplication app = (NotifyApplication) getApplication();
-		if(app.getCurrentTrainType() == "LIRR")
-		{
-			trainArray = R.array.LIRR_array;
+		int trainID= 0;
+		if (trainType.equals("LIRR"))
+			trainID= R.array.LIRR_array;
+		else if (trainType.equals("MetroNorth"))
+			trainID= R.array.MN_array;
 
-		} else if (app.getCurrentTrainType() == "MN")
-		{
-			trainArray = R.array.MN_array;
-		}
-		trainsDialog = new CheckboxDialog(this);
-		trainsDialog.init(trainArray, true);
-		if (trainsSelected.size() > 0)
-			trainsDialog.setAlreadyCheckedTrains(trainsSelected);
+		trainsDialog = new SelectTrainDialog(this);
+		trainsDialog.init(trainID);
 		
+		if (trainsSelected.size() > 0)
+			trainsDialog.setAlreadyChecked(trainsSelected);
+
 		trainsDialog.show();
-		trainsDialog.saveButton.setOnClickListener(new View.OnClickListener()
-		{
+		trainsDialog.saveButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v)
 			{
-				trainsSelected = trainsDialog.getCheckedLinesArray();
+				trainsSelected = trainsDialog.getDataArray();
+
 				if (trainsSelected.size() > 0)
-				{
 					trainsCheck.setImageResource(R.drawable.check);
-				} else
-				{
+				else
 					trainsCheck.setImageResource(R.drawable.add);
-				}
+
 				trainsDialog.cancel();
 			}
 		});
@@ -274,26 +273,22 @@ public class AddEditActivity extends Activity
 
 	private void createDaysPopup()
 	{
-		daysDialog = new CheckboxDialog(this);
-		daysDialog.init(R.array.days_array, false);
+		daysDialog = new SelectDayDialog(this);
+		daysDialog.init(R.array.days_array);
 
 		if (daysSelectedArr.size() > 0)
 			daysDialog.setAlreadyChecked(daysSelectedArr);
 
 		daysDialog.show();
-		daysDialog.saveButton.setOnClickListener(new View.OnClickListener()
-		{
-
+		daysDialog.saveButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v)
 			{
-				daysSelectedArr = daysDialog.getCheckedDaysArray();
+				daysSelectedArr = daysDialog.getDataArray();
 				if (daysSelectedArr.size() > 0)
-				{
 					daysCheck.setImageResource(R.drawable.check);
-				} else
-				{
+				else
 					daysCheck.setImageResource(R.drawable.add);
-				}
+
 				daysDialog.cancel();
 			}
 		});
@@ -309,31 +304,33 @@ public class AddEditActivity extends Activity
 		for (int i = 0; i < daysSelectedArr.size(); i++)
 		{
 			int daySelected = 0;
+
 			// insert to database and serialize subway lines array
-			if(daysSelectedArr.get(i) < 6)
-			{
+			if (daysSelectedArr.get(i) < 6)
 				daySelected = daysSelectedArr.get(i) + 2;
-			} else {
+			else
 				daySelected = 1;
-			}
-			//int daySelected = daysSelectedArr.get(i);
-			NotifyMeItem item = new NotifyMeItem(trainsSelected, daySelected, hour, minute);
+
+			// int daySelected = daysSelectedArr.get(i);
+			NotifyMeItem item = new NotifyMeItem(trainsSelected, daySelected, hour, minute, trainType);
 			long alarmID = notifyDB.insertNotification(item);
 
 			reminderMngr.setReminder(hour, minute, daySelected, alarmID);
 		}
 		finish();
 	}
-	
+
 	private void saveEditItem()
 	{
 		notifyEditItem.setHour(timePicker.getCurrentHour());
 		notifyEditItem.setMinutes(timePicker.getCurrentMinute());
 		notifyEditItem.setDay(daysSelectedArr.get(0));
-		notifyEditItem.setSubways(trainsSelected);
+		notifyEditItem.setTrains(trainsSelected);
+		notifyEditItem.setTrainType(trainType);
 		notifyDB.updateNotification(notifyEditItem);
 		reminderMngr.clearReminder(Convert.safeLongToInt(notifyEditItem.getDB_ID()));
-		reminderMngr.setReminder(notifyEditItem.getHour(), notifyEditItem.getMinutes(), notifyEditItem.getDay(), notifyEditItem.getDB_ID());
+		reminderMngr.setReminder(notifyEditItem.getHour(), notifyEditItem.getMinutes(), notifyEditItem.getDay(),
+				notifyEditItem.getDB_ID());
 		finish();
 	}
 }

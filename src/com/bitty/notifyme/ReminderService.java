@@ -87,7 +87,7 @@ public class ReminderService extends WakeReminderIntentService
 	 */
 	private void announceNewStatusItem(ArrayList<String> arr)
 	{
-		List<String> subwayLines = notifyMeItem.getSubways();
+		List<String> subwayLines = notifyMeItem.getTrains();
 		
 
 		for (int i = 0; i < subwayLines.size(); i++)
@@ -104,9 +104,9 @@ public class ReminderService extends WakeReminderIntentService
 					notificationTitle += " " + arr.get(0) + " ";
 					notificatonList.add(arr.get(0));
 
-					Log.w(TAG, "line" + arr.get(0));
-					Log.w(TAG, "status" + arr.get(1));
-					Log.w(TAG, "status text" + arr.get(2));
+					//Log.w(TAG, "line" + arr.get(0));
+					//Log.w(TAG, "status" + arr.get(1));
+					//Log.w(TAG, "status text" + arr.get(2));
 					// Log.w(TAG, "date" + arr.get(3));
 					// Log.w(TAG, "time" + arr.get(4));
 				}
@@ -235,7 +235,7 @@ public class ReminderService extends WakeReminderIntentService
 		public EndOfProcessingException(String msg)
 		{
 			super(msg);
-			Log.w(TAG, "STOP PARSING XML");
+			//Log.w(TAG, "STOP PARSING XML");
 			announceUpdateEnd();
 		}
 	}
@@ -251,13 +251,15 @@ public class ReminderService extends WakeReminderIntentService
 		String buffer = "";
 		String currentQName = null;
 		ArrayList<String> mtaItemArr = new ArrayList<String>();
+		String trainType;
 		//Pattern pattern;
 
 		@Override
 		public void startDocument() throws SAXException
 		{
-			Log.w(TAG, "startDocument");
+			//Log.w(TAG, "startDocument");
 			//pattern = Pattern.compile("000000");
+			trainType = (String) ((NotifyApplication) getApplication()).getCurrentTrainType();
 		}
 
 		@Override
@@ -270,7 +272,7 @@ public class ReminderService extends WakeReminderIntentService
 				throws SAXException
 		{
 
-			if (localName.equals("subway"))
+			if (localName.equals(trainType))
 				currentCategory = localName;
 
 			if (localName.equals("text"))
@@ -317,7 +319,7 @@ public class ReminderService extends WakeReminderIntentService
 				mtaItemArr.clear();
 			}
 
-			if (localName.equals("subway"))
+			if (localName.equals(trainType))
 			{
 				// Some sort of finishing up work
 				currentValue = null;

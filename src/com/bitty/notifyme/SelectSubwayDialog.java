@@ -7,13 +7,11 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Typeface;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class SelectSubwayDialog extends Dialog
 {
@@ -40,8 +38,10 @@ public class SelectSubwayDialog extends Dialog
 
 		saveButton = (Button) findViewById(R.id.save_button);
 		saveButton.setTypeface(font2);
+		
 		cancelButton = (Button) findViewById(R.id.cancel_button);
 		cancelButton.setTypeface(font2);
+		
 		dialogText = (TextView) findViewById(R.id.other_lines_text);
 		dialogText.setTypeface(font);
 		subwayLinesHolder = (LinearLayout) findViewById(R.id.subway_lines_holder);
@@ -65,9 +65,7 @@ public class SelectSubwayDialog extends Dialog
 			tlb.setOnClickListener(new View.OnClickListener() {
 				
 				public void onClick(View v) {
-					
 					SelectSubwayButton tb = (SelectSubwayButton) v;
-					
 					if(tb.selected)
 					{
 						tb.setDeSelected();

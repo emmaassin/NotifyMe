@@ -10,23 +10,23 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
-public class SelectDayDialog extends CheckboxDialog
+public class SelectTrainDialog extends CheckboxDialog
 {
-	private static final String TAG = "SelectDayDialog";
-	private List<Integer> selectedDays = new ArrayList<Integer>();
-
-	public SelectDayDialog(Context context)
+	private static final String TAG = "SelectTrainDialog";
+	private List<String> selectedTrains = new ArrayList<String>();
+	
+	public SelectTrainDialog(Context context)
 	{
 		super(context);
-		dialogText.setText(R.string.choose_days2);
+		dialogText.setText(R.string.choose_line);
 	}
-
+	
 	public void init(int resourceID)
 	{
 		Context context = getContext();
-		String[] dayLabels = context.getResources().getStringArray(resourceID);
+		String[] trainLabels = context.getResources().getStringArray(resourceID);
 
-		for (int i = 0; i < dayLabels.length; i++)
+		for (int i = 0; i < trainLabels.length; i++)
 		{
 			LinearLayout ll = new LinearLayout(context);
 			ll.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, 1));
@@ -34,8 +34,8 @@ public class SelectDayDialog extends CheckboxDialog
 
 			CheckBox cb = new CheckBox(context);
 			cb.setTypeface(font);
-			cb.setText(dayLabels[i]);
-			cb.setTag(i);
+			cb.setText(trainLabels[i]);
+			cb.setTag(trainLabels[i]);
 			cb.setHeight(47);
 			cb.setTextColor(Color.parseColor("#3e3e3e"));
 			cb.setButtonDrawable(R.drawable.check_box);
@@ -44,11 +44,11 @@ public class SelectDayDialog extends CheckboxDialog
 				{
 					if (isChecked)
 					{
-						selectedDays.add((Integer) buttonView.getTag());
+						selectedTrains.add((String) buttonView.getTag());
 					} else
 					{
-						int tag = (Integer) buttonView.getTag();
-						selectedDays.remove(new Integer(tag));
+						String tag = (String) buttonView.getTag();
+						selectedTrains.remove(new String(tag));
 					}
 				}
 			});
@@ -61,6 +61,7 @@ public class SelectDayDialog extends CheckboxDialog
 
 	public ArrayList getDataArray()
 	{
-		return (ArrayList) selectedDays;
+		return (ArrayList) selectedTrains;
 	}
+	
 }

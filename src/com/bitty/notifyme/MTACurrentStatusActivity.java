@@ -30,21 +30,20 @@ public class MTACurrentStatusActivity extends Activity
 	@Override
 	public void onCreate(Bundle icicle)
 	{
-		Log.w(TAG, "onCreate");
 		super.onCreate(icicle);
 		setContentView(R.layout.status_main);
 
-		homeButton = (Button) findViewById(R.id.home_btn);
-		TextView title = (TextView) findViewById(R.id.title);
-		TextView infoHeader = (TextView) findViewById(R.id.info_header);
-		TextView infoBody = (TextView) findViewById(R.id.info_body);
 		Typeface font = Typeface.createFromAsset(getAssets(), "fonts/VarelaRound-Regular.ttf");
 		Typeface font2 = Typeface.createFromAsset(getAssets(), "fonts/DINEngschrift-Regular.ttf");
 
+		TextView title = (TextView) findViewById(R.id.title);
 		title.setTypeface(font);
+
+		TextView infoHeader = (TextView) findViewById(R.id.info_header);
 		infoHeader.setTypeface(font);
+
+		TextView infoBody = (TextView) findViewById(R.id.info_body);
 		infoBody.setTypeface(font);
-		homeButton.setTypeface(font2);
 
 		final Context context = this;
 
@@ -63,6 +62,8 @@ public class MTACurrentStatusActivity extends Activity
 			}
 		});
 
+		homeButton = (Button) findViewById(R.id.home_btn);
+		homeButton.setTypeface(font2);
 		homeButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v)
 			{

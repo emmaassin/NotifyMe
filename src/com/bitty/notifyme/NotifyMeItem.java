@@ -1,23 +1,22 @@
 package com.bitty.notifyme;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class NotifyMeItem
 {
-	private List<String> subways;
+	private List<String> trains;
 	private int day;
 	private int hour;
 	private int minutes;
 	private long db_ID;
+	private String trainType;
 	
-	public List<String> getSubways() {
-		return subways;
+	public List<String> getTrains() {
+		return trains;
 	}
 
-	public void setSubways(List<String> arr) {
-		subways = arr;
+	public void setTrains(List<String> arr) {
+		trains = arr;
 	}
 
 	public int getDay() {
@@ -44,22 +43,32 @@ public class NotifyMeItem
 		minutes = _min;
 	}
 
+	public void setTrainType(String type){
+		trainType = type;
+	}
+
+	public String getTrainType(){
+		return trainType;
+	}
+
 	public long getDB_ID() {
 		return db_ID;
 	}
-
-	public NotifyMeItem(List<String> subwaySelected, int _day, int _hour, int _minutes) {
-		subways = subwaySelected;
+	
+	public NotifyMeItem(List<String> trainsSelected, int _day, int _hour, int _minutes, String _type) {
+		trains = trainsSelected;
 		day = _day;
 		hour = _hour;
 		minutes = _minutes;
+		trainType = _type;
 	}
 
-	public NotifyMeItem(List<String> subwaySelected, int _day, int _hour, int _minutes, long _db_ID) {
-		subways = subwaySelected;
+	public NotifyMeItem(List<String> trainsSelected, int _day, int _hour, int _minutes, String _type, long _db_ID) {
+		trains = trainsSelected;
 		day = _day;
 		hour = _hour;
 		minutes = _minutes;
+		trainType = _type;
 		db_ID = _db_ID;
 	}
 	

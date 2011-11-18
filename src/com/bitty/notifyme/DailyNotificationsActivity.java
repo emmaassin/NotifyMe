@@ -39,14 +39,15 @@ public class DailyNotificationsActivity extends ListActivity
 
 		app = (NotifyApplication) getApplication();
 
-		dayText = (TextView) findViewById(R.id.day_text);
-		returnHomeButton = (Button) findViewById(R.id.return_home_btn);
-
 		Typeface font = Typeface.createFromAsset(this.getAssets(), "fonts/VarelaRound-Regular.ttf");
 		Typeface font2 = Typeface.createFromAsset(this.getAssets(), "fonts/DINEngschrift-Regular.ttf");
-		dayText.setTypeface(font);
-		returnHomeButton.setTypeface(font2);
 
+		dayText = (TextView) findViewById(R.id.day_text);
+		dayText.setTypeface(font);
+		dayText.setText(app.getCurrentDayName());
+
+		returnHomeButton = (Button) findViewById(R.id.return_home_btn);
+		returnHomeButton.setTypeface(font2);
 		returnHomeButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v)
 			{
@@ -58,16 +59,12 @@ public class DailyNotificationsActivity extends ListActivity
 		adapter = new NotificationAdapter(this);
 		this.setListAdapter(adapter);
 
-		dayText.setText(app.getCurrentDayName());
-
 		receiver = new MyBroadCastReceiver();
 	}
 
 	@Override
 	protected void onResume()
 	{
-		super.onResume();
-
 		adapter.notifyDataSetChanged();
 		registerReceiver(receiver, new IntentFilter(DailyNotificationsItem.DELETE_ITEM));
 	}
@@ -84,8 +81,9 @@ public class DailyNotificationsActivity extends ListActivity
 		long dbID = _db_ID;
 
 		ReminderManager reminderMngr = new ReminderManager(this);
-		
-		// Remove alert for all notifications because DB resets key IDs. Alarm Id needs to be a reference
+
+		// Remove alert for all notifications because DB resets key IDs. Alarm
+		// Id needs to be a reference
 		// to the database key
 		for (int i = 0; i < notifyMeArray.size(); i++)
 		{
@@ -98,7 +96,7 @@ public class DailyNotificationsActivity extends ListActivity
 		notifyDB.removeNotification(dbID);
 		notifyDB.open();
 
-		//Remove from array
+		// Remove from array
 		notifyMeArray.remove(_arrayIndex);
 
 		if (notifyMeArray.size() == 0)
@@ -110,14 +108,13 @@ public class DailyNotificationsActivity extends ListActivity
 			notifyMeArray.clear();
 			ArrayList<NotifyMeItem> temp = notifyDB.getNotifyItemsByDay(app.getCurrentDayID());
 			app.setDailyNotificationArray(temp);
-			
+
 			notifyMeArray = app.getDailyNotificationArray();
 
 			for (int j = 0; j < notifyMeArray.size(); j++)
 			{
 				NotifyMeItem item = notifyMeArray.get(j);
-				reminderMngr.setReminder(item.getHour(), item.getMinutes(), item.getDay(),
-						item.getDB_ID());
+				reminderMngr.setReminder(item.getHour(), item.getMinutes(), item.getDay(), item.getDB_ID());
 			}
 		}
 		adapter.notifyDataSetChanged();
@@ -128,6 +125,8 @@ public class DailyNotificationsActivity extends ListActivity
 	 */
 	public class NotificationAdapter extends BaseAdapter
 	{
+		private int[] colors = new int[] { 0x30ffffff, 0x30808080 };
+
 		public NotificationAdapter(Context c)
 		{
 			mContext = c;
@@ -150,12 +149,14 @@ public class DailyNotificationsActivity extends ListActivity
 
 		public View getView(int position, View convertView, ViewGroup parent)
 		{
+
 			NotifyMeItem notifyItem = (NotifyMeItem) notifyMeArray.get(position);
 
 			DailyNotificationsItem item = new DailyNotificationsItem(mContext);
 			item.setDB_ID(notifyItem.getDB_ID());
 			item.setArrayIndex(position);
-			item.setContent(notifyItem.getHour(), notifyItem.getMinutes(), notifyItem.getSubways());
+			item.setContent(notifyItem.getHour(), notifyItem.getMinutes(), notifyItem.getTrains(), notifyItem
+					.getTrainType());
 			itemArray.add(item);
 			return item;
 		}

@@ -3,14 +3,14 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:state_pressed="false" android:state_enabled="true"
-          android:state_focused="false" android:drawable="@drawable/edit_regular" />
+          android:state_focused="false" android:drawable="@drawable/edit_press" />
     <item android:state_pressed="true" android:state_enabled="true"
-          android:drawable="@drawable/edit_press" />
+          android:drawable="@drawable/edit_regular" />
     <item android:state_pressed="false" android:state_enabled="true"
-          android:state_focused="true" android:drawable="@drawable/edit_regular" />
+          android:state_focused="true" android:drawable="@drawable/edit_press" />
     <item android:state_pressed="false" android:state_enabled="false"
-          android:state_focused="false" android:drawable="@drawable/edit_regular" />
+          android:state_focused="false" android:drawable="@drawable/edit_press" />
     <item android:state_pressed="false" android:state_enabled="false"
-          android:state_focused="true" android:drawable="@drawable/edit_regular" />
+          android:state_focused="true" android:drawable="@drawable/edit_press" />
 
 </selector>

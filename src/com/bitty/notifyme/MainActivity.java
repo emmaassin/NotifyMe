@@ -73,75 +73,78 @@ public class MainActivity extends Activity
 		createAddNotifyBtn();
 
 		holder = (LinearLayout) findViewById(R.id.days_holder);
-
 		notifyDB = ((NotifyApplication) getApplication()).getNotifyDB();
 	}
-	
+
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v,ContextMenuInfo menuInfo) {
-	  super.onCreateContextMenu(menu, v, menuInfo);
-	  MenuInflater inflater = getMenuInflater();
-	  inflater.inflate(R.menu.chooser_menu, menu);
-	  menu.setHeaderTitle(R.string.chooser_title);
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
+	{
+		super.onCreateContextMenu(menu, v, menuInfo);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.chooser_menu, menu);
+		menu.setHeaderTitle(R.string.chooser_title);
 	}
-	
+
 	@Override
-	public boolean onContextItemSelected(MenuItem item) {
-	  AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-	  NotifyApplication app = (NotifyApplication) getApplication();
-	  switch (item.getItemId()) {
-	  case R.id.subway:
-		  app.setCurrentTrainType("subway");
-		  onAddEditActivity();
-	    return true;
-	  case R.id.LIRR:
-		  app.setCurrentTrainType("LIRR");
-		  onAddEditActivity();
-	    return true;
-	  case R.id.MN:
-		  app.setCurrentTrainType("MN");
-		  onAddEditActivity();  
+	public boolean onContextItemSelected(MenuItem item)
+	{
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		NotifyApplication app = (NotifyApplication) getApplication();
+		switch (item.getItemId())
+		{
+		case R.id.subway:
+			app.setCurrentTrainType("subway");
+			onAddEditActivity();
+			return true;
+		case R.id.LIRR:
+			app.setCurrentTrainType("LIRR");
+			onAddEditActivity();
+			return true;
+		case R.id.MN:
+			app.setCurrentTrainType("MetroNorth");
+			onAddEditActivity();
+			return true;
+		default:
+			return super.onContextItemSelected(item);
+		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu, menu);
 		return true;
-	  default:
-	    return super.onContextItemSelected(item);
-	  }
 	}
-	
+
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.menu, menu);
-	    return true;
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch (item.getItemId())
+		{
+		case R.id.menu_settings:
+			makeSettingsPopup();
+			break;
+		case R.id.menu_delete_all:
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setMessage(R.string.delete_notification_message).setTitle(R.string.delete_all_title).setCancelable(
+					false).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which)
+				{
+					// delete all notifications!
+				}
+			}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which)
+				{
+					dialog.cancel();
+				}
+			});
+			builder.create().show();
+			break;
+		}
+		return true;
 	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-	    switch (item.getItemId()) {
-	        case R.id.menu_settings:     
-	        	makeSettingsPopup();
-	        	break;
-	        case R.id.menu_delete_all:     
-	        	AlertDialog.Builder builder = new AlertDialog.Builder(this);
-				builder.setMessage(R.string.delete_notification_message).setTitle(R.string.delete_all_title).setCancelable(false)
-						.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
-						{
-							public void onClick(DialogInterface dialog, int which)
-							{
-								// delete all notifications!
-							}
-						}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener()
-						{
-							public void onClick(DialogInterface dialog, int which)
-							{
-								dialog.cancel();
-							}
-						});
-				builder.create().show();
-	        	break;
-	    }
-	    return true;
-	}
-	
+
 	private void makeSettingsPopup()
 	{
 		settingsDialog = new SettingsDialog(this);
@@ -188,14 +191,13 @@ public class MainActivity extends Activity
 	private void createDelaysBtn()
 	{
 		delaysButton = (LinearLayout) findViewById(R.id.delays);
-		delaysButton.setOnClickListener(new View.OnClickListener()
-		{
+		delaysButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v)
 			{
 				// go to MTA site
-				Uri uri = Uri.parse("http://mobile.usablenet.com/mt/advisory.mtanyct.info/service/mobile/subway.php"); 
-				Intent intent = new Intent(Intent.ACTION_VIEW, uri); 
-				startActivity(intent); 
+				Uri uri = Uri.parse("http://mobile.usablenet.com/mt/advisory.mtanyct.info/service/mobile/subway.php");
+				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+				startActivity(intent);
 			}
 		});
 	}
@@ -203,13 +205,12 @@ public class MainActivity extends Activity
 	private void createAddNotifyBtn()
 	{
 		addNotificationButton = (LinearLayout) findViewById(R.id.add);
-		addNotificationButton.setOnClickListener(new View.OnClickListener()
-		{
+		addNotificationButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v)
 			{
-				registerForContextMenu(v); 
-			    openContextMenu(v);
-			    unregisterForContextMenu(v);
+				registerForContextMenu(v);
+				openContextMenu(v);
+				unregisterForContextMenu(v);
 			}
 		});
 	}
@@ -231,8 +232,7 @@ public class MainActivity extends Activity
 
 			dayItemsArray[i] = new MainDayItem(this);
 			dayItemsArray[i].init(dayNames[i].toUpperCase(), dayDBValue[i], dayCount);
-			dayItemsArray[i].setOnClickListener(new OnClickListener()
-			{
+			dayItemsArray[i].setOnClickListener(new OnClickListener() {
 				public void onClick(View view)
 				{
 					onDayClick((MainDayItem) view);
@@ -252,7 +252,7 @@ public class MainActivity extends Activity
 			app.setDailyNotificationArray(notificationByDayArray);
 			app.setCurrentDayName(dayItem.getDayName());
 			app.setCurrentDayID(dayItem.getDayID());
-			
+
 			startActivity(new Intent(this, DailyNotificationsActivity.class));
 		}
 	}
