@@ -65,6 +65,7 @@ public class DailyNotificationsActivity extends ListActivity
 	@Override
 	protected void onResume()
 	{
+		super.onResume();
 		adapter.notifyDataSetChanged();
 		registerReceiver(receiver, new IntentFilter(DailyNotificationsItem.DELETE_ITEM));
 	}
