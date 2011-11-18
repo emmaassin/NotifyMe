@@ -125,7 +125,6 @@ public class DailyNotificationsActivity extends ListActivity
 	 */
 	public class NotificationAdapter extends BaseAdapter
 	{
-		private int[] colors = new int[] { 0x30ffffff, 0x30808080 };
 
 		public NotificationAdapter(Context c)
 		{

@@ -45,7 +45,7 @@ public class MTAStatusAdapter extends ArrayAdapter<MTAStatusItem>
 			holder.statusView.setTextSize(20);
 			
 			convertView.setTag(holder);
-
+			
 			holder.statusView.setTextColor(convertView.getResources().getColor(R.color.red));
 
 		} else
