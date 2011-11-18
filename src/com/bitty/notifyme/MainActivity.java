@@ -71,6 +71,42 @@ public class MainActivity extends Activity
 		notifyDB = ((NotifyApplication) getApplication()).getNotifyDB();
 	}
 	
+	@Override
+	protected void onStart()
+	{
+		super.onStart();
+	}
+
+	@Override
+	protected void onResume()
+	{
+		Log.w(TAG, "onResume");
+		super.onResume();
+
+		populateNotifyList();
+	}
+
+	@Override
+	protected void onPause()
+	{
+		Log.w(TAG, "onPause");
+		super.onPause();
+	}
+
+	@Override
+	protected void onStop()
+	{
+		Log.w(TAG, "onStop");
+		super.onStop();
+	}
+
+	@Override
+	protected void onDestroy()
+	{
+		Log.w(TAG, "onDestroy");
+		super.onDestroy();
+	}
+	
 	private void makeTrainTypePopup()
 	{
 		trainTypeDialog = new TrainTypeDialog(this);
@@ -134,6 +170,10 @@ public class MainActivity extends Activity
 					public void onClick(DialogInterface dialog, int which)
 					{
 						// delete all the notifications
+						notifyDB.deleteDB();
+						notifyDB.close();
+						notifyDB.open();
+						populateNotifyList();
 						dialog.cancel();
 					}
 				}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener()
@@ -144,43 +184,6 @@ public class MainActivity extends Activity
 					}
 				});
 		builder.create().show();
-	}
-
-	@Override
-	protected void onStart()
-	{
-		// Log.w(TAG, "onStart");
-		super.onStart();
-	}
-
-	@Override
-	protected void onResume()
-	{
-		Log.w(TAG, "onResume");
-		super.onResume();
-
-		populateNotifyList();
-	}
-
-	@Override
-	protected void onPause()
-	{
-		Log.w(TAG, "onPause");
-		super.onPause();
-	}
-
-	@Override
-	protected void onStop()
-	{
-		Log.w(TAG, "onStop");
-		super.onStop();
-	}
-
-	@Override
-	protected void onDestroy()
-	{
-		Log.w(TAG, "onDestroy");
-		super.onDestroy();
 	}
 
 	private void createDelaysBtn()

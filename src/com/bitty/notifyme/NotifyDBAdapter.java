@@ -37,7 +37,7 @@ public class NotifyDBAdapter
 	{
 		this.context = _context;
 		dbHelper = new notifyDBOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION);
-		Log.w(TAG, "NotifyMeDBAdapter contructor");
+		//Log.w(TAG, "NotifyMeDBAdapter contructor");
 	}
 
 	public void close()
@@ -56,6 +56,11 @@ public class NotifyDBAdapter
 		}
 	}
 
+	public void deleteDB(){
+		Log.w(TAG, "DELETE DATABASE");
+		 context.deleteDatabase(DATABASE_NAME);
+	}
+	
 	/*
 	 * Adding a new notification in DB
 	 */
