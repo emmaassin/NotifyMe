@@ -40,17 +40,23 @@
     <string name="no">No</string>
     
     <!-- Menu -->
-    <string name="menu_settings">Settings</string>
-    <string name="menu_delete_all">Delete all Notifications</string>
-    <string name="settings">SETTINGS</string>
+    <string name="settings">SETTINGS MENU</string>
     <string name="vibrate">Vibrate phone on Notification?</string>
     <string name="tone">Sound tone on Notification?</string>
+    <string name="menu_delete_all">DELETE ALL NOTIFICATIONS</string>
     
     <!-- Chooser Menu -->
+<<<<<<< HEAD
     <string name="chooser_title">What train service do you ride:</string>
     <string name="subway">NYC Subway</string>
     <string name="LIRR">Long Island Railroad</string>
     <string name="MN">Metro North</string>
+=======
+    <string name="chooser_title">CHOOSE WHAT KIND OF TRAIN YOU RIDE:</string>
+    <string name="subway">NYC SUBWAY</string>
+    <string name="LIRR">LONG ISLAND RAILROAD</string>
+    <string name="MN">METRO NORTH</string>
+>>>>>>> de21d29c3fa459469fe95c0938007df621d01945
     
     <!-- Days of the week not sure if this is still used? -->
     <string name="monday">MONDAY</string>

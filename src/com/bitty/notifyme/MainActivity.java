@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -45,6 +46,7 @@ public class MainActivity extends Activity
 	private LinearLayout delaysButton;
 	private LinearLayout addNotificationButton;
 	private SettingsDialog settingsDialog;
+	private TrainTypeDialog trainTypeDialog;
 
 	private NotifyDBAdapter notifyDB;
 
@@ -75,6 +77,7 @@ public class MainActivity extends Activity
 		holder = (LinearLayout) findViewById(R.id.days_holder);
 		notifyDB = ((NotifyApplication) getApplication()).getNotifyDB();
 	}
+<<<<<<< HEAD
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
@@ -115,9 +118,44 @@ public class MainActivity extends Activity
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.menu, menu);
 		return true;
+=======
+	
+	private void makeTrainTypePopup()
+	{
+		trainTypeDialog = new TrainTypeDialog(this);
+		trainTypeDialog.show();
+		trainTypeDialog.subwayBtn.setOnClickListener(new View.OnClickListener() {
+			
+			public void onClick(View v) {
+				NotifyApplication app = (NotifyApplication) getApplication();
+				app.setCurrentTrainType("subway");
+				onAddEditActivity();
+				trainTypeDialog.cancel();
+			}
+		});
+		trainTypeDialog.LIRRBtn.setOnClickListener(new View.OnClickListener() {
+			
+			public void onClick(View v) {
+				NotifyApplication app = (NotifyApplication) getApplication();
+				app.setCurrentTrainType("LIRR");
+				onAddEditActivity();
+				trainTypeDialog.cancel();
+			}
+		});
+		trainTypeDialog.MNBtn.setOnClickListener(new View.OnClickListener() {
+	
+			public void onClick(View v) {
+				NotifyApplication app = (NotifyApplication) getApplication();
+				app.setCurrentTrainType("MetroNorth");
+				onAddEditActivity();
+				trainTypeDialog.cancel();
+			}
+		});
+>>>>>>> de21d29c3fa459469fe95c0938007df621d01945
 	}
 
 	@Override
+<<<<<<< HEAD
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
 		switch (item.getItemId())
@@ -145,10 +183,48 @@ public class MainActivity extends Activity
 		return true;
 	}
 
+=======
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_MENU) {
+        	makeSettingsPopup();
+           return true;
+        }
+        return false;
+    }
+	
+>>>>>>> de21d29c3fa459469fe95c0938007df621d01945
 	private void makeSettingsPopup()
 	{
 		settingsDialog = new SettingsDialog(this);
 		settingsDialog.show();
+		settingsDialog.deleteAllButton.setOnClickListener(new View.OnClickListener() {
+			
+			public void onClick(View v) {
+				settingsDialog.cancel();
+				deleteAllNotifications();
+			}
+		});
+	}
+	
+	private void deleteAllNotifications()
+	{
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage(R.string.delete_notification_message).setTitle(R.string.delete_all_title).setCancelable(false)
+				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
+				{
+					public void onClick(DialogInterface dialog, int which)
+					{
+						// delete all the notifications
+						dialog.cancel();
+					}
+				}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener()
+				{
+					public void onClick(DialogInterface dialog, int which)
+					{
+						dialog.cancel();
+					}
+				});
+		builder.create().show();
 	}
 
 	@Override
@@ -208,9 +284,13 @@ public class MainActivity extends Activity
 		addNotificationButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v)
 			{
+<<<<<<< HEAD
 				registerForContextMenu(v);
 				openContextMenu(v);
 				unregisterForContextMenu(v);
+=======
+				makeTrainTypePopup();
+>>>>>>> de21d29c3fa459469fe95c0938007df621d01945
 			}
 		});
 	}
