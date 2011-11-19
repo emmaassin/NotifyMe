@@ -22,7 +22,6 @@ public class MTAStatusAdapter extends ArrayAdapter<MTAStatusItem>
 	{
 		super(context, _resource, objects);
 		resource = _resource;
-		// Log.w(TAG, "StatusAdapter init");
 	}
 
 	@Override
@@ -39,15 +38,12 @@ public class MTAStatusAdapter extends ArrayAdapter<MTAStatusItem>
 			Typeface font2 = Typeface.createFromAsset(getContext().getAssets(), "fonts/DINEngschrift-Regular.ttf");
 
 			holder = new ViewHolder();
-			holder.lineImageView = (ImageView) convertView.findViewById(R.id.line_id_image);
 			holder.statusView = (TextView) convertView.findViewById(R.id.status_id);
 			holder.statusView.setTypeface(font2);
 			holder.statusView.setTextSize(20);
-			
 			convertView.setTag(holder);
-			
-			holder.statusView.setTextColor(convertView.getResources().getColor(R.color.red));
 
+			holder.statusView.setTextColor(convertView.getResources().getColor(R.color.red));
 		} else
 		{
 			holder = (ViewHolder) convertView.getTag();
@@ -55,20 +51,28 @@ public class MTAStatusAdapter extends ArrayAdapter<MTAStatusItem>
 
 		String line = item.getLine();
 		String status = item.getStatus();
-		initTransitItem(holder, item, line, status, convertView);
+		String transitType = item.getTransitType();
+		initTransitItem(holder, line, status, transitType, convertView);
 
 		return convertView;
 	}
 
-
-	private void initTransitItem(ViewHolder holder, MTAStatusItem item, String line, String status, View convertView)
+	private void initTransitItem(ViewHolder holder, String line, String status, String type, View convertView)
 	{
 		Resources resource = convertView.getResources();
 
-		String resID = "line_" + line.toLowerCase();
-		int resources = resource.getIdentifier(resID, "drawable", "com.bitty.notifyme");
-		holder.lineImageView.setImageResource(resources);
-		holder.lineImageView.setVisibility(TextView.VISIBLE);
+		if (type.equals("subway"))
+		{
+			String resID = "line_" + line.toLowerCase();
+			int resources = resource.getIdentifier(resID, "drawable", "com.bitty.notifyme");
+			holder.lineImageView = (ImageView) convertView.findViewById(R.id.line_id_image);
+			holder.lineImageView.setImageResource(resources);
+			//holder.lineImageView.setVisibility(TextView.VISIBLE);
+		} else
+		{
+			holder.lineTextView = (TextView) convertView.findViewById(R.id.line_id_text);
+			holder.lineTextView.setText(line);
+		}
 
 		holder.statusView.setVisibility(TextView.VISIBLE);
 		holder.statusView.setText(status);
@@ -77,7 +81,8 @@ public class MTAStatusAdapter extends ArrayAdapter<MTAStatusItem>
 		if (status.equals(resource.getString(R.string.mta_status_good)))
 			holder.statusView.setTextColor(resource.getColor(R.color.green));
 
-		if (status.equals(resource.getString(R.string.mta_status_delay)) || status.equals(resource.getString(R.string.mta_status_planned)))
+		if (status.equals(resource.getString(R.string.mta_status_delay))
+				|| status.equals(resource.getString(R.string.mta_status_planned)))
 			holder.statusView.setTextColor(resource.getColor(R.color.red));
 
 		if (status.equals(resource.getString(R.string.mta_status_service)))

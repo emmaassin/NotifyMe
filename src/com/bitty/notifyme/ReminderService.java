@@ -88,7 +88,7 @@ public class ReminderService extends WakeReminderIntentService
 	private void announceNewStatusItem(ArrayList<String> arr)
 	{
 		List<String> subwayLines = notifyMeItem.getTrains();
-		
+		String transitType = notifyMeItem.getTrainType();
 
 		for (int i = 0; i < subwayLines.size(); i++)
 		{
@@ -99,16 +99,15 @@ public class ReminderService extends WakeReminderIntentService
 					if (mtaStatusArray == null)
 						mtaStatusArray = new ArrayList<MTAStatusItem>();
 
-					mtaStatusArray.add(new MTAStatusItem(arr.get(0), arr.get(1), arr.get(2), arr.get(3), arr.get(4)));
-
+					mtaStatusArray.add(new MTAStatusItem(arr.get(0), arr.get(1), arr.get(2), arr.get(3), arr.get(4), transitType));
 					notificationTitle += " " + arr.get(0) + " ";
 					notificatonList.add(arr.get(0));
 
 					//Log.w(TAG, "line" + arr.get(0));
 					//Log.w(TAG, "status" + arr.get(1));
 					//Log.w(TAG, "status text" + arr.get(2));
-					// Log.w(TAG, "date" + arr.get(3));
-					// Log.w(TAG, "time" + arr.get(4));
+					//Log.w(TAG, "date" + arr.get(3));
+					//Log.w(TAG, "time" + arr.get(4));
 				}
 			}
 		}

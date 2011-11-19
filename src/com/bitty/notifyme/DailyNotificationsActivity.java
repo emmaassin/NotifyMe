@@ -80,7 +80,6 @@ public class DailyNotificationsActivity extends ListActivity
 	private void onDeleteNotification(int _arrayIndex, long _db_ID)
 	{
 		long dbID = _db_ID;
-
 		ReminderManager reminderMngr = new ReminderManager(this);
 
 		// Remove alert for all notifications because DB resets key IDs. Alarm
