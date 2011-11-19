@@ -3,6 +3,7 @@ package com.bitty.notifyme;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -175,6 +176,8 @@ public class MainActivity extends Activity
 						notifyDB.open();
 						populateNotifyList();
 						dialog.cancel();
+						// delete alarms -------------!!!!!!!!!!!!!!!!!
+						
 					}
 				}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener()
 				{
