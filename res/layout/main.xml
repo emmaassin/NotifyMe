@@ -141,7 +141,26 @@
 			android:layout_marginLeft="14dip"
 			android:paddingTop="10dip"
 			android:paddingRight="14dip"
-			android:paddingBottom="30dip"
+			android:paddingBottom="5dip"
+			/>
+			<ImageView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:src="@drawable/cc"
+			android:layout_marginLeft="14dip"
+			android:paddingBottom="8dip"
+			/>
+			<TextView
+			android:id="@+id/info_body_2"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/info_body_2"
+			android:textColor="#ececec"
+			android:textSize="15dip"
+			android:layout_marginLeft="14dip"
+			android:paddingTop="5dip"
+			android:paddingRight="14dip"
+			android:paddingBottom="20dip"
 			/>
 			</LinearLayout>
 	</com.bitty.notifyme.Panel>

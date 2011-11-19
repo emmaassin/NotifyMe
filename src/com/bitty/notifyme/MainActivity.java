@@ -52,6 +52,7 @@ public class MainActivity extends Activity
 		TextView titleText = (TextView) findViewById(R.id.title);
 		TextView infoHeader = (TextView) findViewById(R.id.info_header);
 		TextView infoBody = (TextView) findViewById(R.id.info_body);
+		TextView infoBody2 = (TextView) findViewById(R.id.info_body_2);
 		TextView addText = (TextView) findViewById(R.id.add_text);
 		TextView delayText = (TextView) findViewById(R.id.delay_text);
 
@@ -59,6 +60,7 @@ public class MainActivity extends Activity
 		titleText.setTypeface(font);
 		infoHeader.setTypeface(font);
 		infoBody.setTypeface(font);
+		infoBody2.setTypeface(font);
 
 		Typeface font2 = Typeface.createFromAsset(getAssets(), "fonts/DINEngschrift-Regular.ttf");
 		addText.setTypeface(font2);
