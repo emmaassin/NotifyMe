@@ -338,7 +338,15 @@ public class TimeChooser extends LinearLayout{
     
     public int getCurrentHour()
     {
-    	return mHour;
+    	if(am && mHour == 12)
+    	{
+    		return 0;
+    	} else if(!am && mHour == 24){
+    		return 12;
+    	} else {
+    		return mHour;
+    	}
+		
     }
     
     public int getCurrentMinute()
