@@ -69,7 +69,7 @@ public class MTAStatusAdapter extends ArrayAdapter<MTAStatusItem>
 		if (type.equals("subway"))
 		{
 			String resID = "line_" + line.toLowerCase();
-			int resources = resource.getIdentifier(resID, "drawable", "com.bitty.notifyme");
+			int resources = resource.getIdentifier(resID, "drawable", "org.cortelyoucollective.notifyme");
 			holder.lineImageView = (ImageView) convertView.findViewById(R.id.line_id_image);
 			holder.lineImageView.setImageResource(resources);
 			holder.lineImageView.setVisibility(TextView.VISIBLE);
