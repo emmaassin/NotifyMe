@@ -2,11 +2,14 @@ package com.bitty.notifyme;
 
 import java.util.ArrayList;
 
+import com.bitty.utils.Convert;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -172,6 +175,17 @@ public class MainActivity extends Activity
 					public void onClick(DialogInterface dialog, int which)
 					{
 						// delete all the notifications
+						Cursor cursor = notifyDB.getAllNotifications();
+						ReminderManager reminderMngr = new ReminderManager(getApplicationContext());
+						
+						if (cursor.moveToFirst())
+						{
+							do{
+								long db_ID = cursor.getLong(cursor.getColumnIndex(NotifyDBAdapter.KEY_ID));
+								reminderMngr.clearReminder(Convert.safeLongToInt(db_ID));
+							}while(cursor.moveToNext());
+						}
+						
 						notifyDB.deleteDB();
 						notifyDB.close();
 						notifyDB.open();

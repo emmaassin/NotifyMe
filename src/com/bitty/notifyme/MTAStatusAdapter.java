@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 public class MTAStatusAdapter extends ArrayAdapter<MTAStatusItem>
 {
+	Typeface font;
+	
 	private static final String TAG = "StatusAdapter";
 
 	int resource;
@@ -35,11 +37,11 @@ public class MTAStatusAdapter extends ArrayAdapter<MTAStatusItem>
 			LayoutInflater vi = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = vi.inflate(resource, null);
 
-			Typeface font2 = Typeface.createFromAsset(getContext().getAssets(), "fonts/DINEngschrift-Regular.ttf");
+			font = Typeface.createFromAsset(getContext().getAssets(), "fonts/VarelaRound-Regular.ttf");
 
 			holder = new ViewHolder();
 			holder.statusView = (TextView) convertView.findViewById(R.id.status_id);
-			holder.statusView.setTypeface(font2);
+			holder.statusView.setTypeface(font);
 			holder.statusView.setTextSize(20);
 			convertView.setTag(holder);
 
@@ -71,6 +73,7 @@ public class MTAStatusAdapter extends ArrayAdapter<MTAStatusItem>
 		} else
 		{
 			holder.lineTextView = (TextView) convertView.findViewById(R.id.line_id_text);
+			holder.lineTextView.setTypeface(font);
 			holder.lineTextView.setText(line);
 		}
 
