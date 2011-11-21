@@ -16,6 +16,7 @@ import android.widget.TextView;
 public class MTAStatusAdapter extends ArrayAdapter<MTAStatusItem>
 {
 	Typeface font;
+	Typeface font1;
 	
 	private static final String TAG = "StatusAdapter";
 
@@ -39,10 +40,11 @@ public class MTAStatusAdapter extends ArrayAdapter<MTAStatusItem>
 			convertView = vi.inflate(resource, null);
 
 			font = Typeface.createFromAsset(getContext().getAssets(), "fonts/VarelaRound-Regular.ttf");
+			font1 = Typeface.createFromAsset(getContext().getAssets(), "fonts/DINEngschrift-Regular.ttf");
 
 			holder = new ViewHolder();
 			holder.statusView = (TextView) convertView.findViewById(R.id.status_id);
-			holder.statusView.setTypeface(font);
+			holder.statusView.setTypeface(font1);
 			holder.statusView.setTextSize(20);
 			convertView.setTag(holder);
 
@@ -70,7 +72,7 @@ public class MTAStatusAdapter extends ArrayAdapter<MTAStatusItem>
 			int resources = resource.getIdentifier(resID, "drawable", "com.bitty.notifyme");
 			holder.lineImageView = (ImageView) convertView.findViewById(R.id.line_id_image);
 			holder.lineImageView.setImageResource(resources);
-			//holder.lineImageView.setVisibility(TextView.VISIBLE);
+			holder.lineImageView.setVisibility(TextView.VISIBLE);
 		} else
 		{
 			holder.lineTextView = (TextView) convertView.findViewById(R.id.line_id_text);
