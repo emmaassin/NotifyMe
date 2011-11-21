@@ -116,7 +116,7 @@ public class DailyNotificationsItem extends RelativeLayout
 			{
 				ImageView img = new ImageView(mContext);
 				String resID = "line_" + trains.get(i).toLowerCase();
-				int resources = getResources().getIdentifier(resID, "drawable", "com.bitty.notifyme");
+				int resources = getResources().getIdentifier(resID, "drawable", "org.cortelyoucollective.notifyme");
 
 				// load the original BitMap
 				Bitmap bitmapOrg = BitmapFactory.decodeResource(getResources(), resources);
