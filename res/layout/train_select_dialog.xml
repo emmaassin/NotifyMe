@@ -37,13 +37,13 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:orientation="horizontal">
-	    <com.bitty.notifyme.SelectSubwayButton
+	    <org.cortelyoucollective.notifyme.SelectSubwayButton
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:id="@+id/l123"
 	    android:background="@drawable/line_123"
 	    />
-	    <com.bitty.notifyme.SelectSubwayButton
+	    <org.cortelyoucollective.notifyme.SelectSubwayButton
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:id="@+id/l456"
@@ -54,13 +54,13 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:orientation="horizontal">
-	    <com.bitty.notifyme.SelectSubwayButton
+	    <org.cortelyoucollective.notifyme.SelectSubwayButton
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:id="@+id/l7"
 	    android:background="@drawable/line_7"
 	    />
-	    <com.bitty.notifyme.SelectSubwayButton
+	    <org.cortelyoucollective.notifyme.SelectSubwayButton
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:id="@+id/lace"
@@ -71,13 +71,13 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:orientation="horizontal">
-	    <com.bitty.notifyme.SelectSubwayButton
+	    <org.cortelyoucollective.notifyme.SelectSubwayButton
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:id="@+id/lbdfm"
 	    android:background="@drawable/line_bdfm"
 	    />
-	    <com.bitty.notifyme.SelectSubwayButton
+	    <org.cortelyoucollective.notifyme.SelectSubwayButton
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:id="@+id/lg"
@@ -88,19 +88,19 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:orientation="horizontal">
-	    <com.bitty.notifyme.SelectSubwayButton
+	    <org.cortelyoucollective.notifyme.SelectSubwayButton
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:id="@+id/ljz"
 	    android:background="@drawable/line_jz"
 	    />
-	    <com.bitty.notifyme.SelectSubwayButton
+	    <org.cortelyoucollective.notifyme.SelectSubwayButton
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:id="@+id/ll"
 	    android:background="@drawable/line_l"
 	    />
-	    <com.bitty.notifyme.SelectSubwayButton
+	    <org.cortelyoucollective.notifyme.SelectSubwayButton
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:id="@+id/lnqr"
@@ -111,13 +111,13 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:orientation="horizontal">
-	    <com.bitty.notifyme.SelectSubwayButton
+	    <org.cortelyoucollective.notifyme.SelectSubwayButton
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:id="@+id/ls"
 	    android:background="@drawable/line_s"
 	    />
-	    <com.bitty.notifyme.SelectSubwayButton
+	    <org.cortelyoucollective.notifyme.SelectSubwayButton
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:id="@+id/lsir"

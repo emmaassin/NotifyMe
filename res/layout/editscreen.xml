@@ -89,7 +89,7 @@
   	android:paddingLeft="14dip"
   	android:paddingTop="22dip"
   	android:text="@string/choose_time_title"/>
-  	<com.bitty.notifyme.TimeChooser
+  	<org.cortelyoucollective.notifyme.TimeChooser
   	android:id="@+id/time_picker"
   	android:layout_width="wrap_content"
   	android:layout_height="wrap_content"

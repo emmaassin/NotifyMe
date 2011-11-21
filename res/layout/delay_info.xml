@@ -1,5 +1,5 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:panel="http://schemas.android.com/apk/res/com.bitty.notifyme"
+	xmlns:panel="http://schemas.android.com/apk/res/org.cortelyoucollective.notifyme"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -49,7 +49,7 @@
     android:textColor="@drawable/green_button_text"
     android:textSize="23dip"
     android:text="@string/back_button"/>
-	<com.bitty.notifyme.Panel
+	<org.cortelyoucollective.notifyme.Panel
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
 			android:id="@+id/topPanel"
@@ -116,6 +116,6 @@
 			android:paddingBottom="20dip"
 			/>
 			</LinearLayout>
-	</com.bitty.notifyme.Panel>
+	</org.cortelyoucollective.notifyme.Panel>
 </FrameLayout>
 
