@@ -6,6 +6,7 @@ import org.cortelyoucollective.notifyme.R;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
@@ -29,6 +30,8 @@ public class SelectTrainDialog extends CheckboxDialog
 
 		for (int i = 0; i < trainLabels.length; i++)
 		{
+			Log.w(TAG, trainLabels[i]);
+			
 			LinearLayout ll = new LinearLayout(context);
 			ll.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, 1));
 			ll.setBackgroundColor(Color.parseColor("#e3e3e3"));

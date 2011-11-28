@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
-import org.cortelyoucollective.notifyme.R;
 
 public class AlarmReceiver extends BroadcastReceiver
 {
@@ -19,7 +18,6 @@ public class AlarmReceiver extends BroadcastReceiver
 			long id = intent.getExtras().getLong("alarm_id");
 			Intent i = new Intent(context, ReminderService.class);
 			i.putExtra("alarm_id", id);
-			
 			context.startService(i);
 		} catch (Exception e)
 		{

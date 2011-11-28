@@ -1,9 +1,8 @@
 package org.cortelyoucollective.notifyme;
 
 import java.util.Calendar;
-import org.cortelyoucollective.notifyme.R;
-import org.cortelyoucollective.utils.Convert;
 
+import org.cortelyoucollective.utils.Convert;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -13,7 +12,6 @@ import android.util.Log;
 
 public class ReminderManager
 {
-
 	private static final String TAG = "ReminderManager";
 
 	private Context context;
@@ -55,14 +53,12 @@ public class ReminderManager
 		if (calendar.before(Calendar.getInstance()))
 			currentTime += AlarmManager.INTERVAL_DAY * 7;
 
-		// alarm Id needs to be a reference to the database line for this
-		// notification
+		// alarm Id needs to be a reference to the database line for this notification
 		Intent intent = new Intent(context, AlarmReceiver.class);
 		intent.putExtra("alarm_id", alarmID);
 		PendingIntent pedingIntent = PendingIntent.getBroadcast(context, Convert.safeLongToInt(alarmID), intent,
 				PendingIntent.FLAG_UPDATE_CURRENT);
 
-		// Log.i("LOGGING",calendar.toString());
 		// set the alarm to repeat every week at the same time
 		alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, currentTime, AlarmManager.INTERVAL_DAY * 7, pedingIntent);
 	}
@@ -73,7 +69,6 @@ public class ReminderManager
 		Log.w(TAG, "clearReminder with alarmID = " + Long.toString(alarmID));
 		Intent intent = new Intent(context, AlarmReceiver.class);
 
-		//PendingIntent sender = PendingIntent.getBroadcast(context, alarmID, intent, 0);
 		PendingIntent sender = PendingIntent.getBroadcast(context, alarmID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 		if (sender != null)

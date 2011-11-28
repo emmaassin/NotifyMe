@@ -4,21 +4,24 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import org.cortelyoucollective.notifyme.R;
+import android.sax.StartElementListener;
+import android.util.Log;
 
 public class OnBootReceiver extends BroadcastReceiver
 {
-
+	private static final String TAG = "OnBootReceiver";
+	
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		// get all notifications from the database and use their data to re-set alarms!
 		//TODO May need to do this when deleting items since DB is reset
 		
+		Log.w(TAG, "onReceive");
+		
 		NotifyDBAdapter db = new NotifyDBAdapter(context);
 		db.open();
 		
 		Cursor cursor = db.getAllNotifications();
-		
 		ReminderManager reminderMngr = new ReminderManager(context);
 		
 		if (cursor.moveToFirst())
@@ -33,6 +36,7 @@ public class OnBootReceiver extends BroadcastReceiver
 			}while(cursor.moveToNext());
 		}
 		
-		//Toast.makeText(context, "The Boot Receiver was received!", Toast.LENGTH_LONG).show();
+		cursor.close();
+		db.close();
 	}
 }

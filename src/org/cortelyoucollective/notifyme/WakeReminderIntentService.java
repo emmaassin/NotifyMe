@@ -13,7 +13,7 @@ public abstract class WakeReminderIntentService extends IntentService
 	
 	abstract void doReminderWork(Intent intent);
 
-	public static final String LOCK_NAME_STATIC = "com.bitty.notifyme.Static";
+	public static final String LOCK_NAME_STATIC = "org.cortelyoucollective.notifyme.WakeReminderIntentService";
 	private static PowerManager.WakeLock lockStatic = null;
 
 	public static void acquireStaticLock(Context context)
@@ -50,7 +50,6 @@ public abstract class WakeReminderIntentService extends IntentService
 		{
 			if (lockStatic != null)
 			{
-				Log.w(TAG, "release lock?");
 				getLock(this).release();
 			}
 		}

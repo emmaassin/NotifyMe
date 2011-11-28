@@ -1,7 +1,7 @@
 package org.cortelyoucollective.notifyme;
 
 import java.util.ArrayList;
-import org.cortelyoucollective.notifyme.R;
+
 import org.cortelyoucollective.utils.Serializer;
 
 import android.content.ContentValues;

@@ -59,12 +59,14 @@ public class NotifyApplication extends Application{
 	public void onCreate()
 	{
 		super.onCreate();
-		notifyDB = new NotifyDBAdapter(this);
-		notifyDB.open();
+		setDB();
 	}
 	
 	public NotifyDBAdapter getNotifyDB()
 	{
+		if(notifyDB == null)
+			setDB();
+			
 		return notifyDB;
 	}
 	
@@ -73,5 +75,11 @@ public class NotifyApplication extends Application{
 	{
 		super.onTerminate();
 		notifyDB.close();
+	}
+	
+	private void setDB()
+	{
+		notifyDB = new NotifyDBAdapter(this);
+		notifyDB.open();
 	}
 }

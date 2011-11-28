@@ -177,6 +177,7 @@ public class MainActivity extends Activity
 					{
 						// delete all the notifications
 						Cursor cursor = notifyDB.getAllNotifications();
+						
 						ReminderManager reminderMngr = new ReminderManager(getApplicationContext());
 						
 						if (cursor.moveToFirst())
@@ -187,6 +188,7 @@ public class MainActivity extends Activity
 							}while(cursor.moveToNext());
 						}
 						
+						cursor.close();
 						notifyDB.deleteDB();
 						notifyDB.close();
 						notifyDB.open();

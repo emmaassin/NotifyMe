@@ -25,7 +25,7 @@ import android.widget.TextView;
 public class DailyNotificationsItem extends RelativeLayout
 {
 	private static final String TAG = "DailyNotificationsItem";
-	public static final String DELETE_ITEM = "com.bitty.action.DELETE_ITEM";
+	public static final String DELETE_ITEM = "DELETE_ITEM";
 
 	private Context mContext;
 	private LinearLayout linesImagesHolder;
@@ -92,7 +92,7 @@ public class DailyNotificationsItem extends RelativeLayout
 
 	public void setContent(int hr, int min, List<String> trains, final String trainType)
 	{
-		Log.w(TAG, "type" + trainType);
+		//Log.w(TAG, "type = " + trainType);
 		editButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v)
 			{

@@ -1,15 +1,13 @@
 package org.cortelyoucollective.notifyme;
 
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.cortelyoucollective.notifyme.R;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -27,6 +25,7 @@ import android.util.Log;
 
 public class ReminderService extends WakeReminderIntentService
 {
+
 	private static final String TAG = "ReminderService";
 	private long notificationID;
 	private CurrentStatusLookupTask lastLookup = null;
@@ -38,12 +37,22 @@ public class ReminderService extends WakeReminderIntentService
 
 	private String notificationTitle = "";
 	private NotifyMeItem notifyMeItem;
-	
+	private List<String> subwayLines;
+	public String transitType;
+
 	private SharedPreferences settings;
 
 	public ReminderService()
 	{
 		super("ReminderService");
+		try
+		{
+			Class.forName("android.os.AsyncTask");
+		} catch (ClassNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+
 		Log.w(TAG, "constructor");
 	}
 
@@ -53,8 +62,8 @@ public class ReminderService extends WakeReminderIntentService
 		Log.w(TAG, "doReminderWork");
 		// app reaches out to MTA service if there's currently a delay on the
 		// line in the notification
-		// we can store a reference to the line in the extras
-		// once we've grabbed that data, if there's something to report, do the
+		// we can store a reference to the line in the extras once we've grabbed
+		// that data, if there's something to report, do the
 		// notify code be
 
 		notificationID = intent.getExtras().getLong("alarm_id");
@@ -62,21 +71,20 @@ public class ReminderService extends WakeReminderIntentService
 		// GET DB ITEM
 		notifyDB = ((NotifyApplication) getApplication()).getNotifyDB();
 		notifyMeItem = notifyDB.getNotification(notificationID);
+		subwayLines = notifyMeItem.getTrains();
+		transitType = notifyMeItem.getTrainType();
 
 		loadMTAFeed();
-
 	}
 
-	// so here is where the app reaches out to the MTA service to find out
-	// if there's currently a delay on the line we care about
-	// we can store a reference to the line in the extras
-	// once we've grabbed that data, if there's something to report, do the
-	// notify code below
-
+	/*
+	 * Create a thread to parse the MTA feed
+	 */
 	private void loadMTAFeed()
 	{
 		if (lastLookup == null || lastLookup.getStatus().equals(AsyncTask.Status.FINISHED))
 		{
+			Log.i(TAG, "loadMTAFeed");
 			lastLookup = new CurrentStatusLookupTask();
 			lastLookup.execute((Void[]) null);
 		}
@@ -88,9 +96,6 @@ public class ReminderService extends WakeReminderIntentService
 	 */
 	private void announceNewStatusItem(ArrayList<String> arr)
 	{
-		List<String> subwayLines = notifyMeItem.getTrains();
-		String transitType = notifyMeItem.getTrainType();
-
 		for (int i = 0; i < subwayLines.size(); i++)
 		{
 			if (subwayLines.get(i).equals(arr.get(0)))
@@ -100,15 +105,16 @@ public class ReminderService extends WakeReminderIntentService
 					if (mtaStatusArray == null)
 						mtaStatusArray = new ArrayList<MTAStatusItem>();
 
-					mtaStatusArray.add(new MTAStatusItem(arr.get(0), arr.get(1), arr.get(2), arr.get(3), arr.get(4), transitType));
+					mtaStatusArray.add(new MTAStatusItem(arr.get(0), arr.get(1), arr.get(2), arr.get(3), arr.get(4),
+							transitType));
 					notificationTitle += " " + arr.get(0) + " ";
 					notificatonList.add(arr.get(0));
 
-					//Log.w(TAG, "line" + arr.get(0));
-					//Log.w(TAG, "status" + arr.get(1));
-					//Log.w(TAG, "status text" + arr.get(2));
-					//Log.w(TAG, "date" + arr.get(3));
-					//Log.w(TAG, "time" + arr.get(4));
+					// Log.w(TAG, "line" + arr.get(0));
+					// Log.w(TAG, "status" + arr.get(1));
+					// Log.w(TAG, "status text" + arr.get(2));
+					// Log.w(TAG, "date" + arr.get(3));
+					// Log.w(TAG, "time" + arr.get(4));
 				}
 			}
 		}
@@ -126,25 +132,25 @@ public class ReminderService extends WakeReminderIntentService
 				.currentTimeMillis());
 		notification.setLatestEventInfo(this, "FOR THE FOLLOWING TRAINS:", notificationTitle, contentIntent);
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;
-		
+
 		settings = getSharedPreferences("NotifyMeSettings", MODE_PRIVATE);
-		if(settings.contains("tone"))
+		if (settings.contains("tone"))
 		{
-			if(settings.getBoolean("tone", true))
-			{
+			if (settings.getBoolean("tone", true))
 				notification.defaults |= Notification.DEFAULT_SOUND;
-			}
-		} else {
+
+		} else
+		{
 			notification.defaults |= Notification.DEFAULT_SOUND;
 		}
-		
-		if(settings.contains("vibration"))
+
+		if (settings.contains("vibration"))
 		{
-			if(settings.getBoolean("vibration", true))
-			{
+			if (settings.getBoolean("vibration", true))
 				notification.defaults |= Notification.DEFAULT_VIBRATE;
-			}
-		} else {
+
+		} else
+		{
 			notification.defaults |= Notification.DEFAULT_VIBRATE;
 		}
 
@@ -157,16 +163,15 @@ public class ReminderService extends WakeReminderIntentService
 	@Override
 	public IBinder onBind(Intent intent)
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	private void announceUpdateEnd()
 	{
-		Log.w(TAG, "announceUpdateEnd");
+		Log.w(TAG, "announceUpdateEnd NOTIFICATION WON'T FIRE IF THIS IS NOT CALLED ");
 		if (notificatonList.size() > 0)
 		{
-			NotifyApplication app = (NotifyApplication)getApplication();
+			NotifyApplication app = (NotifyApplication) getApplication();
 			app.setMTAStatusArray(mtaStatusArray);
 			sendNotification();
 		}
@@ -178,29 +183,31 @@ public class ReminderService extends WakeReminderIntentService
 	private class CurrentStatusLookupTask extends AsyncTask<Void, Void, Void>
 	{
 		private static final String TAG = "CurrentStatusLookupTask";
-		
+
 		@Override
 		protected Void doInBackground(Void... params)
 		{
-
 			try
 			{
 				/** Handling XML */
 				SAXParserFactory spf = SAXParserFactory.newInstance();
 				SAXParser sp = spf.newSAXParser();
-				XMLReader xr = sp.getXMLReader();
 
 				/** Send URL to parse XML Tags */
-				URL sourceUrl = new URL(getString(R.string.mta_feed));
+				URL url = new URL(getString(R.string.mta_feed));
+				InputStream stream = url.openStream();
 
 				/** Create handler to handle XML Tags ( extends DefaultHandler ) */
 				MyXMLHandler myXMLHandler = new MyXMLHandler();
+
+				XMLReader xr = sp.getXMLReader();
 				xr.setContentHandler(myXMLHandler);
-				xr.parse(new InputSource(sourceUrl.openStream()));
+				xr.parse(new InputSource(stream));
+				stream.close();
 
 			} catch (Exception e)
 			{
-				Log.w(TAG, "XML Pasing Excpetion = " + e.getMessage());
+				Log.w(TAG, "XML Parsing Excpetion = " + e.getMessage());
 			}
 
 			return null;
@@ -210,12 +217,14 @@ public class ReminderService extends WakeReminderIntentService
 		protected void onProgressUpdate(Void... values)
 		{
 			super.onProgressUpdate(values);
+			Log.w(TAG, "onProgressUpdate");
 		}
 
 		@Override
 		protected void onPreExecute()
 		{
 			super.onPreExecute();
+			Log.w(TAG, "onPreExecute");
 		}
 
 		@Override
@@ -224,6 +233,7 @@ public class ReminderService extends WakeReminderIntentService
 			super.onPostExecute(result);
 			Log.w(TAG, "onPostExecute");
 			stopSelf();
+			announceUpdateEnd();
 		}
 	}
 
@@ -235,7 +245,7 @@ public class ReminderService extends WakeReminderIntentService
 		public EndOfProcessingException(String msg)
 		{
 			super(msg);
-			//Log.w(TAG, "STOP PARSING XML");
+			Log.w(TAG, " EndOfProcessingException :: STOP PARSING XML");
 			announceUpdateEnd();
 		}
 	}
@@ -246,33 +256,34 @@ public class ReminderService extends WakeReminderIntentService
 	public class MyXMLHandler extends DefaultHandler
 	{
 		private static final String TAG = "MyXMLHandler";
+
 		String currentValue = null;
 		String currentCategory = null;
 		String buffer = "";
 		String currentQName = null;
 		ArrayList<String> mtaItemArr = new ArrayList<String>();
-		String trainType;
-		//Pattern pattern;
+
+		// Pattern pattern;
 
 		@Override
 		public void startDocument() throws SAXException
 		{
-			//Log.w(TAG, "startDocument");
-			//pattern = Pattern.compile("000000");
-			trainType = (String) ((NotifyApplication) getApplication()).getCurrentTrainType();
+			// pattern = Pattern.compile("000000");
+			Log.w(TAG, " startDocument for trainType = " + transitType);
 		}
 
 		@Override
 		public void endDocument() throws SAXException
 		{
+			Log.w(TAG, " endDocument");
 		}
 
 		@Override
 		public void startElement(String namespaceURI, String localName, String qName, Attributes atts)
 				throws SAXException
 		{
-
-			if (localName.equals(trainType))
+			// Log.w(TAG, "startElement");
+			if (localName.equals(transitType))
 				currentCategory = localName;
 
 			if (localName.equals("text"))
@@ -289,7 +300,6 @@ public class ReminderService extends WakeReminderIntentService
 		@Override
 		public void endElement(String namespaceURI, String localName, String qName) throws SAXException
 		{
-
 			if (localName.equals("name") || localName.equals("status") || localName.equals("Date")
 					|| localName.equals("Time"))
 			{
@@ -299,17 +309,6 @@ public class ReminderService extends WakeReminderIntentService
 			if (localName.equals("text"))
 			{
 				mtaItemArr.add(buffer);
-				/*
-				Matcher matcher = pattern.matcher(buffer);
-				if (matcher.find())
-				{
-					String output = matcher.replaceAll("ffffff");
-					mtaItemArr.add(output);
-				} else
-				{
-					mtaItemArr.add(buffer);
-				}
-				*/
 			}
 
 			if (localName.equals("line"))
@@ -319,15 +318,16 @@ public class ReminderService extends WakeReminderIntentService
 				mtaItemArr.clear();
 			}
 
-			if (localName.equals(trainType))
+			if (localName.equals(transitType))
 			{
-				// Some sort of finishing up work
+				Log.w(TAG, " endElement for trainType = " + transitType);
+
 				currentValue = null;
 				currentCategory = null;
 				buffer = "";
 				currentQName = null;
 				mtaItemArr = null;
-				throw new EndOfProcessingException("Done.");
+				// throw new EndOfProcessingException("Done.");
 			}
 		}
 	}
