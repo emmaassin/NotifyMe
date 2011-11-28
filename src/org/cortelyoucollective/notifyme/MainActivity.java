@@ -151,6 +151,9 @@ public class MainActivity extends Activity
         	makeSettingsPopup();
            return true;
         }
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+        	onBackPressed();
+        }
         return false;
     }
 	
