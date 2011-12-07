@@ -1,6 +1,10 @@
 package org.cortelyoucollective.notifyme;
 
-import org.cortelyoucollective.notifyme.R;
+import java.io.Serializable;
+
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.util.Log;
 
 public class MTAStatusItem
 {
@@ -14,6 +18,17 @@ public class MTAStatusItem
 	private String transitType;
 
 	// line, status, statusText, url, date, time
+	
+	public MTAStatusItem(String _line, String _status, String _statusTxt, String _date, String _time, String _type)
+	{
+		lineName = _line;
+		status = _status;
+		date = _date;
+		time = _time;
+		transitType = _type;
+		statusText = "<i>Posted " + date + " " + time + "</i><br/>" + lineName + "<br/>" + status + "<br/><br/>"
+				+ _statusTxt;
+	}
 
 	public String getLine()
 	{
@@ -29,21 +44,20 @@ public class MTAStatusItem
 	{
 		return statusText;
 	}
+	
+	public String getDate()
+	{
+		return date;
+	}
+	
+	public String getTime()
+	{
+		return time;
+	}
 
 	public String getTransitType()
 	{
 		return transitType;
-	}
-
-	public MTAStatusItem(String _line, String _status, String _statusTxt, String _date, String _time, String _type)
-	{
-		lineName = _line;
-		status = _status;
-		date = _date;
-		time = _time;
-		transitType = _type;
-		statusText = "<i>Posted " + date + " " + time + "</i><br/>" + lineName + "<br/>" + status + "<br/><br/>"
-				+ _statusTxt;
 	}
 
 	@Override
@@ -51,4 +65,5 @@ public class MTAStatusItem
 	{
 		return lineName + " " + status;
 	}
+
 }

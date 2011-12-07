@@ -8,6 +8,7 @@ import java.util.List;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.json.JSONObject;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -19,7 +20,9 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -31,7 +34,7 @@ public class ReminderService extends WakeReminderIntentService
 	private CurrentStatusLookupTask lastLookup = null;
 
 	private ArrayList<String> notificatonList = new ArrayList<String>();
-	private ArrayList<MTAStatusItem> mtaStatusArray = null;
+	private MTAStatusItemList mtaStatusArray = null;
 
 	private NotifyDBAdapter notifyDB;
 
@@ -103,10 +106,11 @@ public class ReminderService extends WakeReminderIntentService
 				if (!arr.get(1).equals("GOOD SERVICE"))
 				{
 					if (mtaStatusArray == null)
-						mtaStatusArray = new ArrayList<MTAStatusItem>();
+						mtaStatusArray = new MTAStatusItemList();
 
-					mtaStatusArray.add(new MTAStatusItem(arr.get(0), arr.get(1), arr.get(2), arr.get(3), arr.get(4),
-							transitType));
+					MTAStatusItem item = new MTAStatusItem(arr.get(0), arr.get(1), arr.get(2), arr.get(3), arr.get(4),
+							transitType);
+					mtaStatusArray.add(item);
 					notificationTitle += " " + arr.get(0) + " ";
 					notificatonList.add(arr.get(0));
 
@@ -126,7 +130,18 @@ public class ReminderService extends WakeReminderIntentService
 	private void sendNotification()
 	{
 		// create notification
+		Bundle b = new Bundle();
+		b.putParcelable("MTA_status_data", mtaStatusArray);
 		Intent mtaIntent = new Intent(this, MTACurrentStatusActivity.class);
+		mtaIntent.putExtras(b);
+		// add parcel as extra
+		//mtaIntent.putParcelableArrayListExtra("MTA_status_data", mtaStatusArray);
+		
+		// trying with serializing
+		//Bundle extras = new Bundle();
+		//extras.putSerializable("MTA_status_data", mtaStatusArray);
+		//mtaIntent.putExtras(extras);
+		
 		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, mtaIntent, PendingIntent.FLAG_ONE_SHOT);
 		Notification notification = new Notification(R.drawable.notify_icon, "NOTIFY ME NYC ALERT!", System
 				.currentTimeMillis());
@@ -171,8 +186,10 @@ public class ReminderService extends WakeReminderIntentService
 		Log.w(TAG, "announceUpdateEnd NOTIFICATION WON'T FIRE IF THIS IS NOT CALLED ");
 		if (notificatonList.size() > 0)
 		{
-			NotifyApplication app = (NotifyApplication) getApplication();
-			app.setMTAStatusArray(mtaStatusArray);
+			// commented out to see if the parcel worked
+			//NotifyApplication app = (NotifyApplication) getApplication();
+			//app.setMTAStatusArray(mtaStatusArray);
+			
 			sendNotification();
 		}
 	}

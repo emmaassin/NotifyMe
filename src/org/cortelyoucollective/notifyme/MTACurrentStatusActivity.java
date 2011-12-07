@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,7 +24,7 @@ public class MTACurrentStatusActivity extends Activity
 
 	private ListView statusListView;
 	private MTAStatusAdapter aa;
-	private ArrayList<MTAStatusItem> statusArray;
+	private MTAStatusItemList statusArray;
 	private MTAStatusItem selectedStatusItem;
 
 	private Button homeButton;
@@ -73,8 +74,13 @@ public class MTACurrentStatusActivity extends Activity
 				startActivityForResult(myIntent, 0);
 			}
 		});
-
-		statusArray = ((NotifyApplication) getApplication()).getMTAStatusArray();
+		
+		Bundle b = getIntent().getExtras();
+		statusArray = b.getParcelable("MTA_status_data");
+		
+		//statusArray = ((NotifyApplication) getApplication()).getMTAStatusArray();
+		//statusArray =  getIntent().getExtras().getParcelableArrayList("MTA_status_data");
+		//statusArray = (ArrayList<MTAStatusItem>) getIntent().getExtras().getSerializable("MTA_status_data");
 
 		int layoutID = R.layout.listviewitem;
 		aa = new MTAStatusAdapter(this, layoutID, statusArray);
