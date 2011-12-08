@@ -8,6 +8,11 @@ import android.os.Parcelable;
 public class MTAStatusItemList extends ArrayList<MTAStatusItem> implements Parcelable
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public MTAStatusItemList(){
 		
 	}

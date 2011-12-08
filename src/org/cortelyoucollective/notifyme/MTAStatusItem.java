@@ -1,11 +1,5 @@
 package org.cortelyoucollective.notifyme;
 
-import java.io.Serializable;
-
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.util.Log;
-
 public class MTAStatusItem
 {
 	private static final String TAG = "StatusItem";

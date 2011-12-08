@@ -79,8 +79,6 @@ public class MTACurrentStatusActivity extends Activity
 		statusArray = b.getParcelable("MTA_status_data");
 		
 		//statusArray = ((NotifyApplication) getApplication()).getMTAStatusArray();
-		//statusArray =  getIntent().getExtras().getParcelableArrayList("MTA_status_data");
-		//statusArray = (ArrayList<MTAStatusItem>) getIntent().getExtras().getSerializable("MTA_status_data");
 
 		int layoutID = R.layout.listviewitem;
 		aa = new MTAStatusAdapter(this, layoutID, statusArray);

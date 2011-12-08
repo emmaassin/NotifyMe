@@ -134,13 +134,6 @@ public class ReminderService extends WakeReminderIntentService
 		b.putParcelable("MTA_status_data", mtaStatusArray);
 		Intent mtaIntent = new Intent(this, MTACurrentStatusActivity.class);
 		mtaIntent.putExtras(b);
-		// add parcel as extra
-		//mtaIntent.putParcelableArrayListExtra("MTA_status_data", mtaStatusArray);
-		
-		// trying with serializing
-		//Bundle extras = new Bundle();
-		//extras.putSerializable("MTA_status_data", mtaStatusArray);
-		//mtaIntent.putExtras(extras);
 		
 		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, mtaIntent, PendingIntent.FLAG_ONE_SHOT);
 		Notification notification = new Notification(R.drawable.notify_icon, "NOTIFY ME NYC ALERT!", System
