@@ -320,8 +320,15 @@ public class TimeChooser extends LinearLayout{
 				hrTxt.setText(String.valueOf(currentHr));
     		
     		theHour = currentHr;
-    		am = true;
-    		ampmTxt.setText("AM");
+    		if(currentHr == 12)
+    		{
+    			am = false;
+        		ampmTxt.setText("PM");
+    		} else {
+    			am = true;
+        		ampmTxt.setText("AM");
+    		}
+    		
     	}
     	mHour = currentHr;
     }
