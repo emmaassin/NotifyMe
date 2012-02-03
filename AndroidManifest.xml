@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="org.cortelyoucollective.notifyme"
-      android:versionCode="3"
-      android:versionName="1.2">
-    <uses-sdk android:minSdkVersion="3" />
+      android:versionCode="5"
+      android:versionName="1.4">
+    <uses-sdk android:minSdkVersion="7" />
     <uses-permission android:name="android.permission.READ_CALENDAR"/>
 	<uses-permission android:name="android.permission.WRITE_CALENDAR"/>
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
@@ -35,7 +35,12 @@
 		
 		<receiver  android:process=":remote" android:name=".AlarmReceiver"></receiver>
 		<service android:enabled="true" android:name=".ReminderService" />
+		
+		<activity android:name="com.google.ads.AdActivity"
+              android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
+              
     </application>
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 </manifest>

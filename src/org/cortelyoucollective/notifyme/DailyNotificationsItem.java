@@ -21,6 +21,7 @@ import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class DailyNotificationsItem extends RelativeLayout
 {
@@ -170,16 +171,25 @@ public class DailyNotificationsItem extends RelativeLayout
 		String minString;
 
 		if (min < 10)
+		{
 			minString = "0" + min;
-		else
+		} else {
 			minString = String.valueOf(min);
-
+		}
+			
+		//Toast.makeText(mContext, String.valueOf(hr), Toast.LENGTH_LONG).show();
+		
 		if (hr < 12)
+		{
 			timeTextView.setText(hr + ":" + minString + " AM");
-		else if (hr == 12)
-			timeTextView.setText(12 + ":" + minString + " AM");
-		else
+		} else if (hr == 12)
+		{
+			timeTextView.setText(12 + ":" + minString + " PM");
+		} else {
 			timeTextView.setText((hr - 12) + ":" + minString + " PM");
+		}
+			
+			
 	}
 
 }

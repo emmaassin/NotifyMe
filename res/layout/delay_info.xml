@@ -1,5 +1,6 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:panel="http://schemas.android.com/apk/res/org.cortelyoucollective.notifyme"
+	xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -40,15 +41,24 @@
     />
     </ScrollView>
 	</LinearLayout>
-	<Button
-	android:id="@+id/home_btn"
-    android:layout_width="fill_parent"
-    android:layout_height="75dip"
-    android:background="#3e3e3e"
-    android:layout_gravity="bottom"
-    android:textColor="@drawable/green_button_text"
-    android:textSize="23dip"
-    android:text="@string/back_button"/>
+	<com.google.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ads:adUnitId="a14f2b1f1b889bf"
+        ads:adSize="BANNER"
+        ads:loadAdOnCreate="true"
+        android:layout_alignParentBottom="true">
+        </com.google.ads.AdView>
+    <Button
+		android:id="@+id/home_btn"
+	    android:layout_width="fill_parent"
+	    android:layout_height="60dip"
+	    android:background="#3e3e3e"
+	    android:textColor="@drawable/green_button_text"
+	    android:textSize="23dip"
+	    android:text="@string/back_button"
+	    android:layout_above="@id/adView"/>
 	<org.cortelyoucollective.notifyme.Panel
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
@@ -117,5 +127,5 @@
 			/>
 			</LinearLayout>
 	</org.cortelyoucollective.notifyme.Panel>
-</FrameLayout>
+</RelativeLayout>
 

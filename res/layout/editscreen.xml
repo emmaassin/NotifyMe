@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
   android:layout_width="fill_parent"
   android:layout_height="fill_parent"
   android:background="#ececec">
-<LinearLayout
-	android:orientation="vertical"
-	android:id="@+id/editScreenMain"
-	android:layout_width="fill_parent"
-  	android:layout_height="fill_parent">
-  	<LinearLayout
+  <LinearLayout
+  	android:id="@+id/top_header"
     android:layout_width="fill_parent"
     android:layout_height="47dip"
     android:background="#3e3e3e">
@@ -23,79 +20,89 @@
     android:paddingTop="12dip"
     android:paddingBottom="6dip" android:text="@string/add_notification_title"/>
     </LinearLayout>
-    <LinearLayout
-    android:id="@+id/trains"
+    <ScrollView
     android:layout_width="fill_parent"
-    android:layout_height="48dip"
-    android:orientation="horizontal"
-    android:background="@drawable/greenchecker_btn">
-    <ImageView
-    android:id="@+id/trains_check"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:src="@drawable/add"
-    android:paddingLeft="14dip"
-    android:paddingTop="12dip"
-    android:paddingBottom="10dip"
-    android:paddingRight="8dip"
-    />
-    <TextView
-    android:id="@+id/trains_text"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="@string/choose_line"
-    android:textColor="#ffffff"
-    android:textSize="21dip"
-    android:paddingTop="13dip"
-    />
-    </LinearLayout>
-    <View
-    android:id="@+id/thinline"
-  	android:layout_width="fill_parent"
-  	android:layout_height="1dip"
-  	android:background="#3e3e3e"/>
-    <LinearLayout
-    android:id="@+id/days"
-    android:layout_width="fill_parent"
-    android:layout_height="48dip"
-    android:orientation="horizontal"
-    android:background="@drawable/greenchecker_btn">
-    <ImageView
-    android:id="@+id/days_check"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:src="@drawable/add"
-    android:paddingLeft="14dip"
-    android:paddingTop="12dip"
-    android:paddingBottom="10dip"
-    android:paddingRight="8dip"
-    />
-    <TextView
-    android:id="@+id/days_text"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="@string/choose_days"
-    android:textColor="#ffffff"
-    android:textSize="21dip"
-    android:paddingTop="13dip"
-    />
-    </LinearLayout>
-  	<TextView
-  	android:id="@+id/edit_title2"
-  	android:layout_width="wrap_content"
-  	android:layout_height="wrap_content"
-  	android:textSize="21dip"
-  	android:textColor="#3e3e3e"
-  	android:paddingLeft="14dip"
-  	android:paddingTop="22dip"
-  	android:text="@string/choose_time_title"/>
-  	<org.cortelyoucollective.notifyme.TimeChooser
-  	android:id="@+id/time_picker"
-  	android:layout_width="wrap_content"
-  	android:layout_height="wrap_content"
-  	android:layout_gravity="center_horizontal"
-  	/>
-</LinearLayout>
+    android:layout_height="fill_parent"
+    android:layout_below="@id/top_header">
+		<LinearLayout
+		android:orientation="vertical"
+		android:id="@+id/editScreenMain"
+		android:layout_width="fill_parent"
+	  	android:layout_height="fill_parent">
+	    <LinearLayout
+	    android:id="@+id/trains"
+	    android:layout_width="fill_parent"
+	    android:layout_height="48dip"
+	    android:orientation="horizontal"
+	    android:background="@drawable/greenchecker_btn">
+	    <ImageView
+	    android:id="@+id/trains_check"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:src="@drawable/add"
+	    android:paddingLeft="14dip"
+	    android:paddingTop="12dip"
+	    android:paddingBottom="10dip"
+	    android:paddingRight="8dip"
+	    />
+	    <TextView
+	    android:id="@+id/trains_text"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:text="@string/choose_line"
+	    android:textColor="#ffffff"
+	    android:textSize="21dip"
+	    android:paddingTop="13dip"
+	    />
+	    </LinearLayout>
+	    <View
+	    android:id="@+id/thinline"
+	  	android:layout_width="fill_parent"
+	  	android:layout_height="1dip"
+	  	android:background="#3e3e3e"/>
+	    <LinearLayout
+	    android:id="@+id/days"
+	    android:layout_width="fill_parent"
+	    android:layout_height="48dip"
+	    android:orientation="horizontal"
+	    android:background="@drawable/greenchecker_btn">
+	    <ImageView
+	    android:id="@+id/days_check"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:src="@drawable/add"
+	    android:paddingLeft="14dip"
+	    android:paddingTop="12dip"
+	    android:paddingBottom="10dip"
+	    android:paddingRight="8dip"
+	    />
+	    <TextView
+	    android:id="@+id/days_text"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:text="@string/choose_days"
+	    android:textColor="#ffffff"
+	    android:textSize="21dip"
+	    android:paddingTop="13dip"
+	    />
+	    </LinearLayout>
+	  	<TextView
+	  	android:id="@+id/edit_title2"
+	  	android:layout_width="wrap_content"
+	  	android:layout_height="wrap_content"
+	  	android:textSize="21dip"
+	  	android:textColor="#3e3e3e"
+	  	android:paddingLeft="14dip"
+	  	android:paddingTop="22dip"
+	  	android:text="@string/choose_time_title"/>
+	  	<org.cortelyoucollective.notifyme.TimeChooser
+	  	android:id="@+id/time_picker"
+	  	android:layout_width="wrap_content"
+	  	android:layout_height="wrap_content"
+	  	android:layout_gravity="center_horizontal"
+	  	/>
+	</LinearLayout>
+</ScrollView>
 <LinearLayout
 	android:layout_width="fill_parent"
   	android:layout_height="wrap_content"
@@ -104,7 +111,7 @@
 	<LinearLayout
 	  	android:orientation="horizontal"
 		android:layout_width="fill_parent"
-	  	android:layout_height="71dip"
+	  	android:layout_height="60dip"
 	  	android:background="#2d2d2d">
 	  	<Button
 	  	android:id="@+id/cancel_button"
@@ -129,5 +136,13 @@
 	  	android:layout_gravity="center_vertical"
 	  	/>
 	</LinearLayout>
+	<com.google.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ads:adUnitId="a14f2b1f1b889bf"
+        ads:adSize="BANNER"
+        ads:loadAdOnCreate="true">
+        </com.google.ads.AdView>
 </LinearLayout>
 </RelativeLayout>

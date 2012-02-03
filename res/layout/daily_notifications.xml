@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
   android:layout_width="fill_parent"
   android:layout_height="fill_parent"
   android:background="#ececec">
@@ -20,12 +21,21 @@
     android:paddingLeft="14dip"
     />
     </LinearLayout>
-	<Button
+    <com.google.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ads:adUnitId="a14f2b1f1b889bf"
+        ads:adSize="BANNER"
+        ads:loadAdOnCreate="true"
+        android:layout_alignParentBottom="true">
+    </com.google.ads.AdView>
+    <Button
 	android:id="@+id/return_home_btn"
     android:layout_width="fill_parent"
-    android:layout_height="75dip"
+    android:layout_height="60dip"
     android:background="#2d2d2d"
-    android:layout_alignParentBottom="true"
+    android:layout_above="@id/adView"
     android:text="@string/return_home_button"
     android:textColor="@drawable/light_button_text"
     android:textSize="23dip"
